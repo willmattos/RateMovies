@@ -40,3 +40,6 @@ crear un formulario y añadir alguna critica
 con ajax darle like a una critica mediante un boton(tener en cuenta que cada vez que se pulsa el boton se da o se quita el like)
 con ajax darle a seguir a un usuario(tener en cuenta que cada vez que se pulsa el boton se sigue o se quita el seguido)
 crear un formulario de registro, verificacion y login
+
+##posible api a usar
+https://www.omdbapi.com
