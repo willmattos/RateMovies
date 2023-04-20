@@ -17,7 +17,7 @@ class Favoritos
      */
     private $cod_contenido;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
     private $cod_usuario;
 

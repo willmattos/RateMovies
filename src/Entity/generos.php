@@ -5,9 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity @ORM\Table(name="")
+ * @ORM\Entity @ORM\Table(name="generos")
  */
-class 
+class Generos
 {
 
     /**
@@ -19,37 +19,16 @@ class
     /**
      * @ORM\Column(type="string")
      */
-    private $;
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $;
-    /**
-     * @ORM\Column(type="datetimetz")
-     */
-    private $;
-
+    private $nombre;
 
     public function getCodigo() {
         return $this->codigo;
     }
-    public function get() {
-        return $this->;
+    public function getNombre() {
+        return $this->nombre;
     }
-    public function set($) {
-        $this-> = $;
-    }
-    public function get() {
-        return $this->;
-    }
-    public function set($) {
-        $this-> = $;
-    }
-    public function get() {
-        return $this->;
-    }
-    public function set($) {
-        $this-> = $;
+    public function setNombre($nombre) {
+        $this->nombre = $nombre;
     }
 }
 ?>

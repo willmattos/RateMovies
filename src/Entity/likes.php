@@ -5,9 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity @ORM\Table(name="")
+ * @ORM\Entity @ORM\Table(name="likes")
  */
-class 
+class Likes
 {
 
     /**
@@ -15,41 +15,20 @@ class
      * @ORM\GeneratedValue 
      * @ORM\Column(type="integer")
      */
-    private $codigo;
+    private $cod_critica;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
-    private $;
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $;
-    /**
-     * @ORM\Column(type="datetimetz")
-     */
-    private $;
+    private $cod_usuario;
 
-
-    public function getCodigo() {
-        return $this->codigo;
+    public function getCod_critica() {
+        return $this->cod_critica;
     }
-    public function get() {
-        return $this->;
+    public function getCod_usuario() {
+        return $this->cod_usuario;
     }
-    public function set($) {
-        $this-> = $;
-    }
-    public function get() {
-        return $this->;
-    }
-    public function set($) {
-        $this-> = $;
-    }
-    public function get() {
-        return $this->;
-    }
-    public function set($) {
-        $this-> = $;
+    public function setCod_usuario($cod_usuario) {
+        $this->cod_usuario = $cod_usuario;
     }
 }
 ?>

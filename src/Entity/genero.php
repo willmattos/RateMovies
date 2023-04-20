@@ -5,9 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity @ORM\Table(name="")
+ * @ORM\Entity @ORM\Table(name="genero")
  */
-class 
+class Genero
 {
 
     /**
@@ -15,41 +15,22 @@ class
      * @ORM\GeneratedValue 
      * @ORM\Column(type="integer")
      */
-    private $codigo;
+    private $cod_contenido;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
-    private $;
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $;
-    /**
-     * @ORM\Column(type="datetimetz")
-     */
-    private $;
+    private $cod_genero;
 
 
-    public function getCodigo() {
-        return $this->codigo;
+
+    public function getCod_contenido() {
+        return $this->cod_contenido;
     }
-    public function get() {
-        return $this->;
+    public function getCod_genero() {
+        return $this->cod_genero;
     }
-    public function set($) {
-        $this-> = $;
-    }
-    public function get() {
-        return $this->;
-    }
-    public function set($) {
-        $this-> = $;
-    }
-    public function get() {
-        return $this->;
-    }
-    public function set($) {
-        $this-> = $;
+    public function setCod_genero($cod_genero) {
+        $this->cod_genero = $cod_genero;
     }
 }
 ?>
