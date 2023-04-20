@@ -44,21 +44,6 @@ class Contenido
      * @ORM\Column(type="int")
      */
     private $cod_ref;
-
-    // /**
-    //  * One Consulta solo es tiene un usuario.
-    //  * @ORM\OneToOne(targetEntity="Consulta")
-    //  * @ORM\JoinColumn(name="codigo_consulta", referencedColumnName="codigo")
-    //  */
-    // private $codigo_consulta;
-    // /**
-    //  * One Mensaje solo es tiene un usuario.
-    //  * @ORM\OneToOne(targetEntity="Usuario")
-    //  * @ORM\JoinColumn(name="id_usuario", referencedColumnName="id")
-    //  */
-    // private $id_usuario;
-
-    private $ruta;
 	
     public function getCodigo() {
         return $this->codigo;
