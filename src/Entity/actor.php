@@ -5,9 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity @ORM\Table(name="contenido")
+ * @ORM\Entity @ORM\Table(name="actor")
  */
-class Contenido
+class Actor
 {
 
     /**
