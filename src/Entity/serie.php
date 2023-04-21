@@ -5,9 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity @ORM\Table(name="")
+ * @ORM\Entity @ORM\Table(name="serie")
  */
-class 
+class Serie
 {
 
     /**
@@ -17,39 +17,59 @@ class
      */
     private $codigo;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
-    private $;
+    private $temporada;
     /**
      * @ORM\Column(type="string")
      */
-    private $;
+    private $descripcion;
     /**
-     * @ORM\Column(type="datetimetz")
+     * @ORM\Column(type="integer")
      */
-    private $;
+    private $episodios;
+     /**
+     * @ORM\Column(type="string")
+     */
+    private $trailer;
+     /**
+     * @ORM\Column(type="integer")
+     */
+    private $contenido;
 
 
     public function getCodigo() {
         return $this->codigo;
     }
-    public function get() {
-        return $this->;
+    public function getTemporada() {
+        return $this->temporada;
     }
-    public function set($) {
-        $this-> = $;
+    public function setTemporada($temporada) {
+        $this->temporada = $temporada;
     }
-    public function get() {
-        return $this->;
+    public function getDescripcion() {
+        return $this->descripcion;
     }
-    public function set($) {
-        $this-> = $;
+    public function setDescripcion($descripcion) {
+        $this->descripcion = $descripcion;
     }
-    public function get() {
-        return $this->;
+    public function getEpisodios() {
+        return $this->episodios;
     }
-    public function set($) {
-        $this-> = $;
+    public function setEpisodios($episodios) {
+        $this->episodios = $episodios;
+    }
+    public function getTrailer() {
+        return $this->trailer;
+    }
+    public function setTrailer($trailer) {
+        $this->trailer = $trailer;
+    }
+    public function getContenido() {
+        return $this->contenido;
+    }
+    public function setContenido($contenido) {
+        $this->contenido = $contenido;
     }
 }
 ?>

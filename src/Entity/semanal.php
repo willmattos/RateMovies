@@ -5,9 +5,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity @ORM\Table(name="")
+ * @ORM\Entity @ORM\Table(name="semanal")
  */
-class 
+class Semanal
 {
 
     /**
@@ -15,41 +15,30 @@ class
      * @ORM\GeneratedValue 
      * @ORM\Column(type="integer")
      */
-    private $codigo;
+    private $cod_contenido;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
-    private $;
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $;
+    private $contador;
     /**
      * @ORM\Column(type="datetimetz")
      */
-    private $;
+    private $fecha;
 
-
-    public function getCodigo() {
-        return $this->codigo;
+    public function getCod_contenido() {
+        return $this->cod_contenido;
     }
-    public function get() {
-        return $this->;
+    public function getContador() {
+        return $this->contador;
     }
-    public function set($) {
-        $this-> = $;
+    public function setContador($contador) {
+        $this->contador = $contador;
     }
-    public function get() {
-        return $this->;
+    public function getFecha() {
+        return $this->fecha;
     }
-    public function set($) {
-        $this-> = $;
-    }
-    public function get() {
-        return $this->;
-    }
-    public function set($) {
-        $this-> = $;
+    public function setFecha($fecha) {
+        $this->fecha = $fecha;
     }
 }
 ?>

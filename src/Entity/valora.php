@@ -5,51 +5,40 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity @ORM\Table(name="")
+ * @ORM\Entity @ORM\Table(name="valora")
  */
-class 
+class Valora
 {
-
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $puntacion;
     /**
      * @ORM\Id 
      * @ORM\GeneratedValue 
      * @ORM\Column(type="integer")
      */
-    private $codigo;
+    private $cod_contenido;
+   
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
-    private $;
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $;
-    /**
-     * @ORM\Column(type="datetimetz")
-     */
-    private $;
+    private $cod_usuario;
 
-
-    public function getCodigo() {
-        return $this->codigo;
+    public function getPuntacion() {
+        return $this->puntacion;
     }
-    public function get() {
-        return $this->;
+    public function setPuntacion($puntacion) {
+        $this->puntacion = $puntacion;
     }
-    public function set($) {
-        $this-> = $;
+    public function getCod_contenido() {
+        return $this->cod_contenido;
     }
-    public function get() {
-        return $this->;
+    public function getCod_usuario() {
+        return $this->cod_usuario;
     }
-    public function set($) {
-        $this-> = $;
-    }
-    public function get() {
-        return $this->;
-    }
-    public function set($) {
-        $this-> = $;
+    public function setCod_usuario($cod_usuario) {
+        $this->cod_usuario = $cod_usuario;
     }
 }
 ?>
