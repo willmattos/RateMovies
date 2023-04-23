@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity @ORM\Table(name="usuario")
  */
-class Usuario implements UserInterface, \Serializable 
+class Usuario implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id 
@@ -23,10 +24,6 @@ class Usuario implements UserInterface, \Serializable
      * @ORM\Column(type="string", name = "usuario")
      */
     private $usuario;
-     /**
-     * @ORM\Column(type="string", name = "nombre")
-     */
-    private $nombre;
     /**
      * @ORM\Column(type="string", name = "descripcion")
      */
@@ -48,90 +45,201 @@ class Usuario implements UserInterface, \Serializable
      */
     private $activado;
     /**
-    * @ORM\Column(type="text", name = "foto")
-    */
+     * @ORM\Column(type="string", name = "foto")
+     */
     private $foto;
-   // /**
-   // * @return mixed
-   // */
-   // public function getRol(){
-   //     return $this->rol;
-   // }
-   // /**
-   // * @param mixed $rol
-   //  */
-   // public function setRol($rol){
-   //     $this->rol = $rol;
-   //}
 
-    public function getCodigo() {
+    /**
+     * Get the value of codigo
+     */ 
+    public function getCodigo()
+    {
         return $this->codigo;
     }
-    public function setCorreo($correo) {
-       $this->correo = $correo;
+
+    /**
+     * Set the value of codigo
+     *
+     * @return  self
+     */ 
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+
+        return $this;
     }
-    public function getCorreo() {
+
+    /**
+     * Get the value of correo
+     */ 
+    public function getCorreo()
+    {
         return $this->correo;
     }
-    public function setUsuario($usuario) {
-        $this->usuario = $usuario;
+
+    /**
+     * Set the value of correo
+     *
+     * @return  self
+     */ 
+    public function setCorreo($correo)
+    {
+        $this->correo = $correo;
+
+        return $this;
     }
-	public function getUsuario() {
+
+    /**
+     * Get the value of usuario
+     */ 
+    public function getUsuario()
+    {
         return $this->usuario;
     }
-    public function setNombre($nombre) {
-        $this->nombre = $nombre;
+
+    /**
+     * Set the value of usuario
+     *
+     * @return  self
+     */ 
+    public function setUsuario($usuario)
+    {
+        $this->usuario = $usuario;
+
+        return $this;
     }
-	public function getNombre() {
-        return $this->nombre;
-    }
-    public function getDescripcion() {
+
+    /**
+     * Get the value of descripcion
+     */ 
+    public function getDescripcion()
+    {
         return $this->descripcion;
     }
-    public function setDescripcion($descripcion) {
+
+    /**
+     * Set the value of descripcion
+     *
+     * @return  self
+     */ 
+    public function setDescripcion($descripcion)
+    {
         $this->descripcion = $descripcion;
+
+        return $this;
     }
-    public function getClave() {
+
+    /**
+     * Get the value of clave
+     */ 
+    public function getClave()
+    {
         return $this->clave;
     }
-    public function setClave($clave) {
+
+    /**
+     * Set the value of clave
+     *
+     * @return  self
+     */ 
+    public function setClave($clave)
+    {
         $this->clave = $clave;
+
+        return $this;
     }
-    public function getRol(){
+
+    /**
+     * Get the value of rol
+     */ 
+    public function getRol()
+    {
         return $this->rol;
     }
-    public function setRol($rol){
+
+    /**
+     * Set the value of rol
+     *
+     * @return  self
+     */ 
+    public function setRol($rol)
+    {
         $this->rol = $rol;
+
+        return $this;
     }
-    public function getRecuperar() {
+
+    /**
+     * Get the value of recuperar
+     */ 
+    public function getRecuperar()
+    {
         return $this->recuperar;
     }
-    public function setRecuperar($recuperar) {
+
+    /**
+     * Set the value of recuperar
+     *
+     * @return  self
+     */ 
+    public function setRecuperar($recuperar)
+    {
         $this->recuperar = $recuperar;
+
+        return $this;
     }
-    public function getActivado() {
+
+    /**
+     * Get the value of activado
+     */ 
+    public function getActivado()
+    {
         return $this->activado;
     }
-    public function setActivado($activado) {
+
+    /**
+     * Set the value of activado
+     *
+     * @return  self
+     */ 
+    public function setActivado($activado)
+    {
         $this->activado = $activado;
+
+        return $this;
     }
-    public function getFoto() {
+
+    /**
+     * Get the value of foto
+     */ 
+    public function getFoto()
+    {
         return $this->foto;
     }
-    public function setFoto($foto) {
-        $this->foto = $foto;
-    }
- 	// =======================================================
-	// Elementos necesarios para la autenticación
-	// =======================================================
-   public function getRoles()
+
+    /**
+     * Set the value of foto
+     *
+     * @return  self
+     */ 
+    public function setFoto($foto)
     {
-        if($this->activado){
-            return array('ROLE_USER');  
-        }else{
-            return array('DESACTIVADO_USER');  
-        }                         
-	}
+        $this->foto = $foto;
+
+        return $this;
+    }
+
+    public function getRoles()
+    {
+        if($this->getRol()){
+            return ["ROLE_ADMIN"];
+        }
+        return ["ROLE_USER"];
+    }
+    public function getUserIdentifier()
+    {
+        return $this->getCorreo();
+    }
 
     public function getPassword()
     {
@@ -140,7 +248,7 @@ class Usuario implements UserInterface, \Serializable
 
     public function getUsername()
     {
-        return $this->getCorreo();
+        return $this->getUsuario();
     }
 
     public function eraseCredentials()
@@ -158,13 +266,12 @@ class Usuario implements UserInterface, \Serializable
             $this->codigo,
             $this->correo,
             $this->usuario,
-            $this->nombre,
-            $this->clave,
             $this->descripcion,
+            $this->clave,
             $this->rol,
-			$this->recuperar,
-			$this->activado,
-            $this->foto
+            $this->recuperar,
+            $this->activado,
+            $this->foto,
         ));
     }
 	
@@ -173,16 +280,12 @@ class Usuario implements UserInterface, \Serializable
             $this->codigo,
             $this->correo,
             $this->usuario,
-            $this->nombre,
-            $this->clave,
             $this->descripcion,
+            $this->clave,
             $this->rol,
-			$this->recuperar,
-			$this->activado,
-            $this->foto
+            $this->recuperar,
+            $this->activado,
+            $this->foto,
             ) = unserialize($serialized);
     }
 }
-?>
-
-   
