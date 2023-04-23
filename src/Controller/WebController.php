@@ -23,9 +23,9 @@ class WebController extends AbstractController
     /**
      * @Route("/categorias", name="categorias")
      */
-    public function categorias()
+    public function catalogo()
     {
-        return $this->render('home.html.twig');
+        return $this->render('catalogo.html.twig');
     }
     /**
      * @Route("/comunidad", name="comunidad")
@@ -39,11 +39,9 @@ class WebController extends AbstractController
      */
     public function perfil(SessionInterface $session)
     {
-       
-        if(!$this->getUser()){
+        if (!$this->getUser()) {
             $errorMessages = $session->getFlashBag()->get('error');
             return $this->render('login.html.twig', array("errorMessages" => $errorMessages));
-
         }
         // $entityManager = $this->getDoctrine()->getManager();
         // $usuario = $_POST['usuario'];

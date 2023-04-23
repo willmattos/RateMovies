@@ -1,0 +1,68 @@
+{% extends "base.html.twig" %}
+{% block title %}Catalogo
+{% endblock %}
+{% block css %}
+	<link rel="stylesheet" href="{{ asset("css/catalogo.css") }}"></link>{% endblock %}{% block body %}
+<section>
+	<h2>Categorias</h2>
+	<form class="container_filtros">
+		<div class="filtros">
+			<div class="cat">Genero</div>
+			<ul class="filtro">
+				<li><input type="checkbox" name="" id=""/>Terror</li>
+				<li><input type="checkbox" name="" id=""/>Comedia</li>
+				<li><input type="checkbox" name="" id=""/>Accion</li>
+				<li><input type="checkbox" name="" id=""/>Terror</li>
+				<li><input type="checkbox" name="" id=""/>Terror</li>
+				<li><input type="checkbox" name="" id=""/>Comedia</li>
+				<li><input type="checkbox" name="" id=""/>Accion</li>
+				<li><input type="checkbox" name="" id=""/>Terror</li>
+				<li><input type="checkbox" name="" id=""/>Terror</li>
+				<li><input type="checkbox" name="" id=""/>Comedia</li>
+				<li><input type="checkbox" name="" id=""/>Accion</li>
+				<li><input type="checkbox" name="" id=""/>Terror</li>
+			</ul>
+		</div>
+		<div class="filtros">
+			<div class="cat">Tipo</div>
+			<ul class="filtro">
+				<li><input type="checkbox" name="" id=""/>Pelicula</li>
+				<li><input type="checkbox" name="" id=""/>Serie</li>
+				<li><input type="checkbox" name="" id=""/>Documental</li>
+			</ul>
+		</div>
+		<div class="filtros">
+			<div class="cat">Estreno</div>
+			<ul class="filtro">
+				<li><input type="checkbox"/>2011</li>
+				<li><input type="checkbox"/>2012</li>
+				<li><input type="checkbox"/>2013</li>
+				<li><input type="checkbox"/>2014</li>
+				<li><input type="checkbox"/>2015</li>
+				<li><input type="checkbox"/>2016</li>
+				<li><input type="checkbox"/>2017</li>
+				<li><input type="checkbox"/>2018</li>
+				<li><input type="checkbox"/>2019</li>
+				<li><input type="checkbox"/>2020</li>
+				<li><input type="checkbox"/>2021</li>
+				<li><input type="checkbox"/>2022</li>
+				<li><input type="checkbox"/>2023</li>
+				<li><input type="checkbox"/>2024</li>
+			</ul>
+		</div>
+		<div class="filtros">
+			<div class="cat">Clasificacion</div>
+			<ul class="filtro">
+				<li><input type="checkbox" name="" id=""/>Terror</li>
+				<li><input type="checkbox" name="" id=""/>Comedia</li>
+				<li><input type="checkbox" name="" id=""/>Accion</li>
+			</ul>
+		</div>
+		<div class="filtros">
+			<button class="cat">
+				<img src="{{asset("iconos/filtro.png")}}" alt=""/>
+				Filtrar
+			</button>
+		</div>
+	</form>
+</section>{% endblock %}
