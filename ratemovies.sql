@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-04-2023 a las 19:30:21
+-- Tiempo de generación: 23-04-2023 a las 21:31:32
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `ratemovies`
 --
-CREATE DATABASE IF NOT EXISTS `ratemovies` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `ratemovies`;
 
 -- --------------------------------------------------------
 
@@ -57,7 +55,7 @@ CREATE TABLE `contenido` (
 -- Volcado de datos para la tabla `contenido`
 --
 
-INSERT INTO `contenido` VALUES
+INSERT INTO `contenido` (`codigo`, `titulo`, `alias`, `descripcion`, `estreno`, `confirmado`, `poster`, `portada`, `trailer`, `cod_ref`) VALUES
 (1, 'El resplandor', NULL, 'Jack Torrance, un escritor ex-alcoholico, acepta un puesto como vigilante de invierno en un solitario hotel de alta montana al que se traslada con su familia. Una vez alli, empieza a sufrir inquietantes trastornos de personalidad.', '2023-03-13', 1, NULL, NULL, '', NULL),
 (2, 'Letras Explicitas', NULL, 'En 1987, cinco jovenes, utilizando rimas brutalmente honestas y bases musicales pesadas, expresan su frustracion y enojo sobre la vida en el lugar mas peligroso de Estados Unidos utilizando el arma mas poderosa que tenian: su musica.', '2023-03-13', 1, NULL, NULL, '', NULL),
 (3, 'Alien: El octavo pasajero', NULL, 'De regreso a la Tierra, la nave de carga Nostromo interrumpe su viaje y despierta a sus siete tripulantes. El ordenador central, MADRE, ha detectado la misteriosa transmision de una forma de vida desconocida, procedente de un planeta cercano aparentemente deshabitado.', '2023-03-13', 1, NULL, NULL, '', NULL),
@@ -284,7 +282,7 @@ CREATE TABLE `genero` (
 -- Volcado de datos para la tabla `genero`
 --
 
-INSERT INTO `genero` VALUES
+INSERT INTO `genero` (`cod_contenido`, `cod_genero`) VALUES
 (1, 1),
 (2, 2),
 (3, 3),
@@ -486,7 +484,7 @@ CREATE TABLE `generos` (
 -- Volcado de datos para la tabla `generos`
 --
 
-INSERT INTO `generos` VALUES
+INSERT INTO `generos` (`codigo`, `nombre`) VALUES
 (4, 'Accion'),
 (5, 'Aventura'),
 (2, 'Biografia'),
@@ -581,7 +579,6 @@ CREATE TABLE `usuario` (
   `correo` varchar(125) NOT NULL,
   `usuario` varchar(125) NOT NULL,
   `clave` varchar(255) NOT NULL,
-  `nombre` varchar(125) NOT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
   `rol` int(1) DEFAULT NULL,
   `recuperar` int(9) DEFAULT NULL,
@@ -593,8 +590,8 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` VALUES
-(1, 'prueba@mail.com', 'Prueba', '$2y$13$gG/3rNEMNNp4fC0.CU4ZEuv92kSycI.DQvCHuSuJu8gRsRoaoJtmu', 'Prueba prueba', NULL, 1, NULL, 0, NULL);
+INSERT INTO `usuario` (`codigo`, `correo`, `usuario`, `clave`, `descripcion`, `rol`, `recuperar`, `activado`, `foto`) VALUES
+(1, 'prueba@mail.com', 'Prueba', '$2y$13$gG/3rNEMNNp4fC0.CU4ZEuv92kSycI.DQvCHuSuJu8gRsRoaoJtmu', NULL, 1, NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
