@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      language="javascript"
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+    ></script>
+    <style>
+      .serie {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="" method="post">
+      <select name="tipo" id="tipo">
+        <option value="1">peliculas</option>
+        <option value="2">serie</option>
+      </select>
+      <br />
+      titulo <input type="text" />
+      <br />
+      alias (en ingles/opcional) <input type="text" /><br />
+      <div class="ocultar">
+        descripcion <textarea name="" id="" cols="30" rows="10"></textarea>
+      </div>
+      <div class="ocultar">estreno <input type="date" name="" id="" /></div>
+      Poster<input type="file" name="" id="" />
+      <br />
+      Portada<input type="file" name="" id="" />
+      <br />
+      <div class="ocultar">
+        trailer
+        <input
+          type="url"
+          placeholder="https://example.com"
+          pattern="https://.*"
+        />
+      </div>
+      <div>
+        <input type="checkbox" name="" id="" />Comedia
+        <br />
+        <input type="checkbox" name="" id="" />Policial
+        <br />
+        <input type="checkbox" name="" id="" />Zombies
+        <br />
+        <input type="checkbox" name="" id="" />Terror
+        <br />
+        <input type="checkbox" name="" id="" />accion
+        <br />
+        <input type="checkbox" name="" id="" />drama
+      </div>
+      <div class="serie">
+        <div>
+          <button id="temporada">+</button>
+        </div>
+      </div>
+    </form>
+    <script>
+      let count = 1;
+      $("#tipo").change(function () {
+        if ($(this).val() == 2) {
+          $(".ocultar").css("display", "none");
+          $(".serie").css("display", "initial");
+        } else {
+          $(".ocultar").css("display", "block");
+          $(".serie").css("display", "none");
+        }
+      });
+      $("#temporada").click(function () {
+        $(".serie").append(
+          $(
+            `<div>Temporada: ${count} <br>nº episodios: <input type="number" name="" id="" /> <br>Descripcion: <textarea></textarea> <br> Trailer: <input type="url" placeholder="https://example.com" pattern="https://.*" /></div>`
+          )
+        );
+        count++;
+      });
+    </script>
+  </body>
+</html>

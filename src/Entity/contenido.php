@@ -23,15 +23,15 @@ class Contenido
     /**
      * @ORM\Column(type="string")
      */
+    private $alias;
+    /**
+     * @ORM\Column(type="string")
+     */
     private $descripcion;
     /**
      * @ORM\Column(type="datetimetz")
      */
     private $estreno;
-    /**
-    * @ORM\Column(type="integer")
-    */
-    private $confirmado;
      /**
      * @ORM\Column(type="string")
      */
@@ -40,10 +40,10 @@ class Contenido
      * @ORM\Column(type="string")
      */
     private $portada;
-     /**
-     * @ORM\Column(type="int")
+    /**
+     * @ORM\Column(type="string")
      */
-    private $cod_ref;
+    private $trailer;
 	
     public function getCodigo() {
         return $this->codigo;
@@ -53,6 +53,14 @@ class Contenido
     }
     public function setTitulo($titulo) {
         $this->titulo = $titulo;
+    }
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+    public function setAlias($alias)
+    {
+        $this->alias = $alias;
     }
 	public function getDescripcion() {
         return $this->descripcion;
@@ -66,12 +74,6 @@ class Contenido
     public function setEstreno($estreno) {
         $this->estreno = $estreno;
     }
-    public function getConfirmado() {
-        return $this->confirmado;
-    }
-    public function setConfirmado($confirmado) {
-        $this->confirmado = $confirmado;
-    }
     public function getPoster() {
         return $this->poster;
     }
@@ -84,11 +86,14 @@ class Contenido
     public function setPortada($portada) {
         $this->portada = $portada;
     }
-    public function getCod_ref() {
-        return $this->cod_ref;
+    public function getTrailer()
+    {
+        return $this->trailer;
     }
-    public function setCod_ref($cod_ref) {
-        $this->cod_ref = $cod_ref;
+    public function setTrailer($trailer)
+    {
+        $this->trailer = $trailer;
     }
+
 }
 ?>
