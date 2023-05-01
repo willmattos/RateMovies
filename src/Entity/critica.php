@@ -28,6 +28,10 @@ class Critica
     */
     private $cod_contenido;
     /**
+    * @ORM\Column(type="integer")
+    */
+    private $cod_critica;
+    /**
      * @ORM\Column(type="integer")
      */
     private $cod_usuario;
@@ -53,11 +57,21 @@ class Critica
     public function setCod_contenido($cod_contenido) {
         $this->cod_contenido = $cod_contenido;
     }
+    public function getCod_critica()
+    {
+        return $this->cod_critica;
+    }
+
+    public function setCod_critica($cod_critica)
+    {
+        $this->cod_critica = $cod_critica;
+    }
     public function getCod_usuario() {
         return $this->cod_usuario;
     }
     public function setCod_usuario($cod_usuario) {
         $this->cod_usuario = $cod_usuario;
-    }
+    } 
+
 }
 ?>
