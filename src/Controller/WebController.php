@@ -18,21 +18,35 @@ class WebController extends AbstractController
      */
     public function home()
     {
-        return $this->render('home.html.twig');
+        return $this->render('home.html.twig', ['destacados' => null, 'recomendados' => null, 'novedades' => null]);
     }
     /**
      * @Route("/categorias", name="categorias")
      */
     public function catalogo()
     {
-        return $this->render('catalogo.html.twig');
+        return $this->render('catalogo.html.twig', ['generos' => null]);
+    }
+    /**
+     * @Route("/contenido", name="contenido")
+     */
+    public function contenido()
+    {
+        return $this->render('contenido.html.twig', ['recomendados' => null, "contenido" => null]);
+    }
+    /**
+     * @Route("/admin", name="admin")
+     */
+    public function admin()
+    {
+        return $this->render('admin.html.twig', ['titulos' => null, "generos" => null]);
     }
     /**
      * @Route("/comunidad", name="comunidad")
      */
     public function comunidad()
     {
-        return $this->render('home.html.twig');
+        return $this->render('comunidad.html.twig');
     }
     /**
      * @Route("/perfil", name="perfil")
@@ -43,20 +57,9 @@ class WebController extends AbstractController
             $errorMessages = $session->getFlashBag()->get('error');
             return $this->render('login.html.twig', array("errorMessages" => $errorMessages));
         }
-        // $entityManager = $this->getDoctrine()->getManager();
-        // $usuario = $_POST['usuario'];
-        // $qb = $entityManager->getRepository(Usuario::class)->createQueryBuilder('u')->andWhere("j.correo = '$usuario' OR j.usuario = '$usuario'");
-        // $usuario = $qb->getQuery()->getResult();
-
-        // if ($usuario[0] && $codigo) {
-        //     $token = new UsernamePasswordToken($usuario, null, 'main', $usuario->getRoles());
-        //     $this->get('security.token_storage')->setToken($token);
-        //     $this->get('session')->set('_security_main', serialize($token));
-        // }
-
-        return $this->render('home.html.twig');
+        return $this->render('perfil.html.twig');
     }
-        /**
+    /**
      * @Route("/logout", name="logout")
      */
     public function logout()

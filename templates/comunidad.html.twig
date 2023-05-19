@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+{% block title %}Login
+{% endblock %}
+{% block css %}
+	<link rel="stylesheet" href="{{ asset("css/login.css") }}"></link>{% endblock %}{% block javascripts %}
+	<script>
+	let login = "{{path('identification')}}"
+//cambiar por el de recuperar
+	let recuperar = "{{path('perfil')}}"
+//cambiar por el de crear
+	let crear = "{{path('perfil')}}"
+	</script>
+<script src="{{asset("js/login.js")}}" defer></script>{% endblock %}{% block body %}
+<section>
+	comunidad
+</section>{% endblock %}

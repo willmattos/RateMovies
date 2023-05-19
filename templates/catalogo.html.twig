@@ -6,56 +6,54 @@
 <section>
 	<h2>Categorias</h2>
 	<form class="container_filtros">
-		<div class="filtros">
-			<div class="cat">Genero</div>
-			<ul class="filtro">
-				<li><input type="checkbox" name="" id=""/>Terror</li>
-				<li><input type="checkbox" name="" id=""/>Comedia</li>
-				<li><input type="checkbox" name="" id=""/>Accion</li>
-				<li><input type="checkbox" name="" id=""/>Terror</li>
-				<li><input type="checkbox" name="" id=""/>Terror</li>
-				<li><input type="checkbox" name="" id=""/>Comedia</li>
-				<li><input type="checkbox" name="" id=""/>Accion</li>
-				<li><input type="checkbox" name="" id=""/>Terror</li>
-				<li><input type="checkbox" name="" id=""/>Terror</li>
-				<li><input type="checkbox" name="" id=""/>Comedia</li>
-				<li><input type="checkbox" name="" id=""/>Accion</li>
-				<li><input type="checkbox" name="" id=""/>Terror</li>
-			</ul>
-		</div>
+		{% if generos is not null%}
+			<div class="filtros">
+				<div class="cat">Genero</div>
+				<ul class="filtro">
+					{% for item in generos %}
+						<li><input type="checkbox" name="" id="{{item.getCodigo()}}"/>{{item.getNombre()}}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
 		<div class="filtros">
 			<div class="cat">Tipo</div>
 			<ul class="filtro">
 				<li><input type="checkbox" name="" id=""/>Pelicula</li>
 				<li><input type="checkbox" name="" id=""/>Serie</li>
-				<li><input type="checkbox" name="" id=""/>Documental</li>
 			</ul>
 		</div>
 		<div class="filtros">
-			<div class="cat">Estreno</div>
+			<div class="cat">Año</div>
 			<ul class="filtro">
-				<li><input type="checkbox"/>2011</li>
-				<li><input type="checkbox"/>2012</li>
-				<li><input type="checkbox"/>2013</li>
-				<li><input type="checkbox"/>2014</li>
-				<li><input type="checkbox"/>2015</li>
-				<li><input type="checkbox"/>2016</li>
-				<li><input type="checkbox"/>2017</li>
-				<li><input type="checkbox"/>2018</li>
-				<li><input type="checkbox"/>2019</li>
-				<li><input type="checkbox"/>2020</li>
-				<li><input type="checkbox"/>2021</li>
-				<li><input type="checkbox"/>2022</li>
 				<li><input type="checkbox"/>2023</li>
-				<li><input type="checkbox"/>2024</li>
-			</ul>
-		</div>
-		<div class="filtros">
-			<div class="cat">Clasificacion</div>
-			<ul class="filtro">
-				<li><input type="checkbox" name="" id=""/>Terror</li>
-				<li><input type="checkbox" name="" id=""/>Comedia</li>
-				<li><input type="checkbox" name="" id=""/>Accion</li>
+				<li><input type="checkbox"/>2022</li>
+				<li><input type="checkbox"/>2021</li>
+				<li><input type="checkbox"/>2020</li>
+				<li><input type="checkbox"/>2019</li>
+				<li><input type="checkbox"/>2018</li>
+				<li><input type="checkbox"/>2017</li>
+				<li><input type="checkbox"/>2016</li>
+				<li><input type="checkbox"/>2015</li>
+				<li><input type="checkbox"/>2014</li>
+				<li><input type="checkbox"/>2013</li>
+				<li><input type="checkbox"/>2012</li>
+				<li><input type="checkbox"/>2011</li>
+				<li><input type="checkbox"/>2010</li>
+				<li><input type="checkbox"/>2009</li>
+				<li><input type="checkbox"/>2008</li>
+				<li><input type="checkbox"/>2007</li>
+				<li><input type="checkbox"/>2006</li>
+				<li><input type="checkbox"/>2005</li>
+				<li><input type="checkbox"/>2004</li>
+				<li><input type="checkbox"/>2003</li>
+				<li><input type="checkbox"/>2002</li>
+				<li><input type="checkbox"/>2001</li>
+				<li><input type="checkbox"/>2000</li>
+				<li><input type="checkbox"/>1990s</li>
+				<li><input type="checkbox"/>1980s</li>
+				<li><input type="checkbox"/>1970s</li>
+				<li><input type="checkbox"/>1960s</li>
 			</ul>
 		</div>
 		<div class="filtros">

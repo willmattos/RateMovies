@@ -1,0 +1,9 @@
+.contenido_agregar,
+.serie {
+  display: none;
+}
+.imagenes {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}

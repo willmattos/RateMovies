@@ -1,12 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    perfil
-</body>
-</html>
+{% extends "base.html.twig" %}
+{% block title %}Perfil
+{% endblock %}
+{% block css %}
+	<link rel="stylesheet" href="{{ asset("css/") }}"></link>{% endblock %}{% block javascripts %}
+<script src="{{asset("js/perfil.js")}}" defer></script>{% endblock %}{% block body %}
+<section>
+	<div>
+		<img src="" alt="">
+		<div>
+			<div>{{app.user.getCorreo()}}</div>
+			<div>{{app.user.getUsuario()}}</div>
+			<div>{{app.user.getDescripcion()}}</div>
+		</div>
+	</div>
+</section>{% endblock %}
