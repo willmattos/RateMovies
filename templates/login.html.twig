@@ -2,7 +2,7 @@
 {% block title %}Login
 {% endblock %}
 {% block css %}
-	<link rel="stylesheet" href="{{ asset("css/login.css") }}"></link>{% endblock %}{% block javascripts %}
+	<link rel="stylesheet" href="{{ asset('css/login.css') }}"></link>{% endblock %}{% block javascripts %}
 	<script>
 	let login = "{{path('identification')}}"
 //cambiar por el de recuperar
@@ -10,9 +10,9 @@
 //cambiar por el de crear
 	let crear = "{{path('perfil')}}"
 	</script>
-<script src="{{asset("js/login.js")}}" defer></script>{% endblock %}{% block body %}
+<script src="{{asset('js/login.js')}}" defer></script>{% endblock %}{% block body %}
 <section>
-	<form action="{{path("identification")}}" method="post">
+	<form action="{{path('identification')}}" method="post">
 		<h1>Bienvenido</h1>
 		<p>Hey ingresa tus credenciales para entrar en tu cuenta</p>
 		{% if errorMessages %}
