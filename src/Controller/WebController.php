@@ -39,7 +39,44 @@ class WebController extends AbstractController
      */
     public function admin()
     {
-        return $this->render('admin.html.twig', ['titulos' => null, "generos" => null]);
+        return $this->render('admin1.html.twig', ['titulos' => null, "generos" => null]);
+    }
+    /**
+     * @Route("/formAdmin", name="formAdmin")
+     */
+    public function formAdmin()
+    {
+        var_dump($_FILES);
+        var_dump($_POST);die;
+       // return $this->render('admin.html.twig', ['titulos' => null, "generos" => null]);
+       if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Obtener los valores del formulario
+        $tipo = $_POST['tipo'];
+        $titulo = $_POST['titulo'];
+        $alias = $_POST['alias'];
+        $descripcion = $_POST['descripcion'];
+        $estreno = $_POST['estreno'];
+        $poster = $_FILES['poster'];
+        $portada = $_FILES['portada'];
+        $trailer = $_POST['trailer'];
+        $generos = isset($_POST['generos']) ? $_POST['generos'] : array(); // Array de generos seleccionados
+    
+        // Procesar los datos o guardarlos en la base de datos
+    
+        // Ejemplo de cómo imprimir los valores obtenidos
+        echo "Tipo: " . $tipo . "<br>";
+        echo "Título: " . $titulo . "<br>";
+        echo "Alias: " . $alias . "<br>";
+        echo "Descripción: " . $descripcion . "<br>";
+        echo "Estreno: " . $estreno . "<br>";
+        // Aquí puedes realizar las acciones necesarias con los archivos subidos
+        // ...
+        echo "Trailer: " . $trailer . "<br>";
+        echo "Generos seleccionados: ";
+        foreach ($generos as $genero) {
+            echo $genero . ", ";
+        }
+    }die;
     }
     /**
      * @Route("/comunidad", name="comunidad")
