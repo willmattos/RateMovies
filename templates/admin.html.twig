@@ -5,103 +5,62 @@
 	<link rel="stylesheet" href="{{ asset("css/admin.css") }}"></link>{% endblock %}{% block javascripts %}
 <script src="{{asset("js/admin.js")}}" defer></script>{% endblock %}{% block body %}
 <section>
-	<div>
-		<a class="modificar">Modificar</a>
-		<a class="aniadir">Añadir</a>
-	</div>
-	<div class="contenido_modificar">
-		<div>
-			<label for=""></label><input list="titulos" type="text">
-			<datalist id="titulos">
-				{% for item in titulos %}
-					<option value="{{item.getCodigo()}}" class="{{item.getTipo()}}">{{item.getNombre()}}</option>
-				</datalist>
-			{% endfor %}
-		</div>
-		<div>
+	<div class="main column">
+		<div class="row">
 			<label for="">Tipo</label>
+			<select name="tipo" class="tipo" id="select">
+				<option value="1">Pelicula</option>
+				<option value="2">Serie</option>
+			</select>
 		</div>
-		<div>
-			<div>
-				<label for="">Titulo</label><input type="text"></div>
-			<div>
-				<label for="">Alias (Opcional)</label><input type="text"></div>
-			<div>
-				<label for="">Descripcion</label>
-				<textarea name="" id="" cols="30" rows="10"></textarea>
-			</div>
-			<div>
-				<label for="">Trailer</label>
-				<input type="url" placeholder="https://example.com" pattern="https://.*"/>
-			</div>
-			<div>
-				<label for="generos">Generos</label>
-				<input type="text" list="generos">
-				<datalist id="generos">
-					{% for item in generos %}
-						<option value="{{item.getCodigo()}}">{{item.getNombre()}}</option>
-					{% endfor %}
-				</datalist>
-			</div>
-			<div>
-				<label for="">Poster</label>
-				<input type="file">
-			</div>
-			<div>
-				<label for="">Portada</label>
-				<input type="file">
-			</div>
-			<div>
-				<button>Actualizar</button>
-				<button>Eliminar</button>
-			</div>
-		</div>
-	</div>
-	<div class="contenido_agregar">
-		<div>
-			<a class="tipo" id="1">Pelicula</a>
-			<a class="tipo" id="2">Serie</a>
-		</div>
-		<div>
+		<div class="row">
 			<label for="">Titulo</label><input type="text">
 		</div>
-		<div>
+		<div class="row">
 			<label for="">Alias (Opcional)</label><input type="text">
 		</div>
-		<div class="pelicula">
+		<div class="pelicula column">
 			<label for="">Descripcion</label>
 			<textarea name="" id="" cols="30" rows="10"></textarea>
 		</div>
-		<div class="pelicula">
+		<div class="pelicula row">
 			<label for="">Trailer</label>
 			<input type="url" placeholder="https://example.com" pattern="https://.*"/>
 		</div>
-		<div class="serie">
-			<div>
-				<button id="temporada">+ Temporada</button>
-			</div>
-		</div>
-		<div>
+		<div class='row'>
 			<label for="generos">Generos</label>
-			<input type="text" list="generos">
+			<input type="text" list="generos" placeholder='Comedia, Drama' id="genero">
 			<datalist id="generos">
+				<option value="Comedia"></option>
+				<option value="Drama"></option>
+				<option value="Accion"></option>
+				<option value="Policial"></option>
 				{% for item in generos %}
-					<option value="{{item.getCodigo()}}">{{item.getNombre()}}</option>
+					<option value="{{item.getNombre()}}"></option>
 				{% endfor %}
 			</datalist>
 		</div>
-		<div>
-			<label for="">Poster</label>
-			<input type="file" name="poster" class="file_upload">
+		<div class="row generos">
 		</div>
-		<div>
-			<label for="">Portada</label>
-			<input type="file" name="portada"class="file_upload">
-		</div>
-        <div>
-        <img src="" alt="" class="poster imagenes">
-        <img src="" alt="" class="portada imagenes">
-        </div>
 		<button>Publicar</button>
+		<button class="serie" id="temporada">+ Temporada</button>
 	</div>
+	<div class="row">
+		<div class="column">
+			<label for="myFileInput" class="custom-file-upload">
+				<input type="file" name="poster" class='file_upload'>
+				Poster
+			</label>
+			<img style="border: 1px solid black" src="" alt="" class="poster imagenes">
+		</div>
+		<div class="column">
+			<label for="myFileInput" class="custom-file-upload">
+				<input type="file" id="myFileInput" class="file_upload">
+				Portada
+			</label>
+			<img src="" alt="" class="portada imagenes" style="border: 5px solid black">
+		</div>
+	</div>
+
+
 </section>{% endblock %}

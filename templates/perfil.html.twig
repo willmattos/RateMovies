@@ -2,15 +2,113 @@
 {% block title %}Perfil
 {% endblock %}
 {% block css %}
-	<link rel="stylesheet" href="{{ asset("css/") }}"></link>{% endblock %}{% block javascripts %}
+	<link rel="stylesheet" href="{{ asset("css/perfil.css") }}"></link>{% endblock %}{% block javascripts %}
 <script src="{{asset("js/perfil.js")}}" defer></script>{% endblock %}{% block body %}
 <section>
-	<div>
-		<img src="" alt="">
-		<div>
-			<div>{{app.user.getCorreo()}}</div>
-			<div>{{app.user.getUsuario()}}</div>
-			<div>{{app.user.getDescripcion()}}</div>
+	<div class="cabecera">
+		<img src="foto_usuario" alt="" class="foto">
+		<div class="datos">
+			<div class="usuario">{{app.user.getUsuario()}}</div>
+			<div class="correo">{{app.user.getCorreo()}}</div>
+			<div class="seguidores">
+				<div>
+					<label for="">following
+					</label>
+					<div>11</div>
+				</div>
+				<div>
+					<label for="">followers
+					</label>
+					<div>14</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="seccion">
+		<div class="titulo">Favoritos</div>
+		<div class="categoria_box">
+			<div class="card">
+				<img src="" alt="pelicula imagen">
+				<div>Pelicula</div>
+				<h3>Titulo</h3>
+			</div>
+			<div class="card">
+				<img src="" alt="pelicula imagen">
+				<div>Pelicula</div>
+				<h3>Titulo</h3>
+			</div>
+			<div class="card">
+				<img src="" alt="pelicula imagen">
+				<div>Pelicula</div>
+				<h3>Titulo</h3>
+			</div>
+			<div class="card">
+				<img src="" alt="pelicula imagen">
+				<div>Pelicula</div>
+				<h3>Titulo</h3>
+			</div>
+			<div class="card">
+				<img src="" alt="pelicula imagen">
+				<div>Pelicula</div>
+				<h3>Titulo</h3>
+			</div>
+		</div>
+	</div>
+	<div class="seccion">
+		<div class="titulo">Criticas recientes</div>
+		<div class="criticas">
+			<div class="critica">
+				<div class="comentario">
+					<div class="comentario_datos">
+						<div>{{app.user.getUsuario()}}</div>
+						<div>12-03-2023 09:18</div>
+						<div>La casa de papel</div>
+					</div>
+					<div class="texto">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium quae nihil vitae, fugit necessitatibus a nesciunt fugiat quam consectetur similique excepturi laborum libero ad laboriosam sapiente suscipit odit exercitationem aliquam!</div>
+					<div class="like">
+						<div>
+							<label for="">Likes</label>
+							<div>19</div>
+						</div>
+						<div>
+							<label for="">Reply</label>
+							<div>5</div>
+						</div>
+					</div>
+				</div>
+				<img src="" alt="imagen">
+			</div>
+			<div class="reply">
+				<div class="comentario">
+					<div class="comentario_datos">
+						<div>{{app.user.getUsuario()}}</div>
+						<div>12-03-2023 09:18</div>
+						<div>La casa de papel</div>
+					</div>
+					<div class="texto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus optio debitis eaque exercitationem harum, reiciendis ad quae. Ipsum, odit dolorum impedit neque vitae error, quam fugiat unde, sit nemo esse!</div>
+				</div>
+			</div>
+			<div class="critica">
+				<div class="comentario">
+					<div class="comentario_datos">
+						<div>{{app.user.getUsuario()}}</div>
+						<div>12-03-2023 09:18</div>
+						<div>La casa de papel</div>
+					</div>
+					<div class="texto">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium quae nihil vitae, fugit necessitatibus a nesciunt fugiat quam consectetur similique excepturi laborum libero ad laboriosam sapiente suscipit odit exercitationem aliquam!</div>
+					<div class="like">
+						<div>
+							<label for="">Likes</label>
+							<div>19</div>
+						</div>
+						<div>
+							<label for="" class="comentar">Reply</label>
+							<div>5</div>
+						</div>
+					</div>
+				</div>
+				<img src="" alt="imagen">
+			</div>
 		</div>
 	</div>
 </section>{% endblock %}

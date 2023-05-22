@@ -39,7 +39,7 @@ class WebController extends AbstractController
      */
     public function admin()
     {
-        return $this->render('admin1.html.twig', ['titulos' => null, "generos" => null]);
+        return $this->render('admin.html.twig', ['titulos' => null, "generos" => null]);
     }
     /**
      * @Route("/formAdmin", name="formAdmin")

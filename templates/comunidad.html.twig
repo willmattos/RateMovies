@@ -3,14 +3,71 @@
 {% endblock %}
 {% block css %}
 	<link rel="stylesheet" href="{{ asset("css/login.css") }}"></link>{% endblock %}{% block javascripts %}
-	<script>
-	let login = "{{path('identification')}}"
-//cambiar por el de recuperar
-	let recuperar = "{{path('perfil')}}"
-//cambiar por el de crear
-	let crear = "{{path('perfil')}}"
-	</script>
+<script>
+	let login = "{{ path('identification') }}"
+// cambiar por el de recuperar
+let recuperar = "{{ path('perfil') }}"
+// cambiar por el de crear
+let crear = "{{ path('perfil') }}"
+</script>
 <script src="{{asset("js/login.js")}}" defer></script>{% endblock %}{% block body %}
 <section>
-	comunidad
+
+	<div class="seccion">
+		<div class="titulo">Ultimas novedades</div>
+		<div class="criticas">
+			<div class="critica">
+				<div class="comentario">
+					<div class="comentario_datos">
+						<div>{{app.user.getUsuario()}}</div>
+						<div>12-03-2023 09:18</div>
+						<div>La casa de papel</div>
+					</div>
+					<div class="texto">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium quae nihil vitae, fugit necessitatibus a nesciunt fugiat quam consectetur similique excepturi laborum libero ad laboriosam sapiente suscipit odit exercitationem aliquam!</div>
+					<div class="like">
+						<div>
+							<label for="">Likes</label>
+							<div>19</div>
+						</div>
+						<div>
+							<label for="">Reply</label>
+							<div>5</div>
+						</div>
+					</div>
+				</div>
+				<img src="" alt="imagen">
+			</div>
+			<div class="reply">
+				<div class="comentario">
+					<div class="comentario_datos">
+						<div>{{app.user.getUsuario()}}</div>
+						<div>12-03-2023 09:18</div>
+						<div>La casa de papel</div>
+					</div>
+					<div class="texto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus optio debitis eaque exercitationem harum, reiciendis ad quae. Ipsum, odit dolorum impedit neque vitae error, quam fugiat unde, sit nemo esse!</div>
+				</div>
+			</div>
+			<div class="critica">
+				<div class="comentario">
+					<div class="comentario_datos">
+						<div>{{app.user.getUsuario()}}</div>
+						<div>12-03-2023 09:18</div>
+						<div>La casa de papel</div>
+					</div>
+					<div class="texto">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laudantium quae nihil vitae, fugit necessitatibus a nesciunt fugiat quam consectetur similique excepturi laborum libero ad laboriosam sapiente suscipit odit exercitationem aliquam!</div>
+					<div class="like">
+						<div>
+							<label for="">Likes</label>
+							<div>19</div>
+						</div>
+						<div>
+							<label for="" class="comentar">Reply</label>
+							<div>5</div>
+						</div>
+					</div>
+				</div>
+				<img src="" alt="imagen">
+			</div>
+		</div>
+	</div>
 </section>{% endblock %}
