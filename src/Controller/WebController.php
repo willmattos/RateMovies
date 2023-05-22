@@ -13,6 +13,9 @@ use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Validator\Constraints\DateTime;
 use App\Entity\Contenido;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Usuario;
 
 //Este controlador es solo para render, si afecta al usuario en UsuarioController, si afecta al contenido en 
 
@@ -129,14 +132,61 @@ class WebController extends AbstractController
     /**
      * @Route("/perfil", name="perfil")
      */
-    public function perfil(SessionInterface $session)
+    public function perfil(SessionInterface $session,Request $request)
     {
-        if (!$this->getUser()) {
-            $errorMessages = $session->getFlashBag()->get('error');
-            return $this->render('login.html.twig', array("errorMessages" => $errorMessages));
+        if($request->isMethod('POST')){
+            $entityManager = $this->getDoctrine()->getManager();
+            $correo = $request->request->get('_username');
+            $user = $request->request->get('usuario');
+            $clave = $request->request->get('_password');
+            $usuarios = $entityManager->getRepository(Usuario::class);
+            $buscado = $usuarios->findBy([
+                'usuario' => $user
+            ]);
+
+            if (empty($buscado)) {
+                $buscado2 = $usuarios->findBy([
+                    'correo' => $correo
+                ]);
+                if (empty($buscado2)) {
+                    $usuario = new Usuario;
+                    /*$usuario->setCorreo($correo);*/
+                    $usuario->setCorreo(preg_replace('/\s+/', '', $correo));
+                    $usuario->setClave(password_hash($clave, PASSWORD_DEFAULT));
+                    /*$usuario->setUsuario($user);*/
+                    $usuario->setUsuario(preg_replace('/\s+/', '', $user));
+                    $entityManager->persist($usuario);
+                    $entityManager->flush();
+                    $buscado3 = $usuarios->findBy([
+						'correo' => $correo
+						]);
+					
+					return $this->redirectToRoute("correoActivacion", ["codigo" => $buscado3[0]->getCodigo()]);
+                }
+            }
+
         }
-        return $this->render('perfil.html.twig');
+        else {
+            if (!$this->getUser()) {
+                $errorMessages = $session->getFlashBag()->get('error');
+                return $this->render('login.html.twig', array("errorMessages" => $errorMessages));
+            }
+        }
+
+        
+        // $entityManager = $this->getDoctrine()->getManager();
+        // $usuario = $_POST['usuario'];
+        // $qb = $entityManager->getRepository(Usuario::class)->createQueryBuilder('u')->andWhere("j.correo = '$usuario' OR j.usuario = '$usuario'");
+        // $usuario = $qb->getQuery()->getResult();
+
+        // if ($usuario[0] && $codigo) {
+        //     $token = new UsernamePasswordToken($usuario, null, 'main', $usuario->getRoles());
+        //     $this->get('security.token_storage')->setToken($token);
+        //     $this->get('session')->set('_security_main', serialize($token));
+        // }
+        return $this->render('home.html.twig');
     }
+
     /**
      * @Route("/logout", name="logout")
      */

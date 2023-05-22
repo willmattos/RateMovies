@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 01-05-2023 a las 11:57:40
+-- Tiempo de generación: 21-05-2023 a las 19:29:51
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `ratemovies`
 --
+CREATE DATABASE IF NOT EXISTS `ratemovies` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `ratemovies`;
 
 -- --------------------------------------------------------
 
@@ -30,6 +32,20 @@ SET time_zone = "+00:00";
 CREATE TABLE `actor` (
   `codigo` int(9) NOT NULL,
   `nombre` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comentarios`
+--
+
+CREATE TABLE `comentarios` (
+  `codigo` int(9) NOT NULL,
+  `comentario` varchar(255) NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `usuario` int(9) NOT NULL,
+  `critica` int(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -250,7 +266,7 @@ CREATE TABLE `critica` (
   `codigo` int(9) NOT NULL,
   `comentario` varchar(255) NOT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp(),
-  `cod_contenido` int(9) NOT NULL,
+  `cod_contenido` int(9) DEFAULT NULL,
   `cod_usuario` int(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -614,6 +630,14 @@ ALTER TABLE `actor`
   ADD PRIMARY KEY (`codigo`);
 
 --
+-- Indices de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `usuario` (`usuario`),
+  ADD KEY `critica` (`critica`);
+
+--
 -- Indices de la tabla `contenido`
 --
 ALTER TABLE `contenido`
@@ -716,6 +740,12 @@ ALTER TABLE `actor`
   MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `contenido`
 --
 ALTER TABLE `contenido`
@@ -742,6 +772,13 @@ ALTER TABLE `usuario`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD CONSTRAINT `comentarios_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `comentarios_ibfk_2` FOREIGN KEY (`critica`) REFERENCES `critica` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `critica`
