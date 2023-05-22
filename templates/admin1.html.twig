@@ -16,7 +16,10 @@
     </style>
   </head>
   <body>
-    <form action="{{ path('formAdmin') }}" method="post">
+    {% if error == true %}
+      <script>alert("Error con los datos")</script>
+    {% endif %}
+    <form action="{{ path('formAdmin') }}" method="post" enctype="multipart/form-data">
       <select name="tipo" id="tipo">
         <option value="1">peliculas</option>
         <option value="2">serie</option>
@@ -45,17 +48,17 @@
       </div>
       <!-- Buscar estos géneros en la tabla género, sino existen agregarlos -->
       <div>
-        <input type="checkbox" name="generos" id="comedia" value="Comedia" />Comedia
+        <input type="checkbox" name="generos[]" id="comedia" value="Comedia" />Comedia
         <br />
-        <input type="checkbox" name="generos" id="policial" value="Policial" />Policial
+        <input type="checkbox" name="generos[]" id="policial" value="Policial" />Policial
         <br />
-        <input type="checkbox" name="generos" id="zombies" value="Zombies" />Zombies
+        <input type="checkbox" name="generos[]" id="zombies" value="Zombies" />Zombies
         <br />
-        <input type="checkbox" name="generos" id="terror" value="Terror" />Terror
+        <input type="checkbox" name="generos[]" id="terror" value="Terror" />Terror
         <br />
-        <input type="checkbox" name="generos" id="accion" value="Accion" />Acción
+        <input type="checkbox" name="generos[]" id="accion" value="Accion" />Acción
         <br />
-        <input type="checkbox" name="generos" id="drama" value="Drama" />Drama
+        <input type="checkbox" name="generos[]" id="drama" value="Drama" />Drama
       </div>
       <div class="serie">
         <div>

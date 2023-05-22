@@ -8,6 +8,14 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Validator\Constraints\DateTime;
+use App\Entity\Contenido;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Usuario;
 
 //Este controlador es solo para render, si afecta al usuario en UsuarioController, si afecta al contenido en 
 
@@ -39,44 +47,80 @@ class WebController extends AbstractController
      */
     public function admin()
     {
-        return $this->render('admin.html.twig', ['titulos' => null, "generos" => null]);
+        return $this->render('admin1.html.twig', ['titulos' => null, "generos" => null, "error"=>false]);
     }
     /**
      * @Route("/formAdmin", name="formAdmin")
      */
-    public function formAdmin()
-    {
-        var_dump($_FILES);
-        var_dump($_POST);die;
+    public function formAdmin(){
+        //var_dump($_FILES);
+       // var_dump($_REQUEST);
+       // var_dump($_POST);
+
        // return $this->render('admin.html.twig', ['titulos' => null, "generos" => null]);
        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Obtener los valores del formulario
-        $tipo = $_POST['tipo'];
-        $titulo = $_POST['titulo'];
-        $alias = $_POST['alias'];
-        $descripcion = $_POST['descripcion'];
-        $estreno = $_POST['estreno'];
-        $poster = $_FILES['poster'];
-        $portada = $_FILES['portada'];
-        $trailer = $_POST['trailer'];
-        $generos = isset($_POST['generos']) ? $_POST['generos'] : array(); // Array de generos seleccionados
-    
-        // Procesar los datos o guardarlos en la base de datos
-    
-        // Ejemplo de cómo imprimir los valores obtenidos
-        echo "Tipo: " . $tipo . "<br>";
-        echo "Título: " . $titulo . "<br>";
-        echo "Alias: " . $alias . "<br>";
-        echo "Descripción: " . $descripcion . "<br>";
-        echo "Estreno: " . $estreno . "<br>";
-        // Aquí puedes realizar las acciones necesarias con los archivos subidos
-        // ...
-        echo "Trailer: " . $trailer . "<br>";
-        echo "Generos seleccionados: ";
-        foreach ($generos as $genero) {
-            echo $genero . ", ";
+        if(isset($_POST['tipo'])){
+            if($_POST['tipo'] == 1){
+                if(isset($_POST['titulo'],$_POST['alias'],$_POST['descripcion'],$_POST['estreno'],$_FILES['poster'],$_FILES['portada'],$_POST['trailer'],$_POST['generos'])){
+                    $tipo = $_POST['tipo'];
+                    $titulo = $_POST['titulo'];
+                    $alias = $_POST['alias'];
+                    $descripcion = $_POST['descripcion'];
+                    $estreno = $_POST['estreno'];
+                    $poster = $_FILES['poster'];
+                    $portada = $_FILES['portada'];
+                    $trailer = $_POST['trailer'];
+                    $generos = $_POST['generos'];
+
+                    //Creo la pelicula tabla de contenidos.
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $pelicula = new Contenido();
+                    $pelicula->setTitulo($titulo);
+                    $pelicula->setAlias($alias);
+                    $pelicula->setDescripcion($descripcion);
+                    $pelicula->setEstreno(new \DateTime ($estreno));
+
+                    $pelicula->setTrailer($trailer);
+                    if(!($_FILES['poster']['name'] == '') && !($_FILES['portada']['name'] == '')){
+                        $pelicula->setPoster($_FILES['poster']['name']);
+                        $pelicula->setPortada($_FILES['portada']['name']);
+
+                        //Añadir el documento a la carpeta correspondiente en public.
+                        $posterFile = $_FILES['poster']['tmp_name'];
+                        $portadaFile = $_FILES['portada']['tmp_name'];
+                        $filesystem = new Filesystem();
+                        $directorio = dirname(__FILE__);
+                        $rutaPoster = $filesystem->exists($directorio.'/../../public/'.$titulo.'/Poster/');
+                        $rutaPortada = $filesystem->exists($directorio.'/../../public/'.$titulo.'/Portada/');
+                        var_dump($rutaPortada);
+                        if(!$rutaPoster && !$rutaPortada){
+                            $this->comprobarcarpeta($titulo);    
+                        }
+                        $rutaPosterF = $directorio.'/../../public/'.$titulo.'/Poster/'.$_FILES['poster']['name'];
+                        $rutaPortadaF = $directorio.'/../../public/'.$titulo.'/Portada/'.$_FILES['portada']['name'];
+                        $mover = move_uploaded_file($posterFile, $rutaPosterF); 
+                        $mover = move_uploaded_file($portadaFile, $rutaPortadaF); 
+
+                    }
+
+                    $entityManager->persist($pelicula); 
+                    $entityManager->flush(); 
+                    
+
+                }else{
+                    return $this->render('admin1.html.twig', ['titulos' => null, "generos" => null, "error"=>true]);  
+                }
+            }else{
+                if(isset($titulo,$alias,$poster,$portada,$generos)){
+                    echo("hola");
+
+                }else{
+                    return $this->render('admin1.html.twig', ['titulos' => null, "generos" => null, "error"=>true]);  
+                }
+            }
         }
-    }die;
+    } 
+    return $this->render('admin1.html.twig', ['titulos' => null, "generos" => null, "error"=>false]);  
     }
     /**
      * @Route("/comunidad", name="comunidad")
@@ -88,19 +132,93 @@ class WebController extends AbstractController
     /**
      * @Route("/perfil", name="perfil")
      */
-    public function perfil(SessionInterface $session)
+    public function perfil(SessionInterface $session,Request $request)
     {
-        if (!$this->getUser()) {
-            $errorMessages = $session->getFlashBag()->get('error');
-            return $this->render('login.html.twig', array("errorMessages" => $errorMessages));
+        if($request->isMethod('POST')){
+            $entityManager = $this->getDoctrine()->getManager();
+            $correo = $request->request->get('_username');
+            $user = $request->request->get('usuario');
+            $clave = $request->request->get('_password');
+            $usuarios = $entityManager->getRepository(Usuario::class);
+            $buscado = $usuarios->findBy([
+                'usuario' => $user
+            ]);
+
+            if (empty($buscado)) {
+                $buscado2 = $usuarios->findBy([
+                    'correo' => $correo
+                ]);
+                if (empty($buscado2)) {
+                    $usuario = new Usuario;
+                    /*$usuario->setCorreo($correo);*/
+                    $usuario->setCorreo(preg_replace('/\s+/', '', $correo));
+                    $usuario->setClave(password_hash($clave, PASSWORD_DEFAULT));
+                    /*$usuario->setUsuario($user);*/
+                    $usuario->setUsuario(preg_replace('/\s+/', '', $user));
+                    $entityManager->persist($usuario);
+                    $entityManager->flush();
+                    $buscado3 = $usuarios->findBy([
+						'correo' => $correo
+						]);
+					
+					return $this->redirectToRoute("correoActivacion", ["codigo" => $buscado3[0]->getCodigo()]);
+                }
+            }
+
         }
-        return $this->render('perfil.html.twig');
+        else {
+            if (!$this->getUser()) {
+                $errorMessages = $session->getFlashBag()->get('error');
+                return $this->render('login.html.twig', array("errorMessages" => $errorMessages));
+            }
+        }
+
+        
+        // $entityManager = $this->getDoctrine()->getManager();
+        // $usuario = $_POST['usuario'];
+        // $qb = $entityManager->getRepository(Usuario::class)->createQueryBuilder('u')->andWhere("j.correo = '$usuario' OR j.usuario = '$usuario'");
+        // $usuario = $qb->getQuery()->getResult();
+
+        // if ($usuario[0] && $codigo) {
+        //     $token = new UsernamePasswordToken($usuario, null, 'main', $usuario->getRoles());
+        //     $this->get('security.token_storage')->setToken($token);
+        //     $this->get('session')->set('_security_main', serialize($token));
+        // }
+        return $this->render('home.html.twig');
     }
+
     /**
      * @Route("/logout", name="logout")
      */
     public function logout()
     {
         return $this->redirectToRoute('perfil');
+    }
+
+
+//Funciones
+
+    //Funcion para crear la carpeta de usuario y dentro de el la de cv
+    private function comprobarcarpeta($titulo){
+        try {
+            $filesystem = new Filesystem();
+            $finder = new Finder();
+            $directorio = dirname(__FILE__);
+            $filesystem->exists($directorio.'/../../public/'.$titulo.'/Poster/');
+            $filesystem->exists($directorio.'/../../public/'.$titulo.'/Portada/');
+            if(is_dir($directorio.'/../../public/'.$titulo.'/Poster/') && is_dir($directorio.'/../../public/'.$titulo.'/Portada/')){
+                    echo null;
+            }else{
+                $filesystem->mkdir(
+                    Path::normalize($directorio.'/../../public/'.$titulo.'/Poster/'),
+                );
+                $filesystem->mkdir(
+                    Path::normalize($directorio.'/../../public/'.$titulo.'/Portada/'),
+                );
+            } 
+           }
+           catch (IOExceptionInterface $exception) {
+            echo "An error occurred while creating your directory at ".$exception->getPath();
+        }
     }
 }

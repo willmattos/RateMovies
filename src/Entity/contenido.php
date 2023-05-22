@@ -29,7 +29,7 @@ class Contenido
      */
     private $descripcion;
     /**
-     * @ORM\Column(type="datetimetz")
+     * @ORM\Column(type="date")
      */
     private $estreno;
      /**
