@@ -1,61 +1,20 @@
 {% extends "base.html.twig" %}
-{% block title %}Perfil
+{% block title %}Login
 {% endblock %}
 {% block css %}
-	<link rel="stylesheet" href="{{ asset("css/perfil.css") }}"></link>{% endblock %}{% block javascripts %}
-<script src="{{asset("js/perfil.js")}}" defer></script>{% endblock %}{% block body %}
+	<link rel="stylesheet" href="{{ asset("css/login.css") }}"></link>{% endblock %}{% block javascripts %}
+<script>
+	let login = "{{ path('identification') }}"
+// cambiar por el de recuperar
+let recuperar = "{{ path('perfil') }}"
+// cambiar por el de crear
+let crear = "{{ path('perfil') }}"
+</script>
+<script src="{{asset("js/login.js")}}" defer></script>{% endblock %}{% block body %}
 <section>
-	<div class="cabecera">
-		<img src="foto_usuario" alt="" class="foto">
-		<div class="datos">
-			<div class="usuario">{{app.user.getUsuario()}}</div>
-			<div class="correo">{{app.user.getCorreo()}}</div>
-			<div class="seguidores">
-				<div>
-					<label for="">following
-					</label>
-					<div>11</div>
-				</div>
-				<div>
-					<label for="">followers
-					</label>
-					<div>14</div>
-				</div>
-			</div>
-		</div>
-	</div>
+
 	<div class="seccion">
-		<div class="titulo">Favoritos</div>
-		<div class="categoria_box">
-			<div class="card">
-				<img src="" alt="pelicula imagen">
-				<div>Pelicula</div>
-				<h3>Titulo</h3>
-			</div>
-			<div class="card">
-				<img src="" alt="pelicula imagen">
-				<div>Pelicula</div>
-				<h3>Titulo</h3>
-			</div>
-			<div class="card">
-				<img src="" alt="pelicula imagen">
-				<div>Pelicula</div>
-				<h3>Titulo</h3>
-			</div>
-			<div class="card">
-				<img src="" alt="pelicula imagen">
-				<div>Pelicula</div>
-				<h3>Titulo</h3>
-			</div>
-			<div class="card">
-				<img src="" alt="pelicula imagen">
-				<div>Pelicula</div>
-				<h3>Titulo</h3>
-			</div>
-		</div>
-	</div>
-	<div class="seccion">
-		<div class="titulo">Criticas recientes</div>
+		<div class="titulo">Ultimas novedades</div>
 		<div class="criticas">
 			<div class="critica">
 				<div class="comentario">

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      language="javascript"
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+    ></script>
+    <style>
+      .serie {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    {% if error == true %}
+      <script>alert("Error con los datos")</script>
+    {% endif %}
+    <form action="{{ path('formAdmin') }}" method="post" enctype="multipart/form-data">
+      <select name="tipo" id="tipo">
+        <option value="1">peliculas</option>
+        <option value="2">serie</option>
+      </select>
+      <br />
+      Título <input type="text" name="titulo" id="titulo" />
+      <br />
+      Alias (en inglés/opcional) <input type="text" name="alias" id="alias" /><br />
+      <div class="ocultar">
+        Descripción <textarea name="descripcion" id="descripcion" cols="30" rows="10"></textarea>
+      </div>
+      <div class="ocultar">Estreno <input type="date" name="estreno" id="estreno" /></div>
+      Poster <input type="file" name="poster" id="poster" />
+      <br />
+      Portada <input type="file" name="portada" id="portada" />
+      <br />
+      <div class="ocultar">
+        Trailer
+        <input
+          type="url"
+          name="trailer"
+          id="trailer"
+          placeholder="https://example.com"
+          pattern="https://.*"
+        />
+      </div>
+      <!-- Buscar estos géneros en la tabla género, sino existen agregarlos -->
+      <div>
+        <input type="checkbox" name="generos[]" id="comedia" value="Comedia" />Comedia
+        <br />
+        <input type="checkbox" name="generos[]" id="policial" value="Policial" />Policial
+        <br />
+        <input type="checkbox" name="generos[]" id="zombies" value="Zombies" />Zombies
+        <br />
+        <input type="checkbox" name="generos[]" id="terror" value="Terror" />Terror
+        <br />
+        <input type="checkbox" name="generos[]" id="accion" value="Accion" />Acción
+        <br />
+        <input type="checkbox" name="generos[]" id="drama" value="Drama" />Drama
+      </div>
+      <div class="serie">
+        <div>
+          <button id="temporada">+</button>
+        </div>
+      </div>
+      <input type="submit" id="button-25" value="Submit" />
+    </form>
+    
+    <script>
+      let count = 1;
+      $("#tipo").change(function () {
+        if ($(this).val() == 2) {
+          $(".ocultar").css("display", "none");
+          $(".serie").css("display", "initial");
+        } else {
+          $(".ocultar").css("display", "block");
+          $(".serie").css("display", "none");
+        }
+      });
+      $("#temporada").click(function () {
+        $(".serie").append(
+          $(
+            `<div>Temporada: ${count} <br>nº episodios: <input type="number" name="episodios" id="episodios" /> <br>Descripcion: <textarea></textarea> <br> Trailer: <input type="url"  name="trailer" id="trailer" placeholder="https://example.com" pattern="https://.*" /></div>`
+          )
+        );
+        count++;
+      });
+    </script>
+  </body>
+</html>

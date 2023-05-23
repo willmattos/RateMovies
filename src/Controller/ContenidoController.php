@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -9,11 +10,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\Critica;
 
-<<<<<<< Updated upstream:src/Controller/Acceso.php
-class Acceso extends AbstractController{
-  
-}
-=======
 class ContenidoController extends AbstractController
 {
     /**
@@ -37,4 +33,3 @@ class ContenidoController extends AbstractController
         
     }
 }
->>>>>>> Stashed changes:src/Controller/ContenidoController.php
