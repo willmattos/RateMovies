@@ -1,0 +1,49 @@
+{% extends "base.html.twig" %}
+{% block title %}Login
+{% endblock %}
+{% block css %}
+	<link rel="stylesheet" href="{{ asset("css/login.css") }}"></link>{% endblock %}{% block javascripts %}
+<script>
+	
+</script>
+<script src="{{asset("js/login.js")}}" defer></script>{% endblock %}{% block body %}
+<section>
+	<div class="aside">
+		<p>recomendaciones</p>
+		<div class="categoria_box">
+			{% for item in recomendados %}
+				<div class="card">
+					<img src="poster/{{item.getPoster()}}" alt=""/>
+					<div class="card-category">{{item.getTipo()}}</div>
+					<h3 class="card-heading">{{item.getNombre()}}</h3>
+					<a href="#">
+						<span class="link"></span>
+					</a>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% if contenido is not null %}
+		<div class="section">
+			<img class="portada" src="conten/{{contenido.getPortada()}}" alt=""/>
+			<div class="titulo">
+				<img src="poster/{{contenido.getPoster()}}" alt=""/>
+				<div>
+					<h1>{{contenido.getTitulo()}}</h1>
+					<div>
+						<p>{{contenido.getFecha()}}{{contenido.getDuracion()}}</p>
+						<p>96% (Estrellas)</p>
+					</div>
+				</div>
+			</div>
+			<div class="descripcion">
+				{{contenido.getDescripcion()}}
+			</div>
+			<div class="coments">
+				<div>
+					<textarea name="" id="" cols="30" rows="10"></textarea>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+</section>{% endblock %}

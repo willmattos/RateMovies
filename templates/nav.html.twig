@@ -1,0 +1,53 @@
+<nav>
+	<input type="checkbox" id="check"/>
+	<label for="check" class="checkbtn">
+		<i class="bx bx-menu"></i>
+	</label>
+	<label class="logo">
+		<span>RATEMOVIES</span>
+	</label>
+	<ul>
+		<li class="search">
+			<div class="conten-box-search">
+				<div class="box">
+					<input type="text" placeholder="Search..."/>
+					<img src="{{asset("iconos/search-solid.svg")}}" alt=""/>
+				</div>
+			</div>
+		</li>
+		<li class="search">
+			<div class="conten-box-search">
+				<div class="box">
+					<input type="text" placeholder="Search..."/>
+					<img src="{{asset("iconos/search-solid.svg")}}" alt=""/>
+				</div>
+			</div>
+		</li>
+		<li>
+			<a href="{{path("home")}}" class="active">home</a>
+		</li>
+		<li>
+			<a href="{{path("catalogo")}}">Catalogo</a>
+		</li>
+		{% if app.user %}
+			{% if is_granted('ROLE_ADMIN') %}
+				<li>
+					<a href="{{path("admin")}}">Admin</a>
+				</li>
+			{% endif %}
+			<li>
+				<a href="{{path("comunidad")}}">Comunidad</a>
+			</li>
+		{% endif %}
+		<li>
+			<a href="{{path("perfil")}}" class="iconos">
+				<span>Perfil</span><img src="{{asset("iconos/usuario-de-perfil.png")}}" alt=""></a>
+		</li>
+		{% if app.user %}
+			<li>
+				<a href="{{path("logout")}}" class="iconos">
+					<span>Salir</span><img src="{{asset("iconos/log-out.png")}}" alt=""></a>
+			</li>
+		{% endif %}
+	</ul>
+</nav>

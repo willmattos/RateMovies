@@ -1,0 +1,171 @@
+{% extends "base.html.twig" %}
+{% block title %}Perfil
+{% endblock %}
+{% block css %}
+	<link rel="stylesheet" href="{{ asset("css/perfil.css") }}"></link>{% endblock %}{% block javascripts %}
+<script>
+	const ruta_crear_comentario = "{{ path('crearComentario') }}";
+const ruta_eliminar_comentario = "{{ path('eliminarComentario') }}";
+const ruta_crear_like = "{{ path('darLike') }}";
+const ruta_crear_favorito = "{{ path('darFavorito') }}";
+const ruta_crear_seguir = "{{ path('darSeguir') }}";
+</script>
+<script src="{{asset("js/perfil.js")}}" defer></script>
+<script src="{{asset("js/comentario.js")}}" defer></script>{% endblock %}{% block body %}
+<section>
+	<div class="cabecera">
+		{% if app.user.getFoto() is not null %}
+			<img src="{{asset('Usuario/')}}u{{app.user.getCodigo()}}/{{app.user.getFoto()}}" alt="foto usuario" class="foto">
+		{% else %}
+			<img src="{{asset('iconos/default-user.jpg')}}" alt="foto usuario" class="foto">
+		{% endif %}
+		<div class="datos">
+			<div class="usuario">{{app.user.getUsuario()}}</div>
+			<div class="correo">{{app.user.getCorreo()}}</div>
+			<div class="seguidores">
+				<div>
+					<label for="">following
+					</label>
+					<div>{{ followings|length }}</div>
+				</div>
+				<div>
+					<label for="">followers
+					</label>
+					<div>{{ followers|length }}</div>
+				</div>
+				<div>
+					<label for="">Favoritos
+					</label>
+					<div>{{ favoritos|length }}</div>
+				</div>
+				<div>
+					<label for="">Criticas
+					</label>
+					<div>{{ criticas|length }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{ dump() }}
+	<div class="seccion">
+		<div class="titulo">Siguiendo</div>
+		<div class="categoria_box">
+			{% for following in followings %}
+				<div class="usuario">
+					{% if following.getFollowing().getFoto() is not null %}
+						<img src="{{asset('Usuario/')}}u{{app.user.getCodigo()}}/{{app.user.getFoto()}}" alt="foto usuario">
+					{% else %}
+						<img src="{{asset('iconos/default-user.jpg')}}" alt="foto usuario" class="foto">
+					{% endif %}
+					<div>{{following.getFollowing().getUsuario()}}</div>
+				</div>
+
+			{% endfor %}
+		</div>
+	</div>
+	<div class="seccion">
+		<div class="titulo">Seguidores</div>
+		<div class="categoria_box">
+			{% for follower in followers %}
+				<div class="usuario">
+					{% if follower.getFollower().getFoto() is not null %}
+						<img src="{{asset('Usuario/')}}u{{follower.getFollower().getCodigo()}}/{{follower.getFollower().getFoto()}}" alt="foto usuario">
+					{% else %}
+						<img src="{{asset('iconos/default-user.jpg')}}" alt="foto usuario" class="foto">
+					{% endif %}
+					<div>{{follower.getFollower().getUsuario()}}</div>
+				</div>
+
+			{% endfor %}
+		</div>
+	</div>
+	<div class="seccion">
+		<div class="titulo">Favoritos</div>
+		<div class="categoria_box">
+			{% for favorito in favoritos %}
+				<div class="card">
+					<img src="{{asset('Contenido/c')}}{{favorito.getContenido().getCodigo()}}/poster/{{favorito.getContenido().getPoster()}}" alt="pelicula imagen">
+					<h3>{{favorito.getContenido().getTitulo()}}</h3>
+				</div>
+			{% endfor %}
+			{% for favorito in favoritos %}
+				<div class="card">
+					<img src="{{asset('Contenido/c')}}{{favorito.getContenido().getCodigo()}}/poster/{{favorito.getContenido().getPoster()}}" alt="pelicula imagen">
+					<h3>{{favorito.getContenido().getTitulo()}}</h3>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="seccion">
+		<div class="titulo">Criticas recientes</div>
+		<div class="criticas">
+			{% for critica in criticas %}
+				<div class="critica">
+					<div class="comentario">
+						<div class="comentario_datos">
+							<div>{{ critica.getUsuario().getUsuario() }}</div>
+							<div>{{ critica.getFecha()|date('Y/m/d H:i:s') }}</div>
+							<div>{{ critica.getContenido().getTitulo() }}</div>
+						</div>
+						<div class="texto">{{ critica.getComentario() }}</div>
+						<div class="like">
+							<div>
+								<label for="">Like</label>
+								<div>
+									{% if critica.getLikes()|length > 0 %}
+										{{ critica.getLikes()|length }}
+									{% endif %}
+								</div>
+							</div>
+							<div>
+								<label for="" class="comentar">Reply</label>
+								<div>
+									{% if critica.getComentarios()|length > 0 %}
+										{{ critica.getComentarios()|length }}
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<img src="{{asset('Contenido/c')}}{{critica.getCodigo()}}/poster/{{critica.getContenido.getPoster()}}" alt="imagen">
+				</div>
+				<div class="reply">
+					<div class="nuevo_comentario">
+						{% if app.user.getFoto() is not null %}
+							<img src="{{asset('Usuario/')}}u{{app.user.getCodigo()}}/{{app.user.getFoto()}}" alt="foto usuario">
+						{% else %}
+							<img src="{{asset('iconos/default-user.jpg')}}" alt="foto usuario" class="foto">
+						{% endif %}
+						<textarea name="" id="" cols="30" rows="10" placeholder="Escribe un comentario"></textarea>
+						<button class="crearComentario">enviar</button>
+					</div>
+					{% for comentario in critica.getComentarios() %}
+						<div class="comentario">
+							<div class="comentario_datos">
+								{% if app.user.getFoto() is not null %}
+									<img src="{{asset('Usuario/')}}u{{app.user.getCodigo()}}/{{app.user.getFoto()}}" alt="foto usuario">
+								{% else %}
+									<img src="{{asset('iconos/default-user.jpg')}}" alt="foto usuario" class="foto">
+								{% endif %}
+								<div>{{ comentario.getUsuario_objeto().getUsuario() }}</div>
+								<div>{{ comentario.getFecha()|date('Y/m/d H:i:s') }}</div>
+							</div>
+							<div class="texto">{{ comentario.getComentario() }}</div>
+							<div class="like">
+								<div>
+									<label for="">Like</label>
+									<div>
+										{% if comentario.getLikes()|length > 0 %}
+											{{ comentario.getLikes()|length }}
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+</section>{% endblock %}
