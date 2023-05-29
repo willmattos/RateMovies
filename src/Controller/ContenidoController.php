@@ -149,7 +149,11 @@ class ContenidoController extends AbstractController
         $puntuacion = $request->request->get('puntuacion');
         $entityManager = $this->getDoctrine()->getManager();
 
-        if ($entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
+        if ($objeto = $entityManager->getRepository(Valora::class)->findOneBy(['cod_contenido' => $codigo, 'cod_usuario' => $this->getUser()->getCodigo(), 'puntuacion' => $puntuacion])) {
+            $entityManager->remove($objeto);
+            $js['respuesta'] = true;
+            $js['cantidad'] = 0;
+        } else if ($entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
             $valora = $entityManager->getRepository(Valora::class)->findOneBy(['cod_contenido' => $codigo, 'cod_usuario' => $this->getUser()->getCodigo()]);
             $valora = $valora ? $valora : new Valora();
             $valora->setCod_usuario($this->getUser()->getCodigo());
@@ -158,9 +162,8 @@ class ContenidoController extends AbstractController
             $entityManager->persist($valora);
             $js['respuesta'] = true;
             $js['cantidad'] = $puntuacion;
-
-            $entityManager->flush();
         }
+        $entityManager->flush();
         return new JSONResponse($js);
     }
     #[Route('/crearContenido', name: 'crearContenido')]

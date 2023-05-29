@@ -35,11 +35,23 @@ class WebController extends AbstractController
     #[Route('/contenido/{codigo}/{nombre}', name: 'contenido')]
     public function contenido($codigo = 0)
     {
-       $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
 
         if ($contenido = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
             $criticas = $entityManager->getRepository(Critica::class)->findBy(['cod_contenido' => $contenido->getCodigo()]);
-            return $this->render("contenido.html.twig", ['contenido' => $contenido, 'recomendados' => []]);
+            foreach ($criticas as $critica) {
+                if ($this->getUser()) $critica->setOwnlike($entityManager->getRepository(Like::class)->findOneBy(['cod_critica' => $critica->getCodigo(), 'usuario_objeto' => $this->getUser()]));
+                $comentarios = $entityManager->getRepository(Comentario::class)->findBy(['critica' => $critica->getCodigo()], ['fecha' => 'DESC']);
+                foreach ($comentarios as $comentario) {
+                    if ($this->getUser()) $comentario->setOwnlike($entityManager->getRepository(Like::class)->findOneBy(['cod_comentario' => $comentario->getCodigo(), 'usuario_objeto' => $this->getUser()]));
+                    $likes = $entityManager->getRepository(Like::class)->findBy(['cod_comentario' => $comentario->getCodigo()]);
+                    $comentario->setLikes($likes);
+                }
+                $critica->setComentarios($comentarios);
+                $likes = $entityManager->getRepository(Like::class)->findBy(['cod_critica' => $critica->getCodigo()]);
+                $critica->setLikes($likes);
+            }
+            return $this->render('contenido.html.twig', ['contenido' => $contenido, 'recomendados' => [], 'criticas' => $criticas]);
         }
         return $this->redirectToRoute('home');
     }

@@ -22,8 +22,8 @@ section {
   display: flex;
   gap: 5px;
   width: 100%;
-  min-height: 80px;
-  max-height: 220px;
+  /* min-height: 80px;
+  max-height: 220px; */
 }
 .titulo img {
   width: auto;
@@ -63,6 +63,16 @@ section {
   padding: 10px;
   text-align: justify;
 }
+.contenedor_estrellas {
+  width: 20rem;
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background: rgb(243, 243, 243);
+}
 .estrellas input[type="radio"] {
   display: none;
 }
@@ -74,7 +84,7 @@ section {
   fill: none;
   stroke-width: 2;
 }
-.estrella_seleccionada{
+.estrella_seleccionada {
   fill: gold;
 }
 

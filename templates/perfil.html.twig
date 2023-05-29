@@ -2,7 +2,7 @@
 {% block title %}Perfil
 {% endblock %}
 {% block css %}
-	<link rel="stylesheet" href="{{ asset("css/perfil.css") }}"></link>{% endblock %}{% block javascripts %}
+	<link rel="stylesheet" href="{{ asset("css/perfil.css") }}"></link><link rel="stylesheet" href="{{ asset("css/critica.css") }}"></link>{% endblock %}{% block javascripts %}
 <script>
 	const ruta_crear_comentario = "{{ path('crearComentario') }}";
 const ruta_eliminar_comentario = "{{ path('eliminarComentario') }}";
@@ -10,16 +10,14 @@ const ruta_crear_like = "{{ path('darLike') }}";
 const ruta_crear_favorito = "{{ path('darFavorito') }}";
 const ruta_crear_seguir = "{{ path('darSeguir') }}";
 const ruta_usuario_perfil = "{{ path('usuario', {'username' : 'numero' }) }}";
-const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'titulo' }) }}";{% if app.user is not null %}const username = "{{ app.user.getUsuario() }}";{% if app.user.getFoto() is not null %}
-const userfoto = "{{ asset('Usuario/') }}u{{ app.user.getCodigo() }}/{{ app.user.getFoto() }}";
+const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'titulo' }) }}";{% if app.user is not null %}const username = "{{ app.user.getUsuario() }}";{% if app.user.getFoto() is not null %}const userfoto = "{{ asset('Usuario/') }}u{{ app.user.getCodigo() }}/{{ app.user.getFoto() }}";
 {% else %}
-const userFoto = "{{ path('iconos/default-user.jpg') }}";{% endif %}{% if app.user is not null and usuario.getCodigo() == app.user.getCodigo() %}
-const usuario_visita = false;
+const userFoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% if app.user is not null and usuario.getCodigo() == app.user.getCodigo() %}const usuario_visita = false;
 {% else %}
 const usuario_visita = true;{% endif %}{% endif %}
 </script>
 <script src="{{asset("js/perfil.js")}}" defer></script>
-<script src="{{asset("js/comentario.js")}}" defer></script>{% endblock %}{% block body %}
+<script src="{{asset("js/critica.js")}}" defer></script>{% endblock %}{% block body %}
 <section>
 	<div class="cabecera">
 		{% if usuario.getFoto() is not null %}
