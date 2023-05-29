@@ -25,10 +25,6 @@ class Usuario implements UserInterface, \Serializable
      */
     private $usuario;
     /**
-     * @ORM\Column(type="string", name = "descripcion")
-     */
-    private $descripcion;
-    /**
      * @ORM\Column(type="string", name = "clave")
      */
     private $clave;
@@ -105,26 +101,6 @@ class Usuario implements UserInterface, \Serializable
     public function setUsuario($usuario)
     {
         $this->usuario = $usuario;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of descripcion
-     */
-    public function getDescripcion()
-    {
-        return $this->descripcion;
-    }
-
-    /**
-     * Set the value of descripcion
-     *
-     * @return  self
-     */
-    public function setDescripcion($descripcion)
-    {
-        $this->descripcion = $descripcion;
 
         return $this;
     }
@@ -267,7 +243,6 @@ class Usuario implements UserInterface, \Serializable
             $this->codigo,
             $this->correo,
             $this->usuario,
-            $this->descripcion,
             $this->clave,
             $this->rol,
             $this->recuperar,
@@ -282,7 +257,6 @@ class Usuario implements UserInterface, \Serializable
             $this->codigo,
             $this->correo,
             $this->usuario,
-            $this->descripcion,
             $this->clave,
             $this->rol,
             $this->recuperar,

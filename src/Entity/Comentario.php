@@ -42,6 +42,8 @@ class Comentario
      */
     private $usuario_objeto;
 
+    private $ownlike;
+
 
 
     /**
@@ -168,6 +170,26 @@ class Comentario
     public function setUsuario($usuario)
     {
         $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of ownlike
+     */ 
+    public function getOwnlike()
+    {
+        return $this->ownlike;
+    }
+
+    /**
+     * Set the value of ownlike
+     *
+     * @return  self
+     */ 
+    public function setOwnlike($ownlike)
+    {
+        $this->ownlike = $ownlike;
 
         return $this;
     }

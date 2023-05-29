@@ -2,7 +2,11 @@ img {
   overflow-clip-margin: content-box;
   overflow: clip;
 }
-
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 .cabecera {
   display: flex;
   flex-direction: row;
@@ -10,10 +14,10 @@ img {
   gap: 1rem;
   justify-content: space-evenly;
   align-items: center;
-  border: 1px solid;
   padding: 1rem 0;
 }
 .foto {
+  object-fit: cover;
   width: 10rem;
   height: 10rem;
   border-radius: 50%;
@@ -31,6 +35,10 @@ img {
 .usuario {
   font-size: 2rem;
   font-weight: 350;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 .seguidores {
   display: flex;
@@ -51,19 +59,74 @@ img {
 .seccion {
   display: flex;
   flex-direction: column;
-  border: 1px solid;
   gap: 1rem;
 }
 .categoria_box {
   display: flex;
   font-size: 1rem;
-  font-family: "Poppins", "sans-serif";
   flex-wrap: wrap;
   justify-content: space-evenly;
   gap: 0.5rem;
 }
+.seguidores_box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.follow ,.crearComentario,.eliminar,.cancelar{
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+  transition: background-color 0.5s ease, font-weight 0.3s ease;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
+  -webkit-transition: background-color 0.5s ease, font-weight 0.3s ease;
+  -moz-transition: background-color 0.5s ease, font-weight 0.3s ease;
+  -ms-transition: background-color 0.5s ease, font-weight 0.3s ease;
+  -o-transition: background-color 0.5s ease, font-weight 0.3s ease;
+}
+.comentario_reply {
+  padding: 0.25rem;
+  transition: font-weight 0.3s ease;
+  -webkit-transition: font-weight 0.3s ease;
+  -moz-transition: font-weight 0.3s ease;
+  -ms-transition: font-weight 0.3s ease;
+  -o-transition: font-weight 0.3s ease;
+}
+.comentario_reply:hover,.crearComentario:hover,.miLike,.eliminar:hover,.cancelar:hover {
+  font-weight: 650;
+}
+.nombre_usuario,.darLike {
+  transition: font-weight 0.3s ease;
+  -webkit-transition: font-weight 0.3s ease;
+  -moz-transition: font-weight 0.3s ease;
+  -ms-transition: font-weight 0.3s ease;
+  -o-transition: font-weight 0.3s ease;
+}
+.nombre_usuario:hover,.darLike:hover {
+  font-weight: 650;
+}
+.follow:hover {
+  font-weight: 650;
+}
+.seguidores_box > div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-direction: row;
+}
+.seguidores_box .foto {
+  width: 2rem;
+  height: 2rem;
+  font-weight: 350;
+}
 .card,
 .card img {
+  object-fit: cover;
   height: 100%;
   width: 100%;
   border-radius: 0.5rem;
@@ -122,6 +185,7 @@ img {
   padding: 1rem;
 }
 .critica img {
+  object-fit: cover;
   height: 15.625rem;
   width: 10.4rem;
   border-radius: 0.5rem;
@@ -138,6 +202,7 @@ img {
   align-items: center;
 }
 .comentario_datos img {
+  object-fit: cover;
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
@@ -151,6 +216,7 @@ img {
 .like > div {
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 1rem;
 }
 .titulo {
@@ -185,19 +251,30 @@ img {
   -o-border-radius: 0.5rem;
 }
 .nuevo_comentario img {
+  object-fit: cover;
   width: 2rem;
   height: 2rem;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  background-color: #e4e4e4;
 }
 .nuevo_comentario textarea {
   width: calc(100% - 2rem);
   height: 2rem;
   resize: none;
-  transition:  0.3s ease;
-  -webkit-transition:  0.3s ease;
-  -moz-transition:  0.3s ease;
-  -ms-transition:  0.3s ease;
-  -o-transition:  0.3s ease;
+  transition: 0.3s ease;
+  -webkit-transition: 0.3s ease;
+  -moz-transition: 0.3s ease;
+  -ms-transition: 0.3s ease;
+  -o-transition: 0.3s ease;
 }
-.nuevo_comentario textarea:focus{
+.nuevo_comentario textarea:focus {
   height: 3.25rem;
 }
+.miLike:hover {
+  font-weight: 200 !important;
+}
+

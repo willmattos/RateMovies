@@ -12,12 +12,13 @@ use App\Entity\Generos;
 use App\Entity\Like;
 use App\Entity\Reparto;
 use App\Entity\Serie;
+use App\Entity\Usuario;
+use App\Entity\Valora;
 use Symfony\Component\Finder\Finder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\Usuario;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -57,6 +58,8 @@ class ContenidoController extends AbstractController
             $entityManager->persist($comentario);
             $entityManager->flush();
             $js['respuesta'] = true;
+            $js['codigo'] = $comentario->getCodigo();
+            $js['fecha'] = $comentario->getFecha()->format('Y/m/d H:i:s');
         }
         return new JSONResponse($js);
     }
@@ -67,10 +70,10 @@ class ContenidoController extends AbstractController
         $codigo = $request->request->get('codigo');
         $tipo = $request->request->get('tipo');
         $entityManager = $this->getDoctrine()->getManager();
-        if ($tipo) {
+        if ($tipo && $this->getUser()) {
             $js['respuesta'] = true;
             if ($critica = $entityManager->getRepository(Critica::class)->findOneBy(['codigo' => $codigo, 'cod_usuario' => $this->getUser()->getCodigo()])) $entityManager->remove($critica);
-        } else {
+        } else if ($this->getUser()) {
             $js['respuesta'] = true;
             if ($comentario = $entityManager->getRepository(Comentario::class)->findOneBy(['codigo' => $codigo, 'usuario' => $this->getUser()->getCodigo()])) $entityManager->remove($comentario);
         }
@@ -81,7 +84,8 @@ class ContenidoController extends AbstractController
     #[Route('/darLike', name: 'darLike')]
     public function darLike(Request $request)
     {
-        $js['respuesta'] = false;
+        if (!$this->getUser()) return new JSONResponse($js['respuesta'] = false);
+        $js['respuesta'] = true;
         $codigo = $request->request->get('codigo');
         $tipo = $request->request->get('tipo');
         $entityManager = $this->getDoctrine()->getManager();
@@ -89,20 +93,31 @@ class ContenidoController extends AbstractController
         $like = $entityManager->getRepository(Like::class)->findOneBy([$tipo => $codigo, 'cod_usuario' => $this->getUser()->getCodigo()]);
         if ($like) {
             $entityManager->remove($like);
-            $js['respuesta'] = 0;
+            $js['tipo'] = 0;
         } else {
             $like = new Like();
+            $aceptar = false;
             switch ($tipo) {
                 case 'cod_critica':
-                    $like->setCod_critica($codigo);
+                    if ($contenido = $entityManager->getRepository(Critica::class)->findOneBy(['codigo' => $codigo])) {
+                        $like->setCod_critica($codigo);
+                        $aceptar = true;
+                    }
                     break;
                 default:
-                    $like->setCod_comentario($codigo);
+                    if ($entityManager->getRepository(Comentario::class)->findOneBy(['codigo' => $codigo])) {
+                        $like->setCod_comentario($codigo);
+                        $aceptar = true;
+                    }
                     break;
             }
-            $like->setCod_usuario($this->getUser()->getCodigo());
-            $entityManager->persist($like);
-            $js['respuesta'] = 1;
+            if ($aceptar) {
+                $like->setUsuario_objeto($this->getUser());
+                $entityManager->persist($like);
+                $js['tipo'] = 1;
+            } else {
+                $js['respuesta'] = false;
+            }
         }
         $entityManager->flush();
         return new JSONResponse($js);
@@ -124,6 +139,28 @@ class ContenidoController extends AbstractController
             $js['respuesta'] = 1;
         }
         $entityManager->flush();
+        return new JSONResponse($js);
+    }
+    #[Route('/puntuarContenido', name: 'puntuarContenido')]
+    public function puntuarContenido(Request $request)
+    {
+        $js['respuesta'] = false;
+        $codigo = $request->request->get('codigo');
+        $puntuacion = $request->request->get('puntuacion');
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if ($entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
+            $valora = $entityManager->getRepository(Valora::class)->findOneBy(['cod_contenido' => $codigo, 'cod_usuario' => $this->getUser()->getCodigo()]);
+            $valora = $valora ? $valora : new Valora();
+            $valora->setCod_usuario($this->getUser()->getCodigo());
+            $valora->setCod_contenido($codigo);
+            $valora->setPuntuacion($puntuacion);
+            $entityManager->persist($valora);
+            $js['respuesta'] = true;
+            $js['cantidad'] = $puntuacion;
+
+            $entityManager->flush();
+        }
         return new JSONResponse($js);
     }
     #[Route('/crearContenido', name: 'crearContenido')]
@@ -240,17 +277,6 @@ class ContenidoController extends AbstractController
             }
         }
         return $this->redirectToRoute('contenido', ['codigo' => $codigo]);
-    }
-    #[Route('/contenido/{codigo}', name: 'contenido')]
-    public function contenido($codigo = 0)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        if ($contenido = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
-            $criticas = $entityManager->getRepository(Critica::class)->findBy(['cod_contenido' => $contenido->getCodigo()]);
-            return $this->render("contenido.html.twig", ['contenido' => $contenido, 'criticas' => $criticas]);
-        }
-        return $this->redirectToRoute('home');
     }
     private function guardarArchivo($codigo, $file, $tipo)
     {

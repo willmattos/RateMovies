@@ -46,7 +46,7 @@ class Critica
 
     private $comentarios;
     private $likes;
-
+    private $ownlike;
 
 
 
@@ -226,6 +226,26 @@ class Critica
     public function setLikes($likes)
     {
         $this->likes = $likes;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of ownlike
+     */ 
+    public function getOwnlike()
+    {
+        return $this->ownlike;
+    }
+
+    /**
+     * Set the value of ownlike
+     *
+     * @return  self
+     */ 
+    public function setOwnlike($ownlike)
+    {
+        $this->ownlike = $ownlike;
 
         return $this;
     }

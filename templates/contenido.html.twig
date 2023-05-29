@@ -2,11 +2,11 @@
 {% block title %}Login
 {% endblock %}
 {% block css %}
-	<link rel="stylesheet" href="{{ asset("css/login.css") }}"></link>{% endblock %}{% block javascripts %}
+	<link rel="stylesheet" href="{{ asset("css/contenido.css") }}"></link>{% endblock %}{% block javascripts %}
 <script>
-	
+	const ruta_puntuar_contenido = "{{ path('puntuarContenido') }}";
 </script>
-<script src="{{asset("js/login.js")}}" defer></script>{% endblock %}{% block body %}
+<script src="{{asset("js/contenido.js")}}" defer></script>{% endblock %}{% block body %}
 <section>
 	<div class="aside">
 		<p>recomendaciones</p>
@@ -23,27 +23,49 @@
 			{% endfor %}
 		</div>
 	</div>
-	{% if contenido is not null %}
-		<div class="section">
-			<img class="portada" src="conten/{{contenido.getPortada()}}" alt=""/>
-			<div class="titulo">
-				<img src="poster/{{contenido.getPoster()}}" alt=""/>
+	<div class="section">
+		<img class="portada" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/portada/{{contenido.getPortada()}}" alt="imagen de contenido">
+		<div class="titulo">
+			<img class="poster" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
+			<div>
+				<h1 class="contenido_datos" data-codigo="{{contenido.getCodigo()}}">{{contenido.getTitulo()}}</h1>
 				<div>
-					<h1>{{contenido.getTitulo()}}</h1>
-					<div>
-						<p>{{contenido.getFecha()}}{{contenido.getDuracion()}}</p>
-						<p>96% (Estrellas)</p>
-					</div>
-				</div>
-			</div>
-			<div class="descripcion">
-				{{contenido.getDescripcion()}}
-			</div>
-			<div class="coments">
-				<div>
-					<textarea name="" id="" cols="30" rows="10"></textarea>
+					<p></p>
+					<p>96% (Estrellas)</p>
 				</div>
 			</div>
 		</div>
-	{% endif %}
+		<div class="descripcion">
+			{{contenido.getDescripcion()}}
+		</div>
+		<div>
+			<div class="estrellas">
+				<input type="radio" name="valoracion" value="1" id="estrella1">
+				<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+					<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+				</svg>
+				<input type="radio" name="valoracion" value="2" id="estrella2">
+				<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+					<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+				</svg>
+				<input type="radio" name="valoracion" value="3" id="estrella3">
+				<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+					<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+				</svg>
+				<input type="radio" name="valoracion" value="4" id="estrella4">
+				<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+					<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+				</svg>
+				<input type="radio" name="valoracion" value="5" id="estrella5">
+				<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+					<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+				</svg>
+			</div>
+		</div>
+		<div class="coments">
+			<div>
+				<textarea name="" id="" cols="30" rows="10"></textarea>
+			</div>
+		</div>
+	</div>
 </section>{% endblock %}

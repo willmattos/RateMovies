@@ -142,17 +142,21 @@ class UsuarioController extends AbstractController
         $js['respuesta'] = false;
         $codigo = $request->request->get('codigo');
         $entityManager = $this->getDoctrine()->getManager();
-        if ($siguiendo = $entityManager->getRepository(Siguiendo::class)->findOneBy(['siguiendo' => $codigo, 'usuario' => $this->getUser()->getCodigo()])) {
-            $entityManager->remove($siguiendo);
-            $js['respuesta'] = 0;
-        } else {
-            $siguiendo = new Siguiendo();
-            $siguiendo->setUsuario($this->getUser()->getCodigo());
-            $siguiendo->setSiguiendo($codigo);
-            $entityManager->persist($siguiendo);
-            $js['respuesta'] = 1;
+        $usuario = $entityManager->getRepository(Usuario::class)->findOneBy(['codigo' => $codigo]);
+        if ($usuario) {
+            $js['respuesta'] = true;
+            if ($siguiendo = $entityManager->getRepository(Siguiendo::class)->findOneBy(['following' => $usuario, 'follower' => $this->getUser()])) {
+                $entityManager->remove($siguiendo);
+                $js['tipo'] = 0;
+            } else {
+                $siguiendo = new Siguiendo();
+                $siguiendo->setFollower($this->getUser());
+                $siguiendo->setFollowing($usuario);
+                $entityManager->persist($siguiendo);
+                $js['tipo'] = 1;
+            }
+            $entityManager->flush();
         }
-        $entityManager->flush();
         return new JSONResponse($js);
     }
     #[Route('/notificaciones', name: 'notificaciones')]

@@ -29,7 +29,11 @@ class Like
      * @ORM\Column(type="integer")
      */
     private $cod_usuario;
-
+    /**
+     * @ORM\ManyToOne(targetEntity="Usuario")
+     * @ORM\JoinColumn(name="cod_usuario", referencedColumnName="codigo")
+     */
+    private $usuario_objeto;
 
     /**
      * Get the value of codigo
@@ -107,6 +111,26 @@ class Like
     public function setCod_usuario($cod_usuario)
     {
         $this->cod_usuario = $cod_usuario;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of usuario_objeto
+     */ 
+    public function getUsuario_objeto()
+    {
+        return $this->usuario_objeto;
+    }
+
+    /**
+     * Set the value of usuario_objeto
+     *
+     * @return  self
+     */ 
+    public function setUsuario_objeto($usuario_objeto)
+    {
+        $this->usuario_objeto = $usuario_objeto;
 
         return $this;
     }
