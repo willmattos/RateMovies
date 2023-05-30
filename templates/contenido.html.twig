@@ -4,7 +4,18 @@
 {% endblock %}
 {% block css %}
 	<link rel="stylesheet" href="{{ asset("css/contenido.css") }}"></link><link rel="stylesheet" href="{{ asset("css/critica.css") }}"></link>{% endblock %}{% block javascripts %}<script>
-const ruta_puntuar_contenido = "{{ path('puntuarContenido') }}";</script><script src="{{asset("js/contenido.js")}}" defer></script><script src="{{asset("js/critica.js")}}" defer></script>{% endblock %}{% block body %}<section>
+const ruta_puntuar_contenido = "{{ path('puntuarContenido') }}";
+const ruta_crear_comentario = "{{ path('crearComentario') }}";
+const ruta_crear_critica = "{{ path('crearCritica') }}";
+const ruta_eliminar_comentario = "{{ path('eliminarComentario') }}";
+const ruta_crear_like = "{{ path('darLike') }}";
+const ruta_usuario_perfil = "{{ path('usuario', {'username' : 'numero' }) }}";
+const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'titulo' }) }}";
+const contenido_titulo = "{{ contenido.getTitulo() }}"
+const contenido_codigo = "{{ contenido.getCodigo() }}"
+
+
+</script><script src="{{asset("js/contenido.js")}}" defer></script><script src="{{asset("js/critica.js")}}" defer></script>{% endblock %}{% block body %}<section>
 <div class="aside">
 	<p>recomendaciones</p>
 	<div class="categoria_box">
@@ -75,7 +86,7 @@ const ruta_puntuar_contenido = "{{ path('puntuarContenido') }}";</script><script
 						<div>{{ contenido.getTitulo() }}</div>
 					</div>
 					<textarea name="" id="" cols="30" rows="10" placeholder="Escribe un critica"></textarea>
-					<button class="crearComentario" data-codigo="{{contenido.getCodigo()}}">enviar</button>
+					<button class="crearCritica" data-codigo="{{contenido.getCodigo()}}">enviar</button>
 				</div>
 			{% endif %}
 			{% for critica in criticas %}

@@ -1,13 +1,14 @@
 $(".reply").hide();
 function crearCritica(e) {
+  console.log('critica crear');
   var posicion = $(this);
   var texto = $(posicion).prev().val();
   if (texto) {
     $.ajax({
       type: "post",
-      url: ruta_crear_comentario,
+      url: ruta_crear_critica,
       data: {
-        codigo: $(posicion).data("codigo"),
+        codigo: contenido_codigo,
         texto: texto,
       },
       dataType: "json",
@@ -15,35 +16,31 @@ function crearCritica(e) {
         if (response.respuesta) {
           $(posicion).prev().val("");
           $(posicion).parent().after(`
-          <div class="comentario">
-							<div class="comentario_datos">
-									<img src="${userfoto}" alt="foto usuario" class="foto">
-								<div class="enlace nombre_usuario">${username}</div>
-								<div>${response.fecha}</div>
-							</div>
-							<div class="texto">${texto}</div>
-							<div class="like">
-								<div>
-										<label for="" class="darLike">Like</label>
-									<div>
-									</div>
-								</div>
-									<div class="eliminar" data-tipo="0" data-codigo="${response.codigo}">Eliminar</div>
-							</div>
+            <div class="critica">
+					<div class="comentario">
+						<div class="comentario_datos">
+							<div class="enlace nombre_usuario">${username}</div>
+							<div>${response.fecha}</div>
+							<div>${contenido_titulo}</div>
 						</div>
+						<div class="texto">${texto}</div>
+						<div class="like">
+							<div data-tipo="1" data-codigo="${response.codigo}">
+									<label for="" class="darLike">Like</label>
+								<div>
+								</div>
+							</div>
+							<div>
+								<label for="" class="comentario_reply">Reply</label>
+								<div class="cantidad_reply">
+								</div>
+							</div>
+								<div class="eliminar" data-tipo="1" data-codigo="{{ critica.getCodigo() }}">Eliminar</div>
+						</div>
+					</div>
+					<img src="${$('.portada').attr('src')}" alt="imagen de contenido" class="card" data-codigo="${contenido_codigo}" data-nombre="${contenido_titulo}">
+				</div>
           `);
-
-          var cantidadActual;
-
-          //chat gpt aqui escribe tu codigo
-          var cantidadReply = $(posicion)
-            .parent()
-            .parent()
-            .prev()
-            .find(".cantidad_reply");
-          cantidadActual = parseInt(cantidadReply.text());
-          cantidadActual = cantidadActual + 1;
-          cantidadReply.html(cantidadActual);
         } else {
           $(this)
             .prev()

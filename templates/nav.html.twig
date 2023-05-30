@@ -29,7 +29,7 @@
 		<li>
 			<a href="{{path("catalogo")}}">Catalogo</a>
 		</li>
-		{% if app.user %}
+		{% if app.user is not null %}
 			<li>
 				<a href="{{path("comunidad")}}">Comunidad</a>
 			</li>
@@ -38,7 +38,7 @@
 			<a href="{{path("perfil")}}" class="iconos">
 				<span>Perfil</span><img src="{{asset("iconos/usuario-de-perfil.png")}}" alt=""></a>
 		</li>
-		{% if app.user %}
+		{% if app.user is not null%}
 			<li>
 				<a href="{{path("logout")}}" class="iconos">
 					<span>Salir</span><img src="{{asset("iconos/log-out.png")}}" alt=""></a>
