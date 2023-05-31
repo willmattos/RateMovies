@@ -123,7 +123,9 @@ class WebController extends AbstractController
     public function admin()
     {
         if ($this->isGranted('ROLE_ADMIN')) {
-            return $this->render('admin.html.twig', ['titulos' => null, "generos" => null, "error" => false]);
+            $entityManager = $this->getDoctrine()->getManager();
+            $generos = $entityManager->getRepository(Generos::class)->findBy([],['nombre' => 'ASC']);
+            return $this->render('admin.html.twig', ['titulos' => null, "generos" => $generos, "error" => false]);
         } else {
             return $this->redirectToRoute('home');
         }

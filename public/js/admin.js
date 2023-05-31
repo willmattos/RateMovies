@@ -18,23 +18,25 @@ function agregarTemporada() {
   $(".main").append(
     $(`<div class="row contenido">
         <label for="">Temporada</label>
-        <input type="number" name="temporada" value="${contador++}" min="1">
+        <input type="number" name="temporada[]" value="${contador++}" min="1" required>
     </div>
     <div class="row contenido">
     <label for="">Nº Episodios</label>
-    <input type="number" min="1">
-    </div>
-    <div class='column contenido'>
-        <label for="">Descripcion</label>
-        <textarea name="" id="" cols="30" rows="10"></textarea>
+    <input type="number" min="1" name='episodios[]' required>
     </div>
     <div class="row contenido">
         <label for="">Trailer</label>
-        <input type="url" placeholder="https://example.com" pattern="https://.*"/>
-    </div>`)
+        <input type="url" placeholder="https://example.com" pattern="https://.*" name='trailer[]'>
+    </div>
+    <div class='column contenido'>
+        <label for="">Descripcion</label>
+        <textarea name="descripcion[]" id="" cols="30" rows="10" required></textarea>
+    </div>
+    `)
   );
 }
-$("input[class='file_upload']").on("change", function () {
+$("input[type='file']").on("change", function () {
+  console.log($(this).attr('name'));
   $(this).parent().next().attr("src", URL.createObjectURL($(this)[0].files[0]));
   // if ($(this).attr("name") == "poster") {
   // } else {

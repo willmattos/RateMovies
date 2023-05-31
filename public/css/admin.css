@@ -1,13 +1,15 @@
-
 section {
-  border: 1px solid;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
   align-items: center;
-  box-sizing: border-box;
-
+  padding: 1rem;
 }
-.serie{
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.serie {
   display: none;
 }
 .column {
@@ -20,8 +22,24 @@ section {
   flex-direction: row;
   gap: 0.5rem;
 }
-.main {
+.contenedor_file{
   border: 1px solid black;
+  border-radius: 0.5rem;
+  position: relative;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
+  cursor: pointer;
+}
+.nombre_archivo{
+  margin: 0.25rem;
+}
+.contenedor_file:hover{
+  background-color: #e4e4e4;
+}
+
+.main {
   align-items: stretch;
   gap: 0.5rem;
 }
@@ -31,30 +49,42 @@ section {
 textarea {
   resize: none;
   padding: 0.5rem;
-  width: 10rem;
+  width: 100%;
   height: 5rem;
 }
-.custom-file-upload input[type="file"] {
-  display: none;
+input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
-.custom-file-upload {
-  display: inline-block;
-  padding: 10px 20px;
-  background: #ccc;
-  color: #fff;
-  cursor: pointer;
-}
-.custom-file-upload:hover {
-  background: #aaa;
-}
-.imagenes {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-}
-.generos{
+.generos {
   justify-content: space-evenly !important;
 }
-.generos div{
+.generos div {
   border: 1px solid;
+}
+.imagenes{
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
+  object-fit: cover;
+}
+.poster {
+  height: 15.625rem;
+  width: 10.4rem;
+}
+.portada{
+  width: 25.51906rem;
+  height: 15.3125rem;
+}
+.contenedor_fotos{
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.archivo{
+  gap: 0.25rem;
 }
