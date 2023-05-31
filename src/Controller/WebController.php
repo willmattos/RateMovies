@@ -28,7 +28,18 @@ class WebController extends AbstractController
     #[Route('/catalogo', name: 'catalogo')]
     public function catalogo()
     {
-        return $this->render('catalogo.html.twig', ['generos' => null]);
+        $entityManager = $this->getDoctrine()->getManager();
+        $generos = $entityManager->getRepository(Generos::class)->findBy([], ['nombre' => "DESC"], 20);
+        $queryBuilder = $entityManager->getRepository(Contenido::class)->createQueryBuilder('c');
+        $queryBuilder->select("SUBSTRING(c.estreno, 1, 4) AS year");
+        $queryBuilder->distinct(true);
+        $queryBuilder->orderBy('c.estreno', 'DESC');
+        $results = $queryBuilder->getQuery()->getResult();
+        $anios = [];
+        foreach ($results as $result) {
+            $anios[] = $result['year'];
+        }
+        return $this->render('catalogo.html.twig', ['generos' => $generos, 'fecha' => $anios]);
     }
     #[Route('/comunidad', name: 'comunidad')]
     public function comunidad()
@@ -64,8 +75,8 @@ class WebController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         if ($contenido = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
-            $entityManager->getRepository(Genero::class)->findBy(['contenido' => $contenido]);
             $result = $entityManager->getRepository(Genero::class)->findBy(['contenido' => $contenido]);
+            $contenido->setGeneros($result);
             $generos = [];
             foreach ($result as $genero) {
                 $generos[] = $genero->getGenero()->getCodigo();
@@ -76,10 +87,9 @@ class WebController extends AbstractController
             $queryBuilder->andWhere('c.codigo != :contenido');
             $queryBuilder->setParameter('contenido', $contenido->getCodigo());
             $queryBuilder->orderBy('c.estreno', 'DESC');
-           // $queryBuilder->setMaxResults(8);
             $results = $queryBuilder->getQuery()->getResult();
             $recomendados = [];
-            for ($i=0; $i < count($results) && $i < 8; $i++) { 
+            for ($i = 0; $i < count($results) && $i < 8; $i++) {
                 $recomendados[] = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $results[$i]]);
             }
             $results = $entityManager->getRepository(Valora::class)->findBy(['cod_contenido' => $codigo]);
@@ -87,7 +97,7 @@ class WebController extends AbstractController
             foreach ($results as $result) {
                 $puntuacion += $result->getPuntuacion();
             }
-            $puntuacion = ($puntuacion * 100) / (5 * count($results));
+            $puntuacion = $puntuacion ? ($puntuacion * 100) / (5 * count($results)) : 0;
             $puntuacion = $puntuacion . "%";
             $valora = $entityManager->getRepository(Valora::class)->findOneBy(['cod_contenido' => $codigo, 'cod_usuario' => $this->getUser()->getCodigo()]);
             $valora = $valora ? $valora->getPuntuacion() : 0;
@@ -105,7 +115,7 @@ class WebController extends AbstractController
                 $critica->setLikes($likes);
             }
 
-            return $this->render('contenido.html.twig', ['contenido' => $contenido, 'recomendados' => $recomendados, 'criticas' => $criticas, 'valora' => $valora,'puntuacion' => $puntuacion]);
+            return $this->render('contenido.html.twig', ['contenido' => $contenido, 'recomendados' => $recomendados, 'criticas' => $criticas, 'valora' => $valora, 'puntuacion' => $puntuacion]);
         }
         return $this->redirectToRoute('home');
     }

@@ -29,6 +29,16 @@ const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}
 		<div class="descripcion">
 			{{contenido.getDescripcion()|nl2br|escape}}
 		</div>
+		<div>
+		<div>Género</div>
+		<div>
+		<ul>
+		{% for item in contenido.getGeneros() %}
+			<li>{{item.getGenero().getNombre()}}</li>			
+		{% endfor %}
+		</ul>
+		</div>
+		</div>
 		<div class="calificacion">
 			<div class="sect">
 				<div>General</div>

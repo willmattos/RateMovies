@@ -8,7 +8,8 @@
 </script>
 <script src="{{asset('js/catalogo.js')}}" defer></script>{% endblock %}{% block body %}
 <section>
-	<h2>Categorias</h2>
+{{ dump() }}
+	<h2>Catálogo</h2>
 	<form class="container_filtros">
 		{% if generos is not null%}
 			<div class="filtros">
@@ -30,44 +31,13 @@
 		<div class="filtros">
 			<div>Año</div>
 			<ul class="option">
-				<li><input type="checkbox"/>2023</li>
-				<li><input type="checkbox"/>2022</li>
-				<li><input type="checkbox"/>2021</li>
-				<li><input type="checkbox"/>2020</li>
-				<li><input type="checkbox"/>2019</li>
-				<li><input type="checkbox"/>2018</li>
-				<li><input type="checkbox"/>2017</li>
-				<li><input type="checkbox"/>2016</li>
-				{# <li><input type="checkbox"/>2015</li>
-								<li><input type="checkbox"/>2014</li>
-								<li><input type="checkbox"/>2013</li>
-								<li><input type="checkbox"/>2012</li>
-								<li><input type="checkbox"/>2011</li>
-								<li><input type="checkbox"/>2010</li>
-								<li><input type="checkbox"/>2009</li>
-								<li><input type="checkbox"/>2008</li>
-								<li><input type="checkbox"/>2007</li>
-								<li><input type="checkbox"/>2006</li>
-								<li><input type="checkbox"/>2005</li>
-								<li><input type="checkbox"/>2004</li>
-								<li><input type="checkbox"/>2003</li>
-								<li><input type="checkbox"/>2002</li>
-								<li><input type="checkbox"/>2001</li>
-								<li><input type="checkbox"/>2000</li>
-								<li><input type="checkbox"/>1990s</li>
-								<li><input type="checkbox"/>1980s</li>
-								<li><input type="checkbox"/>1970s</li>
-								<li><input type="checkbox"/>1960s</li> #}
+			{% for item in fecha %}
+				<li><input type="checkbox" value="{{item}}"/>{{item}}</li>
+			{% endfor %}
 			</ul>
 		</div>
 		<div class="filtros">
 			<div>Filtrar</div>
-			<ul class="option">
-				<li><input type="checkbox" name="" id="">Comedia</li>
-				<li><input type="checkbox" name="" id="">Drama</li>
-				<li><input type="checkbox" name="" id="">Accion</li>
-				<li><input type="checkbox" name="" id="">Policial</li>
-			</ul>
 		</div>
 		<div class="filtros admin">
 			<div>
