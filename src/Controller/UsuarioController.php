@@ -173,6 +173,24 @@ class UsuarioController extends AbstractController
 
         return new JSONResponse($js);
     }
+    #[Route('/filtrarUsuario', name: 'filtrarUsuario')]
+    public function filtrarUsuarios(Request $request)
+    {
+        $js = [];
+        if ($request->isXmlHttpRequest() && $this->isGranted('ROLE_ADMIN')) {
+            $entityManager = $this->getDoctrine()->getManager();
+            if ($nombre = $request->request->get('nombre')) {
+                $qb = $entityManager->getRepository(Usuario::class)->createQueryBuilder('u')->where("u.usuario LIKE '%" . $nombre . "%'");
+            } else {
+                $usuarios = $entityManager->getRepository(Usuario::class)->findAll();
+            }
+            $usuarios = $qb->getQuery()->getResult();
+            foreach ($usuarios as $usuario) {
+                if ($usuario->getCodigo() != $this->getUser()->getCodigo()) $js[] = ['codigo' => $usuario->getCodigo(), 'usuario' => $usuario->getUsuario(), 'rol' => $usuario->getRol()];
+            }
+        }
+        return new JsonResponse($js);
+    }
 
     private function url_origin($s, $use_forwarded_host = false)
     {

@@ -1,6 +1,6 @@
 $(".reply").hide();
 function crearCritica(e) {
-  console.log('critica crear');
+  console.log("critica crear");
   var posicion = $(this);
   var texto = $(posicion).prev().val();
   if (texto) {
@@ -13,17 +13,20 @@ function crearCritica(e) {
       },
       dataType: "json",
       success: function (response) {
+        console.log(response);
         if (response.respuesta) {
           $(posicion).prev().val("");
+
           $(posicion).parent().after(`
             <div class="critica">
 					<div class="comentario">
 						<div class="comentario_datos">
+            <img src="${userfoto}" alt="foto usuario" class="foto">
 							<div class="enlace nombre_usuario">${username}</div>
 							<div>${response.fecha}</div>
 							<div>${contenido_titulo}</div>
 						</div>
-						<div class="texto">${texto}</div>
+						<div class="texto">${texto.replace(/\n/g, "<br>")}</div>
 						<div class="like">
 							<div data-tipo="1" data-codigo="${response.codigo}">
 									<label for="" class="darLike">Like</label>
@@ -38,8 +41,14 @@ function crearCritica(e) {
 								<div class="eliminar" data-tipo="1" data-codigo="{{ critica.getCodigo() }}">Eliminar</div>
 						</div>
 					</div>
-					<img src="${$('.portada').attr('src')}" alt="imagen de contenido" class="card" data-codigo="${contenido_codigo}" data-nombre="${contenido_titulo}">
 				</div>
+        <div class="reply" style="display: none;">
+            <div class="nuevo_comentario">
+              <img src="${userfoto}" alt="foto usuario">
+            <textarea name="" id="" cols="30" rows="10" placeholder="Escribe un comentario"></textarea>
+            <div class="crearComentario btn_coment" data-codigo="${response.codigo}">comentar</div>
+          </div>
+        </div>
           `);
         } else {
           $(this)
@@ -77,7 +86,10 @@ function crearComentario(e) {
       },
       dataType: "json",
       success: function (response) {
+        console.log(response);
         if (response.respuesta) {
+          console.log("entro");
+
           $(posicion).prev().val("");
           $(posicion).parent().after(`
           <div class="comentario">
@@ -86,7 +98,7 @@ function crearComentario(e) {
 								<div class="enlace nombre_usuario">${username}</div>
 								<div>${response.fecha}</div>
 							</div>
-							<div class="texto">${texto}</div>
+							<div class="texto">${texto.replace(/\n/g, "<br>")}</div>
 							<div class="like">
 								<div>
 										<label for="" class="darLike">Like</label>
@@ -97,9 +109,7 @@ function crearComentario(e) {
 							</div>
 						</div>
           `);
-
           var cantidadActual;
-
           //chat gpt aqui escribe tu codigo
           var cantidadReply = $(posicion)
             .parent()
@@ -214,15 +224,23 @@ function eliminar(e) {
     });
   }
 }
+$(".card").click(function (e) {
+  e.preventDefault();
+  var url = ruta_contenido;
+  url = url.replace("numero", $(this).data("codigo"));
+  url = url.replace("titulo", $(this).data("nombre"));
+  window.location.href = url;
+});
 $(document).on("click", ".crearCritica", crearCritica);
 $(document).on("click", ".crearComentario", crearComentario);
 $(document).on("click", ".enlace", enlaceUsuario);
 $(document).on("click", ".darLike", darLike);
 $(document).on("click", ".eliminar", eliminar);
 $(document).on("click", ".comentario_reply", function () {
-  $(".reply").slideToggle("slow", function () {
-    if ($(".reply").is(":visible")) {
-      $(".reply").css("display", "flex");
+  var posicion = $(this).parent().parent().parent().parent().next();
+  $(posicion).slideToggle("slow", function () {
+    if ($(posicion).is(":visible")) {
+      $(posicion).css("display", "flex");
     }
   });
 });

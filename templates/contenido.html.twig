@@ -3,7 +3,7 @@
 	{{contenido.getTitulo()}}
 {% endblock %}
 {% block css %}
-	<link rel="stylesheet" href="{{ asset("css/contenido.css") }}"></link><link rel="stylesheet" href="{{ asset("css/critica.css") }}"></link>{% endblock %}{% block javascripts %}<script>
+	<link rel="stylesheet" href="{{ asset("css/critica.css") }}"></link><link rel="stylesheet" href="{{ asset("css/contenido.css") }}"></link>{% endblock %}{% block javascripts %}<script>
 const ruta_puntuar_contenido = "{{ path('puntuarContenido') }}";
 const ruta_crear_comentario = "{{ path('crearComentario') }}";
 const ruta_crear_critica = "{{ path('crearCritica') }}";
@@ -12,66 +12,165 @@ const ruta_crear_like = "{{ path('darLike') }}";
 const ruta_usuario_perfil = "{{ path('usuario', {'username' : 'numero' }) }}";
 const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'titulo' }) }}";
 const contenido_titulo = "{{ contenido.getTitulo() }}"
-const contenido_codigo = "{{ contenido.getCodigo() }}"
-
-
-</script><script src="{{asset("js/contenido.js")}}" defer></script><script src="{{asset("js/critica.js")}}" defer></script>{% endblock %}{% block body %}<section>
-<div class="aside">
-	<p>recomendaciones</p>
-	<div class="categoria_box">
-		{% for item in recomendados %}
-			<div class="card">
-				<img src="poster/{{item.getPoster()}}" alt=""/>
-				<div class="card-category">{{item.getTipo()}}</div>
-				<h3 class="card-heading">{{item.getNombre()}}</h3>
-				<a href="#">
-					<span class="link"></span>
-				</a>
-			</div>
-		{% endfor %}
-	</div>
-</div>
+const contenido_codigo = "{{ contenido.getCodigo() }}";{% if app.user is not null %}const username = "{{ app.user.getUsuario() }}";{% if app.user.getFoto() is not null %}const userfoto = "{{ asset('Usuario/') }}u{{ app.user.getCodigo() }}/{{ app.user.getFoto() }}";
+{% else %}
+const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}</script><script src="{{asset("js/contenido.js")}}" defer></script><script src="{{asset("js/critica.js")}}" defer></script>{% endblock %}{% block body %}<section>
 <div class="section">
-	<img class="portada" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/portada/{{contenido.getPortada()}}" alt="imagen de contenido">
-	<div class="titulo">
-		<img class="poster" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
-		<div>
-			<h1 class="contenido_datos" data-codigo="{{contenido.getCodigo()}}">{{contenido.getTitulo()}}</h1>
-			<div>
-				<p></p>
-				<p>96% (Estrellas)</p>
+	<div class="seccion datos_contenido">
+		{% if contenido.getPortada() is not null %}
+			<img class="portada" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/portada/{{contenido.getPortada()}}" alt="imagen de contenido">
+		{% endif %}
+		<div class="poster_titulo">
+			{% if contenido.getPoster() is not null %}
+				<img class="poster" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
+			{% endif %}
+			<div class="contenido_datos" data-codigo="{{contenido.getCodigo()}}">{{contenido.getTitulo()}}</div>
+		</div>
+		<div class="descripcion">
+			{{contenido.getDescripcion()|nl2br|escape}}
+		</div>
+		<div class="calificacion">
+			<div class="sect">
+				<div>General</div>
+				<div>{{puntuacion}}</div>
 			</div>
+			{% if app.user is not null %}
+				<div class="contenedor_estrellas">
+					<b>Tu calificacion</b>
+					<div class="estrellas">
+						{% if valora == 0 %}
+							<input type="radio" name="valoracion" value="1" id="estrella1">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+							<input type="radio" name="valoracion" value="2" id="estrella2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+							<input type="radio" name="valoracion" value="3" id="estrella3">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+							<input type="radio" name="valoracion" value="4" id="estrella4">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+							<input type="radio" name="valoracion" value="5" id="estrella5">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+						{% elseif valora == 1 %}
+							<input type="radio" name="valoracion" value="1" id="estrella1">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="2" id="estrella2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+							<input type="radio" name="valoracion" value="3" id="estrella3">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+							<input type="radio" name="valoracion" value="4" id="estrella4">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+							<input type="radio" name="valoracion" value="5" id="estrella5">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+						{% elseif valora == 2 %}
+							<input type="radio" name="valoracion" value="1" id="estrella1">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="2" id="estrella2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="3" id="estrella3">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+							<input type="radio" name="valoracion" value="4" id="estrella4">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+							<input type="radio" name="valoracion" value="5" id="estrella5">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+						{% elseif valora == 3 %}
+							<input type="radio" name="valoracion" value="1" id="estrella1">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="2" id="estrella2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="3" id="estrella3">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="4" id="estrella4">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+							<input type="radio" name="valoracion" value="5" id="estrella5">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+						{% elseif valora == 4 %}
+							<input type="radio" name="valoracion" value="1" id="estrella1">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="2" id="estrella2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="3" id="estrella3">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="4" id="estrella4">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="5" id="estrella5">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
+							</svg>
+						{% elseif valora == 5 %}
+							<input type="radio" name="valoracion" value="1" id="estrella1">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="2" id="estrella2">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="3" id="estrella3">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="4" id="estrella4">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+							<input type="radio" name="valoracion" value="5" id="estrella5">
+							<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
+								<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella estrella_seleccionada"/>
+							</svg>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
 		</div>
 	</div>
-	<div class="descripcion">
-		{{contenido.getDescripcion()}}
-	</div>
-	<div class="contenedor_estrellas">
-		<b>Tu calificacion</b>
-		<div class="estrellas">
-			<input type="radio" name="valoracion" value="1" id="estrella1">
-			<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
-				<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
-			</svg>
-			<input type="radio" name="valoracion" value="2" id="estrella2">
-			<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
-				<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
-			</svg>
-			<input type="radio" name="valoracion" value="3" id="estrella3">
-			<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
-				<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
-			</svg>
-			<input type="radio" name="valoracion" value="4" id="estrella4">
-			<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
-				<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
-			</svg>
-			<input type="radio" name="valoracion" value="5" id="estrella5">
-			<svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewbox="0 0 100 100" class="svg">
-				<polygon points="50 0, 66 30, 100 35, 75 60, 80 95, 50 80, 20 95, 25 60, 0 35, 34 30" class="estrella"/>
-			</svg>
-		</div>
-	</div>
-	<div class="seccion criticas_recientes">
+	<div class="seccion">
 		<div class="titulo">Criticas recientes</div>
 		<div class="criticas">
 			{% if app.user is not null %}
@@ -83,21 +182,26 @@ const contenido_codigo = "{{ contenido.getCodigo() }}"
 							<img src="{{asset('iconos/default-user.jpg')}}" alt="foto usuario" class="foto">
 						{% endif %}
 						<div class="enlace nombre_usuario">{{ app.user.getUsuario() }}</div>
-						<div>{{ contenido.getTitulo() }}</div>
+						<div>{{ contenido.getTitulo()|escape }}</div>
 					</div>
 					<textarea name="" id="" cols="30" rows="10" placeholder="Escribe un critica"></textarea>
-					<button class="crearCritica" data-codigo="{{contenido.getCodigo()}}">enviar</button>
+					<div class="crearCritica btn_coment" data-codigo="{{contenido.getCodigo()}}">comentar</div>
 				</div>
 			{% endif %}
 			{% for critica in criticas %}
 				<div class="critica">
 					<div class="comentario">
 						<div class="comentario_datos">
-							<div class="enlace nombre_usuario">{{ critica.getUsuario().getUsuario() }}</div>
+							{% if critica.getUsuario().getFoto() is not null %}
+								<img src="{{asset('Usuario/')}}u{{critica.getUsuario().getCodigo()}}/{{critica.getUsuario().getFoto()}}" alt="foto usuario">
+							{% else %}
+								<img src="{{asset('iconos/default-user.jpg')}}" alt="foto usuario" class="foto">
+							{% endif %}
+							<div class="enlace nombre_usuario">{{ critica.getUsuario().getUsuario()|escape }}</div>
 							<div>{{ critica.getFecha()|date('Y/m/d H:i:s') }}</div>
-							<div>{{ critica.getContenido().getTitulo() }}</div>
+							<div>{{ critica.getContenido().getTitulo()|escape }}</div>
 						</div>
-						<div class="texto">{{ critica.getComentario() }}</div>
+						<div class="texto">{{ critica.getComentario()|escape|nl2br }}</div>
 						<div class="like">
 							<div data-tipo="1" data-codigo="{{ critica.getCodigo() }}">
 								{% if  critica.getOwnlike() is not  null%}
@@ -124,7 +228,7 @@ const contenido_codigo = "{{ contenido.getCodigo() }}"
 							{% endif %}
 						</div>
 					</div>
-					<img src="{{asset('Contenido/c')}}{{critica.getContenido().getCodigo()}}/poster/{{critica.getContenido.getPoster()}}" alt="imagen de contenido" class="card" data-codigo="{{critica.getContenido().getCodigo()}}" data-nombre="{{critica.getContenido().getTitulo()}}">
+					{# <img src="{{asset('Contenido/c')}}{{critica.getContenido().getCodigo()}}/poster/{{critica.getContenido.getPoster()}}" alt="imagen de contenido" class="card" data-codigo="{{critica.getContenido().getCodigo()}}" data-nombre="{{critica.getContenido().getTitulo()}}"> #}
 				</div>
 				<div class="reply">
 					{% if app.user is not null %}
@@ -135,7 +239,7 @@ const contenido_codigo = "{{ contenido.getCodigo() }}"
 								<img src="{{asset('iconos/default-user.jpg')}}" alt="foto usuario" class="foto">
 							{% endif %}
 							<textarea name="" id="" cols="30" rows="10" placeholder="Escribe un comentario"></textarea>
-							<button class="crearComentario" data-codigo="{{critica.getCodigo()}}">enviar</button>
+							<div class="crearComentario btn_coment" data-codigo="{{critica.getCodigo()}}">comentar</div>
 						</div>
 					{% endif %}
 					{% for comentario in critica.getComentarios() %}
@@ -146,10 +250,10 @@ const contenido_codigo = "{{ contenido.getCodigo() }}"
 								{% else %}
 									<img src="{{asset('iconos/default-user.jpg')}}" alt="foto usuario" class="foto">
 								{% endif %}
-								<div class="enlace nombre_usuario">{{ comentario.getUsuario_objeto().getUsuario() }}</div>
+								<div class="enlace nombre_usuario">{{ comentario.getUsuario_objeto().getUsuario()|escape }}</div>
 								<div>{{ comentario.getFecha()|date('Y/m/d H:i:s') }}</div>
 							</div>
-							<div class="texto">{{ comentario.getComentario() }}</div>
+							<div class="texto">{{ comentario.getComentario()|escape|nl2br }}</div>
 							<div class="like">
 								<div data-tipo="0" data-codigo="{{ comentario.getCodigo() }}">
 									{% if  comentario.getOwnlike() is not  null%}
@@ -172,5 +276,16 @@ const contenido_codigo = "{{ contenido.getCodigo() }}"
 				</div>
 			{% endfor %}
 		</div>
+	</div>
+</div>
+<div class="aside">
+	<div class="titulo">Recomendado</div>
+	<div class="categoria_box">
+		{% for recomendado in recomendados %}
+			<div class="card" data-codigo="{{recomendado.getCodigo()}}" data-nombre="{{recomendado.getTitulo()}}">
+				<img src="{{asset('Contenido/c')}}{{recomendado.getCodigo()}}/poster/{{recomendado.getPoster()}}" alt="pelicula imagen">
+				<h3>{{recomendado.getTitulo()}}</h3>
+			</div>
+		{% endfor %}
 	</div>
 </div></section>{% endblock %}

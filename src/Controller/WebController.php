@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Comentario;
 use App\Entity\Contenido;
+use App\Entity\Valora;
 use App\Entity\Critica;
 use App\Entity\Favorito;
+use App\Entity\Genero;
+use App\Entity\Generos;
 use App\Entity\Usuario;
 use App\Entity\Siguiendo;
 use App\Entity\Like;
@@ -30,15 +33,14 @@ class WebController extends AbstractController
     #[Route('/comunidad', name: 'comunidad')]
     public function comunidad()
     {
-        return $this->render('comunidad.html.twig');
-    }
-    #[Route('/contenido/{codigo}/{nombre}', name: 'contenido')]
-    public function contenido($codigo = 0)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        if ($contenido = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
-            $criticas = $entityManager->getRepository(Critica::class)->findBy(['cod_contenido' => $contenido->getCodigo()]);
+        if ($this->getUser()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $siguiendos = $entityManager->getRepository(Siguiendo::class)->findBy(['usuario' => $this->getUser()->getCodigo()]);
+            $usuarios = [$this->getUser()->getCodigo()];
+            foreach ($siguiendos as $siguiendo) {
+                $usuarios[] = $siguiendo->getSiguiendo();
+            }
+            $criticas = $entityManager->getRepository(Critica::class)->findBy(['cod_usuario' => $usuarios], ['fecha' => 'DESC']);
             foreach ($criticas as $critica) {
                 if ($this->getUser()) $critica->setOwnlike($entityManager->getRepository(Like::class)->findOneBy(['cod_critica' => $critica->getCodigo(), 'usuario_objeto' => $this->getUser()]));
                 $comentarios = $entityManager->getRepository(Comentario::class)->findBy(['critica' => $critica->getCodigo()], ['fecha' => 'DESC']);
@@ -51,7 +53,59 @@ class WebController extends AbstractController
                 $likes = $entityManager->getRepository(Like::class)->findBy(['cod_critica' => $critica->getCodigo()]);
                 $critica->setLikes($likes);
             }
-            return $this->render('contenido.html.twig', ['contenido' => $contenido, 'recomendados' => [], 'criticas' => $criticas]);
+
+            return $this->render('comunidad.html.twig', ['criticas' => $criticas]);
+        }
+        return $this->redirectToRoute('perfil');
+    }
+    #[Route('/catalogo/{codigo}/{nombre}', name: 'contenido')]
+    public function contenido($codigo = 0, $nombre = 0)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if ($contenido = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
+            $entityManager->getRepository(Genero::class)->findBy(['contenido' => $contenido]);
+            $result = $entityManager->getRepository(Genero::class)->findBy(['contenido' => $contenido]);
+            $generos = [];
+            foreach ($result as $genero) {
+                $generos[] = $genero->getGenero()->getCodigo();
+            }
+            $queryBuilder = $entityManager->getRepository(Genero::class)->createQueryBuilder('g')->join('g.contenido', 'c');
+            $queryBuilder->select('DISTINCT c.codigo');
+            $queryBuilder->where($queryBuilder->expr()->in('g.cod_genero', $generos));
+            $queryBuilder->andWhere('c.codigo != :contenido');
+            $queryBuilder->setParameter('contenido', $contenido->getCodigo());
+            $queryBuilder->orderBy('c.estreno', 'DESC');
+           // $queryBuilder->setMaxResults(8);
+            $results = $queryBuilder->getQuery()->getResult();
+            $recomendados = [];
+            for ($i=0; $i < count($results) && $i < 8; $i++) { 
+                $recomendados[] = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $results[$i]]);
+            }
+            $results = $entityManager->getRepository(Valora::class)->findBy(['cod_contenido' => $codigo]);
+            $puntuacion = 0;
+            foreach ($results as $result) {
+                $puntuacion += $result->getPuntuacion();
+            }
+            $puntuacion = ($puntuacion * 100) / (5 * count($results));
+            $puntuacion = $puntuacion . "%";
+            $valora = $entityManager->getRepository(Valora::class)->findOneBy(['cod_contenido' => $codigo, 'cod_usuario' => $this->getUser()->getCodigo()]);
+            $valora = $valora ? $valora->getPuntuacion() : 0;
+            $criticas = $entityManager->getRepository(Critica::class)->findBy(['cod_contenido' => $contenido->getCodigo()], ['fecha' => 'DESC']);
+            foreach ($criticas as $critica) {
+                if ($this->getUser()) $critica->setOwnlike($entityManager->getRepository(Like::class)->findOneBy(['cod_critica' => $critica->getCodigo(), 'usuario_objeto' => $this->getUser()]));
+                $comentarios = $entityManager->getRepository(Comentario::class)->findBy(['critica' => $critica->getCodigo()], ['fecha' => 'DESC']);
+                foreach ($comentarios as $comentario) {
+                    if ($this->getUser()) $comentario->setOwnlike($entityManager->getRepository(Like::class)->findOneBy(['cod_comentario' => $comentario->getCodigo(), 'usuario_objeto' => $this->getUser()]));
+                    $likes = $entityManager->getRepository(Like::class)->findBy(['cod_comentario' => $comentario->getCodigo()]);
+                    $comentario->setLikes($likes);
+                }
+                $critica->setComentarios($comentarios);
+                $likes = $entityManager->getRepository(Like::class)->findBy(['cod_critica' => $critica->getCodigo()]);
+                $critica->setLikes($likes);
+            }
+
+            return $this->render('contenido.html.twig', ['contenido' => $contenido, 'recomendados' => $recomendados, 'criticas' => $criticas, 'valora' => $valora,'puntuacion' => $puntuacion]);
         }
         return $this->redirectToRoute('home');
     }
@@ -90,7 +144,7 @@ class WebController extends AbstractController
         }
         return $this->render('perfil.html.twig', ['usuario' => $this->getUser(), 'followings' => $following, 'followers' => $followers, 'favoritos' => $favoritos, 'criticas' => $criticas]);
     }
-    #[Route('/usuario/{username}', name: 'usuario')]
+    #[Route('/perfil/{username}', name: 'usuario')]
     public function usuario($username = 0)
     {
         $entityManager = $this->getDoctrine()->getManager();

@@ -1,4 +1,4 @@
-var posicion_estrella = 0;
+var posicion_estrella = $(".estrella_seleccionada").length;
 $(".svg").mouseover(function (e) {
   e.preventDefault();
   $(".estrella").removeClass("estrella_seleccionada");

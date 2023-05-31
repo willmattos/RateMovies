@@ -20,18 +20,20 @@ class Genero
     /**
      * @ORM\Column(type="integer")
      */
-    private $cod_contenido;
-    /**
-     * @ORM\Column(type="integer")
-     */
     private $cod_genero;
-
-
-
-
+    /**
+     * @ORM\ManyToOne(targetEntity="Generos")
+     * @ORM\JoinColumn(name="cod_genero", referencedColumnName="codigo")
+     */
+    private $genero;
+    /**
+     * @ORM\ManyToOne(targetEntity="Contenido")
+     * @ORM\JoinColumn(name="cod_contenido", referencedColumnName="codigo")
+     */
+    private $contenido;
     /**
      * Get the value of codigo
-     */ 
+     */
     public function getCodigo()
     {
         return $this->codigo;
@@ -41,7 +43,7 @@ class Genero
      * Set the value of codigo
      *
      * @return  self
-     */ 
+     */
     public function setCodigo($codigo)
     {
         $this->codigo = $codigo;
@@ -50,41 +52,41 @@ class Genero
     }
 
     /**
-     * Get the value of cod_contenido
-     */ 
-    public function getCod_contenido()
+     * Get the value of genero
+     */
+    public function getGenero()
     {
-        return $this->cod_contenido;
+        return $this->genero;
     }
 
     /**
-     * Set the value of cod_contenido
+     * Set the value of genero
      *
      * @return  self
-     */ 
-    public function setCod_contenido($cod_contenido)
+     */
+    public function setGenero($genero)
     {
-        $this->cod_contenido = $cod_contenido;
+        $this->genero = $genero;
 
         return $this;
     }
 
     /**
-     * Get the value of cod_genero
-     */ 
-    public function getCod_genero()
+     * Get the value of contenido
+     */
+    public function getContenido()
     {
-        return $this->cod_genero;
+        return $this->contenido;
     }
 
     /**
-     * Set the value of cod_genero
+     * Set the value of contenido
      *
      * @return  self
-     */ 
-    public function setCod_genero($cod_genero)
+     */
+    public function setContenido($contenido)
     {
-        $this->cod_genero = $cod_genero;
+        $this->contenido = $contenido;
 
         return $this;
     }

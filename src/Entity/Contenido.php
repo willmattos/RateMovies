@@ -45,6 +45,7 @@ class Contenido
      * @ORM\Column(type="string")
      */
     private $trailer;
+    private $generos;
 
     public function getCodigo()
     {
@@ -105,5 +106,25 @@ class Contenido
     public function setTrailer($trailer)
     {
         $this->trailer = $trailer;
+    }
+
+    /**
+     * Get the value of generos
+     */ 
+    public function getGeneros()
+    {
+        return $this->generos;
+    }
+
+    /**
+     * Set the value of generos
+     *
+     * @return  self
+     */ 
+    public function setGeneros($generos)
+    {
+        $this->generos = $generos;
+
+        return $this;
     }
 }

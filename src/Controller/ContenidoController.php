@@ -31,14 +31,17 @@ class ContenidoController extends AbstractController
         $codigo = $request->request->get('codigo');
         $texto = $request->request->get('texto');
         $entityManager = $this->getDoctrine()->getManager();
-        if ($entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
+        if ($contenido = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
             $critica = new Critica();
             $critica->setComentario($texto);
-            $critica->setCod_contenido($codigo);
-            $critica->setCod_usuario($this->getUser()->getCodigo());
+            $critica->setContenido($contenido);
+            $critica->setUsuario($this->getUser());
+            $critica->setFecha(new \DateTime());
             $entityManager->persist($critica);
             $entityManager->flush();
             $js['respuesta'] = true;
+            $js['codigo'] = $critica->getCodigo();
+            $js['fecha'] = $critica->getFecha()->format('Y/m/d H:i:s');
         }
         return new JSONResponse($js);
     }
