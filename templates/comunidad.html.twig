@@ -31,7 +31,7 @@ const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}
 							<div>{{ critica.getFecha()|date('Y/m/d H:i:s') }}</div>
 							<div>{{ critica.getContenido().getTitulo() }}</div>
 						</div>
-						<div class="texto">{{ critica.getComentario() }}</div>
+						<div class="texto">{{ critica.getComentario()|escape|nl2br }}</div>
 						<div class="like">
 							<div data-tipo="1" data-codigo="{{ critica.getCodigo() }}">
 								{% if  critica.getOwnlike() is not  null%}
@@ -83,7 +83,7 @@ const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}
 								<div class="enlace nombre_usuario">{{ comentario.getUsuario_objeto().getUsuario() }}</div>
 								<div>{{ comentario.getFecha()|date('Y/m/d H:i:s') }}</div>
 							</div>
-							<div class="texto">{{ comentario.getComentario() }}</div>
+							<div class="texto">{{ comentario.getComentario()|escape|nl2br }}</div>
 							<div class="like">
 								<div data-tipo="0" data-codigo="{{ comentario.getCodigo() }}">
 									{% if  comentario.getOwnlike() is not  null%}

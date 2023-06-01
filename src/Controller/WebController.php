@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comentario;
 use App\Entity\Contenido;
 use App\Entity\Valora;
+use App\Entity\Actor;
 use App\Entity\Critica;
 use App\Entity\Favorito;
 use App\Entity\Genero;
@@ -72,6 +73,7 @@ class WebController extends AbstractController
     #[Route('/catalogo/{codigo}/{nombre}', name: 'contenido')]
     public function contenido($codigo = 0, $nombre = 0)
     {
+
         $entityManager = $this->getDoctrine()->getManager();
 
         if ($contenido = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
@@ -81,17 +83,23 @@ class WebController extends AbstractController
             foreach ($result as $genero) {
                 $generos[] = $genero->getGenero()->getCodigo();
             }
-            $queryBuilder = $entityManager->getRepository(Genero::class)->createQueryBuilder('g')->join('g.contenido', 'c');
-            $queryBuilder->select('DISTINCT c.codigo');
-            $queryBuilder->where($queryBuilder->expr()->in('g.cod_genero', $generos));
-            $queryBuilder->andWhere('c.codigo != :contenido');
-            $queryBuilder->setParameter('contenido', $contenido->getCodigo());
-            $queryBuilder->orderBy('c.estreno', 'DESC');
-            $results = $queryBuilder->getQuery()->getResult();
             $recomendados = [];
-            for ($i = 0; $i < count($results) && $i < 8; $i++) {
-                $recomendados[] = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $results[$i]]);
+            if($generos){
+                $queryBuilder = $entityManager->getRepository(Genero::class)->createQueryBuilder('g')->join('g.contenido', 'c');
+                $queryBuilder->select('DISTINCT c.codigo');
+                $queryBuilder->where($queryBuilder->expr()->in('g.cod_genero', $generos));
+                $queryBuilder->andWhere('c.codigo != :contenido');
+                $queryBuilder->setParameter('contenido', $contenido->getCodigo());
+                $queryBuilder->orderBy('c.estreno', 'DESC');
+                $results = $queryBuilder->getQuery()->getResult();
+                for ($i = 0; $i < count($results) && $i < 8; $i++) {
+                    $recomendados[] = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $results[$i]]);
+                }
             }
+            if(!$recomendados){
+                $recomendados = $entityManager->getRepository(Contenido::class)->findBy([],[], 8);
+            }
+
             $results = $entityManager->getRepository(Valora::class)->findBy(['cod_contenido' => $codigo]);
             $puntuacion = 0;
             foreach ($results as $result) {
@@ -124,8 +132,9 @@ class WebController extends AbstractController
     {
         if ($this->isGranted('ROLE_ADMIN')) {
             $entityManager = $this->getDoctrine()->getManager();
-            $generos = $entityManager->getRepository(Generos::class)->findBy([],['nombre' => 'ASC']);
-            return $this->render('admin.html.twig', ['titulos' => null, "generos" => $generos, "error" => false]);
+            $generos = $entityManager->getRepository(Generos::class)->findBy([], ['nombre' => 'ASC']);
+            $actores = $entityManager->getRepository(Actor::class)->findBy([], ['nombre' => 'ASC']);
+            return $this->render('admin.html.twig', ['titulos' => null, "generos" => $generos, "error" => false, 'actores' => $actores]);
         } else {
             return $this->redirectToRoute('home');
         }
@@ -189,6 +198,9 @@ class WebController extends AbstractController
     #[Route('/prueba', name: 'prueba')]
     public function prueba()
     {
+        $nombre = $this->getParameter('kernel.project_dir');
+        var_dump($nombre);
+        die;
     }
     #[Route('/logout', name: 'logout')]
     public function logout()

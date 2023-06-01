@@ -56,8 +56,8 @@
     text-shadow: 3px 5px 20px #230622aa;
   }
   label.logo span {
-    background-color: var(--blue);
-    border: 0.3rem solid var(--blue);
+/*     background-color: var(--blue);
+    border: 0.3rem solid var(--blue); */
   }
   nav ul {
     float: right;

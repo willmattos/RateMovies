@@ -96,7 +96,7 @@ section {
   -ms-transition: font-weight 0.3s ease;
   -o-transition: font-weight 0.3s ease;
 }
-.nombre_usuario:hover{
+.nombre_usuario:hover {
   font-weight: 650;
 }
 .follow:hover {
@@ -134,6 +134,7 @@ section {
   transition: 0.8s;
   height: 15.625rem;
   width: 10.4rem;
+  cursor: pointer;
 }
 .card h3 {
   text-align: center;

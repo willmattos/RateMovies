@@ -88,3 +88,20 @@ input[type="file"] {
 .archivo{
   gap: 0.25rem;
 }
+.serie{
+  display: none;
+}
+.reparto,.generos{
+  justify-content: space-evenly !important;
+}
+.actor_reparto,.generos_contenido{
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
+  background-color: rgb(75, 170, 190);
+  color: #ffffff;
+  padding: 0.25rem;
+  cursor: pointer;
+}
