@@ -9,9 +9,13 @@ section img,
 }
 .portada {
   width: 70%;
+  max-height: 25rem;
+  object-fit: cover;
 }
 .poster {
   width: 10.4rem;
+  max-height: 15.625rem;
+  object-fit: cover;
 }
 section > div {
   box-sizing: border-box;

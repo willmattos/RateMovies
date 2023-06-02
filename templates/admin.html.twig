@@ -5,62 +5,88 @@
 	<link rel="stylesheet" href="{{ asset("css/admin.css") }}"></link>{% endblock %}{% block javascripts %}
 <script src="{{asset("js/admin.js")}}" defer></script>{% endblock %}{% block body %}
 <section>
-	<div class="main column">
-		<div class="row">
-			<label for="">Tipo</label>
-			<select name="tipo" class="tipo" id="select">
-				<option value="1">Pelicula</option>
-				<option value="2">Serie</option>
-			</select>
+	<form action="{{path('crearContenido')}}" enctype='multipart/form-data' method='post'>
+		<div class="main column">
+			<div class="row">
+				<label for="">Tipo</label>
+				<select name="tipo" class="tipo" id="select">
+					<option value="0">Pelicula</option>
+					<option value="1">Serie</option>
+				</select>
+			</div>
+			<div class="row">
+				<label for="">Titulo</label><input type="text" name='titulo' required placeholder='Una buena receta'>
+			</div>
+			<div class="row">
+				<label for="">Alias (Opcional)</label><input type="text" name='alias' placeholder='Burnt'>
+			</div>
+			<div class="row pelicula">
+				<label for="">Estreno</label><input type="date" name='fecha'>
+			</div>
+			<div class="row serie">
+				<label for="">Año estreno</label>
+				<input type="number" min="1900" max="2099" step="1" placeholder='2016' name='fecha_inicio'/>
+			</div>
+			<div class="row serie">
+				<label for="">Año fin</label>
+				<input type="number" min="1900" max="2099" step="1" placeholder='2019' name='fecha_fin'/>
+			</div>
+			<div class="row serie">
+				<label for="">Nº Temporadas</label>
+				<input type="number" min="1" step="1" name='temporadas'/>
+			</div>
+			<div class="row serie">
+				<label for="">Nº Episodios</label>
+				<input type="number" min="1" step="1" name='episodios'/>
+			</div>
+			<div class="pelicula row">
+				<label for="">Trailer</label>
+				<input type="url" placeholder="https://example.com" pattern="https://.*" name='trailer'/>
+			</div>
+			<div class='row'>
+				<label for="generos">Generos</label>
+				<input type="text" list="generos" placeholder='Comedia, Drama' id="genero">
+				<datalist id="generos">
+					{% for item in generos %}
+						<option value="{{item.getNombre()}}"></option>
+					{% endfor %}
+				</datalist>
+			</div>
+			<div class="row generos"></div>
+			<div class='row'>
+				<label for="reparto">Reparto</label>
+				<input type="text" list="reparto" placeholder='Will Smith, Tom Cruise' id="reparto">
+				<datalist id="reparto">
+					{% for item in actores %}
+						<option value="{{item.getNombre()}}"></option>
+					{% endfor %}
+				</datalist>
+			</div>
+			<div class="row reparto"></div>
+			<div style='display: none;' class='genres'></div>
+			<div style='display: none;' class='actress'></div>
+			<div class="column">
+				<label for="">Descripcion</label>
+				<textarea name="descripcion" id="" cols="30" rows="10" required placeholder='...'></textarea>
+			</div>
+			<button>Publicar</button>
 		</div>
-		<div class="row">
-			<label for="">Titulo</label><input type="text">
+		<div class="row contenedor_fotos">
+			<div class="column archivo">
+				<div class="contenedor_file">
+					<input type="file" name="poster" id="poster" class='file_upload'>
+					<div class='nombre_archivo'>Poster</div>
+				</div>
+				<img alt="" class="poster imagenes">
+			</div>
+			<div class="column archivo">
+				<div class="contenedor_file">
+					<input type="file" name="portada" id="poster" class='file_upload'>
+					<div class='nombre_archivo'>Portada</div>
+				</div>
+				<img alt="" class="portada imagenes">
+			</div>
 		</div>
-		<div class="row">
-			<label for="">Alias (Opcional)</label><input type="text">
-		</div>
-		<div class="pelicula column">
-			<label for="">Descripcion</label>
-			<textarea name="" id="" cols="30" rows="10"></textarea>
-		</div>
-		<div class="pelicula row">
-			<label for="">Trailer</label>
-			<input type="url" placeholder="https://example.com" pattern="https://.*"/>
-		</div>
-		<div class='row'>
-			<label for="generos">Generos</label>
-			<input type="text" list="generos" placeholder='Comedia, Drama' id="genero">
-			<datalist id="generos">
-				<option value="Comedia"></option>
-				<option value="Drama"></option>
-				<option value="Accion"></option>
-				<option value="Policial"></option>
-				{% for item in generos %}
-					<option value="{{item.getNombre()}}"></option>
-				{% endfor %}
-			</datalist>
-		</div>
-		<div class="row generos">
-		</div>
-		<button>Publicar</button>
-		<button class="serie" id="temporada">+ Temporada</button>
-	</div>
-	<div class="row">
-		<div class="column">
-			<label for="myFileInput" class="custom-file-upload">
-				<input type="file" name="poster" class='file_upload'>
-				Poster
-			</label>
-			<img style="border: 1px solid black" src="" alt="" class="poster imagenes">
-		</div>
-		<div class="column">
-			<label for="myFileInput" class="custom-file-upload">
-				<input type="file" id="myFileInput" class="file_upload">
-				Portada
-			</label>
-			<img src="" alt="" class="portada imagenes" style="border: 5px solid black">
-		</div>
-	</div>
-
+	</form>
 
 </section>{% endblock %}

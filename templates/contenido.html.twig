@@ -24,20 +24,28 @@ const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}
 			{% if contenido.getPoster() is not null %}
 				<img class="poster" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
 			{% endif %}
-			<div class="contenido_datos" data-codigo="{{contenido.getCodigo()}}">{{contenido.getTitulo()}}</div>
+			<div class="contenido_datos" data-codigo="{{contenido.getCodigo()}}">{{contenido.getTitulo()}}
+			</div>
 		</div>
 		<div class="descripcion">
 			{{contenido.getDescripcion()|nl2br|escape}}
 		</div>
-		<div>
-		<div>Género</div>
-		<div>
-		<ul>
-		{% for item in contenido.getGeneros() %}
-			<li>{{item.getGenero().getNombre()}}</li>			
-		{% endfor %}
-		</ul>
-		</div>
+		<div class='genero_fecha'>
+			<div class='genr'>
+				<ul>
+					<li>
+						<b>Género</b>
+					</li>
+					{% for item in contenido.getGeneros() %}
+						<li>{{item.getGenero().getNombre()}}</li>
+					{% endfor %}
+				</ul>
+			</div>
+			{% if contenido.getEstreno() is not null %}
+				<div>{{contenido.getEstreno()|date('Y/m/d')}}</div>
+			{% elseif contenido.getFecha_inicio() %}
+				<div>{{contenido.getFecha_inicio()}}-{{contenido.getFecha_fin()}}</div>
+			{% endif %}
 		</div>
 		<div class="calificacion">
 			<div class="sect">

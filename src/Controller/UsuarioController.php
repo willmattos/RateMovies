@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Siguiendo;
 use App\Entity\Usuario;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Filesystem\Filesystem;
+
 
 class UsuarioController extends AbstractController
 {
@@ -191,7 +193,43 @@ class UsuarioController extends AbstractController
         }
         return new JsonResponse($js);
     }
-
+    #[Route('/actualizarUsuario', name: 'actualizarUsuario')]
+    public function actualizarPerfil(Request $request)
+    {
+        $js = ['respuesta' => false];
+        $entityManager = $this->getDoctrine()->getManager();
+        $usuario = $request->request->get('username') || "";
+        $usuario = trim($usuario);
+        if (!$entityManager->getRepository(Usuario::class)->findOneBy(['usuario' => $usuario])) {
+            $this->getUser()->setUsuario($usuario);
+            $entityManager->flush();
+            $js = ['respuesta' => true];
+        }
+        return new JsonResponse($js);
+    }
+    #[Route('/actualizarFoto', name: 'actualizarFoto')]
+    public function actualizarFoto(Request $request)
+    {
+        $js = [];
+        $entityManager = $this->getDoctrine()->getManager();
+        $filesystem = new Filesystem();
+        $file = $request->files->get('file');
+        $folderPath = $this->getParameter('kernel.project_dir') . '/public/Usuario/u' . $this->getUser()->getCodigo() . '/';
+        if (!$filesystem->exists($folderPath)) {
+            $filesystem->mkdir($folderPath, 0777, true);
+        } else {
+            $files = glob($folderPath . '*', GLOB_MARK | GLOB_NOSORT);
+            // Eliminar cada elemento individualmente
+            foreach ($files as $existingFile) {
+                $filesystem->remove($existingFile);
+            }
+        }
+        $file->move($folderPath, $file->getClientOriginalName());
+        $this->getUser()->setFoto($file->getClientOriginalName());
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+        return new JsonResponse(['actualizado' => true]);
+    }
     private function url_origin($s, $use_forwarded_host = false)
     {
 

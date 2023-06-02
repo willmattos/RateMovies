@@ -45,6 +45,23 @@ class Contenido
      * @ORM\Column(type="string")
      */
     private $trailer;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $temporadas;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $episodios;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $fecha_inicio;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $fecha_fin;
+    
     private $generos;
 
     public function getCodigo()
@@ -110,7 +127,7 @@ class Contenido
 
     /**
      * Get the value of generos
-     */ 
+     */
     public function getGeneros()
     {
         return $this->generos;
@@ -120,10 +137,90 @@ class Contenido
      * Set the value of generos
      *
      * @return  self
-     */ 
+     */
     public function setGeneros($generos)
     {
         $this->generos = $generos;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of temporadas
+     */
+    public function getTemporadas()
+    {
+        return $this->temporadas;
+    }
+
+    /**
+     * Set the value of temporadas
+     *
+     * @return  self
+     */
+    public function setTemporadas($temporadas)
+    {
+        $this->temporadas = $temporadas;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of episodios
+     */
+    public function getEpisodios()
+    {
+        return $this->episodios;
+    }
+
+    /**
+     * Set the value of episodios
+     *
+     * @return  self
+     */
+    public function setEpisodios($episodios)
+    {
+        $this->episodios = $episodios;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of fecha_fin
+     */ 
+    public function getFecha_fin()
+    {
+        return $this->fecha_fin;
+    }
+
+    /**
+     * Set the value of fecha_fin
+     *
+     * @return  self
+     */ 
+    public function setFecha_fin($fecha_fin)
+    {
+        $this->fecha_fin = $fecha_fin;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of fecha_inicio
+     */ 
+    public function getFecha_inicio()
+    {
+        return $this->fecha_inicio;
+    }
+
+    /**
+     * Set the value of fecha_inicio
+     *
+     * @return  self
+     */ 
+    public function setFecha_inicio($fecha_inicio)
+    {
+        $this->fecha_inicio = $fecha_inicio;
 
         return $this;
     }

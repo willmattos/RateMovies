@@ -21,6 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ContenidoController extends AbstractController
 {
@@ -170,78 +171,71 @@ class ContenidoController extends AbstractController
         return new JSONResponse($js);
     }
     #[Route('/crearContenido', name: 'crearContenido')]
-    public function crearContenido()
+    public function crearContenido(SessionInterface $session)
     {
-        if (isset($_POST['tipo'], $_POST['titulo'], $_POST['alias'], $_POST['estreno'], $_FILES['poster'], $_FILES['portada'], $_POST['trailer'], $_POST['generos'], $_POST['actores'])) {
-
+        if (isset($_POST['tipo'], $_POST['titulo'], $_POST['alias'], $_POST['fecha'], $_POST['fecha_inicio'], $_POST['fecha_fin'], $_POST['temporadas'], $_POST['episodios'], $_POST['trailer'], $_POST['descripcion']) && strlen($_POST['titulo'])) {
             $entityManager = $this->getDoctrine()->getManager();
-
             $contenido = new Contenido();
-            $contenido->setTitulo(trim($_POST['titulo']));
-            $contenido->setAlias(trim($_POST['alias']));
-            $contenido->setPoster($_FILES['poster']['name']);
-            $contenido->setPortada($_FILES['portada']['name']);
+            $contenido->setTitulo(ucfirst(trim($_POST['titulo'])));
+            $contenido->setAlias(ucfirst(trim($_POST['alias'])));
+            $contenido->setDescripcion(strlen($_POST['descripcion']) ? $_POST['descripcion'] : null);
+            $contenido->setTrailer(strlen($_POST['trailer']) ? $_POST['trailer'] : null);
+            if (!$_POST['tipo']) {
+                $contenido->setEstreno(strlen($_POST['fecha']) >= 10  ? new \DateTime($_POST['fecha']) : null);
+            } else {
+                $contenido->setTemporadas(is_numeric($_POST['temporadas']) ? $_POST['temporadas'] : null);
+                $contenido->setEpisodios(is_numeric($_POST['episodios']) ? $_POST['episodios'] : null);
+                $contenido->setFecha_inicio(is_numeric($_POST['fecha_inicio']) ? $_POST['fecha_inicio'] : null);
+                $contenido->setFecha_fin(is_numeric($_POST['fecha_fin']) ? $_POST['fecha_fin'] : null);
+            }
             $entityManager->persist($contenido);
             $entityManager->flush();
-            if ($_POST['tipo']) {
-                //pelicula
-                $contenido->setDescripcion(isset($_POST['descripcion']) ? $_POST['descripcion'] : null);
-                $contenido->setEstreno(isset($_POST['estreno']) ? new \DateTime($_POST['estreno']) : new \DateTime());
-                $contenido->setTrailer(isset($_POST['trailer']) ? $_POST['trailer'] : null);
-            } else if (isset($_POST['temporada'], $_POST['episodios'])) {
-                for ($i = 0; $i < count($_POST['temporada']); $i++) {
-                    $serie = new Serie();
-                    $serie->setTemporada($_POST['temporada'][$i]);
-                    $serie->setDescripcion($_POST['descripcion'][$i]);
-                    $serie->setEpisodios($_POST['episodios'][$i]);
-                    $serie->setTrailer($_POST['trailer']);
-                    $serie->setContenido($contenido->getCodigo());
 
-                    $entityManager->persist($serie);
-                }
-            }
-            foreach ($_POST['actores'] as $actor) {
-                $actor = trim($actor);
-                $object = $entityManager->getRepository(Actor::class)->createQueryBuilder('a')->andWhere("LOWER(a.nombre) = LOWER('$actor')")->getQuery()->getOneOrNullResult();
-                if (!$object) {
-                    $object = new Actor();
-                    $object->setNombre(ucfirst($actor));
-                    $entityManager->persist($object);
-                    $entityManager->flush();
-                }
-                $reparto = new Reparto;
-                $reparto->setCod_actor($object->getCodigo());
-                $reparto->setCod_contenido($contenido->getCodigo());
-                $entityManager->persist($reparto);
-                // 
-                # code...
-            }
-            if ($_FILES['poster']) {
+            if (isset($_FILES['poster']) && strlen($_FILES['poster']['name'])) {
                 $this->guardarArchivo($contenido->getCodigo(), $_FILES['poster'], 1);
                 $contenido->setPoster($_FILES['poster']['name']);
             }
-            if ($_FILES['portada']) {
+            if (isset($_FILES['portada']) && strlen($_FILES['portada']['name'])) {
                 $this->guardarArchivo($contenido->getCodigo(), $_FILES['portada'], 0);
-                $contenido->setPoster($_FILES['portada']['name']);
+                $contenido->setPortada($_FILES['portada']['name']);
             }
-
-            foreach ($_POST['generos'] as $genero) {
-                $genero = trim($genero);
-                $generos = $entityManager->getRepository(Generos::class)->createQueryBuilder('g')->andWhere("LOWER(g.nombre) = LOWER('$genero')")->getQuery()->getOneOrNullResult();
-                if (!$generos) {
-                    $generos = new Generos();
-                    $generos->setNombre(ucfirst($genero));
+            if (isset($_POST['generos'])) {
+                foreach ($_POST['generos'] as $genero) {
+                    $nombre = ucfirst(trim($genero));
+                    $genero = $entityManager->getRepository(Generos::class)->findOneBy(['nombre' => $nombre]);
+                    if (!$genero) {
+                        $genero = new Generos();
+                        $genero->setNombre($nombre);
+                        $entityManager->persist($genero);
+                        $entityManager->flush();
+                    }
+                    $generos = new Genero();
+                    $generos->setGenero($genero);
+                    $generos->setContenido($contenido);
                     $entityManager->persist($generos);
-                    $entityManager->flush();
                 }
-                $genero = new Genero();
-                $genero->setCod_genero($genero->getCodigo());
-                $genero->setCod_contenido($contenido->getCodigo());
-                $entityManager->persist($genero);
+            }
+            if (isset($_POST['reparto'])) {
+                foreach ($_POST['reparto'] as $actor) {
+                    $nombre = ucfirst(trim($actor));
+                    $actor = $entityManager->getRepository(Actor::class)->findOneBy(['nombre' => $actor]);
+                    if (!$actor) {
+                        $actor = new Actor();
+                        $actor->setNombre($nombre);
+                        $entityManager->persist($actor);
+                        $entityManager->flush();
+                    }
+                    $reparto = new Reparto;
+                    $reparto->setCod_actor($actor->getCodigo());
+                    $reparto->setCod_contenido($contenido->getCodigo());
+                    $entityManager->persist($reparto);
+                }
             }
             $entityManager->flush();
+            return $this->redirectToRoute('contenido', ['codigo' => $contenido->getCodigo(), 'nombre' => $contenido->getTitulo()]);
         }
-        return $this->redirectToRoute('contenido', ['codigo' => $contenido || 0]);
+        $session->getFlashBag()->add('error', "Para");
+        return $this->redirectToRoute('admin');
     }
     #[Route('/eliminarContenido', name: 'eliminarContenido')]
     public function eliminarContenido()
@@ -287,14 +281,13 @@ class ContenidoController extends AbstractController
     private function guardarArchivo($codigo, $file, $tipo)
     {
         $filesystem = new Filesystem();
-        $tipo = $tipo ? 'poster' : 'header';
+        $tipo = $tipo ? 'poster' : 'portada';
         $folderPath = $this->getParameter('kernel.project_dir') . '/public/Contenido/c' . $codigo . '/' . $tipo . '/';
-
         // Verificar si la carpeta existe, si no existe, crearla
         if (!$filesystem->exists($folderPath)) {
-            $filesystem->mkdir($folderPath);
+            $filesystem->mkdir($folderPath, 0777, true);
         }
-        $filePath = $folderPath . $file['poster']['name'];
-        move_uploaded_file($file['poster']['tmp_name'], $filePath);
+        $filePath = $folderPath . $file['name'];
+        move_uploaded_file($file['tmp_name'], $filePath);
     }
 }

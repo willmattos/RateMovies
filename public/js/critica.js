@@ -46,7 +46,9 @@ function crearCritica(e) {
             <div class="nuevo_comentario">
               <img src="${userfoto}" alt="foto usuario">
             <textarea name="" id="" cols="30" rows="10" placeholder="Escribe un comentario"></textarea>
-            <div class="crearComentario btn_coment" data-codigo="${response.codigo}">comentar</div>
+            <div class="crearComentario btn_coment" data-codigo="${
+              response.codigo
+            }">comentar</div>
           </div>
         </div>
           `);
@@ -105,7 +107,9 @@ function crearComentario(e) {
 									<div>
 									</div>
 								</div>
-									<div class="eliminar" data-tipo="0" data-codigo="${response.codigo}">Eliminar</div>
+									<div class="eliminar" data-tipo="0" data-codigo="${
+                    response.codigo
+                  }">Eliminar</div>
 							</div>
 						</div>
           `);
@@ -179,6 +183,7 @@ function darLike(e) {
   });
 }
 function eliminar(e) {
+  e.preventDefault();
   if ($(this).html() == "Eliminar") {
     $(this).html("Confirmar");
     var cancelar = $(`<div class="cancelar">Cancelar</div>`);
@@ -224,7 +229,7 @@ function eliminar(e) {
     });
   }
 }
-$(".card").click(function (e) {
+$(".card,.nombre_contenido").click(function (e) {
   e.preventDefault();
   var url = ruta_contenido;
   url = url.replace("numero", $(this).data("codigo"));
