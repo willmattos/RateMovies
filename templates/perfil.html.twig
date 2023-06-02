@@ -11,25 +11,34 @@ const ruta_crear_seguir = "{{ path('darSeguir') }}";
 const ruta_usuario_perfil = "{{ path('usuario', {'username' : 'numero' }) }}";
 const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'titulo' }) }}";{% if app.user is not null %}const username = "{{ app.user.getUsuario() }}";{% if app.user.getFoto() is not null %}const userfoto = "{{ asset('Usuario/') }}u{{ app.user.getCodigo() }}/{{ app.user.getFoto() }}";
 {% else %}
-const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% if app.user is not null and usuario.getCodigo() == app.user.getCodigo() %}const usuario_visita = false;
+const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% if app.user is not null and usuario.getCodigo() == app.user.getCodigo() %}
+const usuario_visita = false;
+const aceptarfoto = "{{asset('iconos/marca-de-verificacion.png')}}";
+const cancelarfoto = "{{asset('iconos/error.png')}}";
+const img_modificar_foto = "{{asset('iconos/boton-editar.png')}}";
+const ruta_actualizar_perfil = "{{path('actualizarUsuario')}}";
+const ruta_actualizar_foto = "{{path('actualizarFoto')}}";
 {% else %}
-const usuario_visita = true;{% endif %}{% endif %}</script><script src="{{asset("js/perfil.js")}}" defer></script><script src="{{asset("js/critica.js")}}" defer></script>{% endblock %}{% block body %}
-<section>
+const usuario_visita = true;{% endif %}{% endif %}</script><script src="{{asset("js/perfil.js")}}" defer></script><script src="{{asset("js/critica.js")}}" defer></script>{% endblock %}{% block body %}<section>
 <div class="cabecera">
+
 	{% if usuario.getFoto() is not null %}
 		<img src="{{asset('Usuario/')}}u{{usuario.getCodigo()}}/{{usuario.getFoto()}}" alt="foto usuario" class="foto">
 	{% else %}
 		<img src="{{asset('iconos/default-user.jpg')}}" alt="foto usuario" class="foto">
 	{% endif %}
 	<div class="datos">
-		<div class="usuario">{{usuario.getUsuario()}}
-			{% if app.user is not null and usuario.getCodigo() != app.user.getCodigo() %}
-				{% if es_seguido is not null %}
-					<div class="follow {{usuario.getCodigo()}}">UnFollow</div>
+		<div class="usuario"><div class='usuario_perfil'>{{usuario.getUsuario()}}</div>
+			{% if app.user is not null %}
+				{% if usuario.getCodigo() != app.user.getCodigo() %}
+					{% if es_seguido is not null %}
+						<div class="follow {{usuario.getCodigo()}}">UnFollow</div>
+					{% else %}
+						<div class="follow {{usuario.getCodigo()}}">Follow</div>
+					{% endif %}
 				{% else %}
-					<div class="follow {{usuario.getCodigo()}}">Follow</div>
+					<img  class="editar_perfil" src="{{asset('iconos/configuraciones.png')}}" alt="modificar perfil">
 				{% endif %}
-
 			{% endif %}
 		</div>
 		<div class="correo">{{usuario.getCorreo()}}</div>
@@ -110,7 +119,7 @@ const usuario_visita = true;{% endif %}{% endif %}</script><script src="{{asset(
 					<div class="comentario_datos">
 						<div class="enlace nombre_usuario">{{ critica.getUsuario().getUsuario() }}</div>
 						<div>{{ critica.getFecha()|date('Y/m/d H:i:s') }}</div>
-						<div>{{ critica.getContenido().getTitulo() }}</div>
+						<div class='nombre_contenido' data-codigo="{{critica.getContenido().getCodigo()}}" data-nombre="{{critica.getContenido().getTitulo()}}">{{ critica.getContenido().getTitulo() }}</div>
 					</div>
 					<div class="texto">{{ critica.getComentario()|escape|nl2br }}</div>
 					<div class="like">

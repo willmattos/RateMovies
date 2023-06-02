@@ -15,13 +15,16 @@
   background-color: #e4e4e4;
 }
 .usuario {
+  height: 2rem;
   font-size: 2rem;
   font-weight: 350;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
 }
+.usuario 
 .crearComentario{
   display: flex;
   align-items: center;
@@ -61,7 +64,7 @@
   font-weight: 650;
 }
 .nombre_usuario,
-.darLike {
+.darLike,.nombre_contenido {
   cursor: pointer;
   transition: font-weight 0.3s ease;
   -webkit-transition: font-weight 0.3s ease;
@@ -70,7 +73,7 @@
   -o-transition: font-weight 0.3s ease;
 }
 .nombre_usuario:hover,
-.darLike:hover {
+.darLike:hover,.nombre_contenido:hover {
   font-weight: 650;
 }
 .criticas {
@@ -150,6 +153,9 @@
   align-items: center;
   gap: 1rem;
 }
+.like{
+  flex-wrap: wrap;
+}
 .titulo {
   font-size: 2rem;
 }
@@ -211,4 +217,12 @@
 }
 .miLike:hover {
   font-weight: 200 !important;
+}
+
+@media (max-width: 500px) {
+  .critica .card{
+    display: none;
+  }
+  /* mobile mode */
+
 }
