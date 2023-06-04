@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 04-06-2023 a las 21:22:47
+-- Tiempo de generación: 04-06-2023 a las 21:54:23
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -67,7 +67,7 @@ CREATE TABLE `contenido` (
 -- Volcado de datos para la tabla `contenido`
 --
 
-INSERT INTO `contenido` (`codigo`, `titulo`, `alias`, `descripcion`, `estreno`, `poster`, `portada`,`serie`) VALUES
+INSERT INTO `contenido` (`codigo`, `titulo`, `alias`, `descripcion`, `estreno`, `poster`, `portada`, `serie`) VALUES
 (1, 'El resplandor', NULL, 'Jack Torrance, un escritor ex-alcoholico, acepta un puesto como vigilante de invierno en un solitario hotel de alta montana al que se traslada con su familia. Una vez alli, empieza a sufrir inquietantes trastornos de personalidad.', '2016-12-06', 'poster.jpeg', '58f6150cea080-e1492522867783.jpg.webp', NULL),
 (2, 'Letras Explicitas', NULL, 'En 1987, cinco jovenes, utilizando rimas brutalmente honestas y bases musicales pesadas, expresan su frustracion y enojo sobre la vida en el lugar mas peligroso de Estados Unidos utilizando el arma mas poderosa que tenian: su musica.', '1998-07-31', 'Straight_Outta_Compton.jpeg', '150811061628-compton-1-780x439.webp', NULL),
 (3, 'Alien: El octavo pasajero', NULL, 'De regreso a la Tierra, la nave de carga Nostromo interrumpe su viaje y despierta a sus siete tripulantes. El ordenador central, MADRE, ha detectado la misteriosa transmision de una forma de vida desconocida, procedente de un planeta cercano aparentemente deshabitado.', '2003-09-26', 'alien.jpeg', 'e8e08dbc-3d7a-4549-a254-95cc164f7781_alta-libre-aspect-ratio_default_0.jpg', NULL),
@@ -92,10 +92,9 @@ INSERT INTO `contenido` (`codigo`, `titulo`, `alias`, `descripcion`, `estreno`, 
 (22, 'Space Jam', NULL, 'Bugs Bunny y su equipo desafian a los Nerdlucks (un grupo de pequenos extraterrestres) a un partido de baloncesto para decidir si los Looney Tunes permanecen en la Tierra o se trasladan a una lejana galaxia para trabajar en un parque de atracciones de Montana Tontolandia.', '2014-03-27', '895501b7c879f8b8b236524db91ee9ab.jpg', 'MV5BZWI3YWI1ZDYtODhhMS00NjI1LWFmZTEtZTBkMDM2NDJkNmU2XkEyXkFqcGdeQVRoaXJkUGFydHlJbmdlc3Rpb25Xb3JrZmxvdw@@._V1_.jpg', NULL),
 (23, 'Buscando a Nemo', NULL, 'El pececillo Nemo, que es hijo unico, es muy querido y protegido por su padre. Despues de ser capturado en un arrecife australiano va a parar a la pecera de la oficina de un dentista de Sidney. Su timido padre emprendera una peligrosa aventura para rescatarlo.', '1999-12-24', 'buscando_a_nemo.jpg', 'Disney-debuta-la-camara-de-arrecife-de-Finding-Nemo-Dory-780x470.jpg', NULL),
 (24, 'Solo por dinero', NULL, 'Una mujer divorciada y desempleada se transforma en una caza-recompensas para sobrevivir, esto la lleva a un caso muy dificil que involucra a su ex-novio de preparatoria.  ', '2005-07-13', 'one_for_the_money-354085522-large.jpg', 'La_cazarrecompensas-381656795-large.jpg', NULL),
-(26, 'Sin limites', NULL, 'Con su carrera como escritor hundiendose, Eddie Morra le da un giro a su vida despues de tomar una droga que proporciona un enfoque mental asombroso.  ', '2010-07-29', 'sin_limitesjpg', 'sin_limites_pelicula.jpg', NULL),
 (27, 'Sin escape', NULL, 'Cuando un adolecente encuentra su foto de nino en un sitio web de personas extraviadas. Comienza a cuestionarse todo lo que ha conocido.    ', '2005-07-14', '5c24e8b5dde36e5bef5865597.jpg', 'sin-escape.jpg', NULL),
 (28, 'Sin nombre', NULL, 'Huyendo de una pandilla, Casper aborda un tren rumbo al Norte para comenzar de cero en otro pais, Esquivando varios peligros, hace amistad con Sayra, una chica hondurena.  ', '2009-07-22', 'sin_nombre.jpg', '33122313123213131.jpg', NULL),
-(29, 'Los 4 fantasticos', NULL, 'Cuatro jovenes cientificos alcanzan habilidades super-humanas cuando un experimento de tele-transportador sale mal. ahora, deben de aprender a usar sus nuevos poderes para salvar al mundo de un tirano en ascenso.  ', '2020-03-03', 'los_4_fantasticosjpg', '1233adD_4_fantasticos.jpg', NULL),
+(29, 'Los 4 fantasticos', NULL, 'Cuatro jovenes cientificos alcanzan habilidades super-humanas cuando un experimento de tele-transportador sale mal. ahora, deben de aprender a usar sus nuevos poderes para salvar al mundo de un tirano en ascenso.  ', '2020-03-03', 'los_4_fantasticosjpg.jpg', '1233adD_4_fantasticos.jpg', NULL),
 (30, 'Max', NULL, 'Un perro que ayudo a los soldados Afganistan regresa a los Estados Unidos y es adoptado por la familia de su adiestrador despues de vivir una experiencia traumatica.  ', '1998-09-13', 'max.jpg', 'maxresdefault.jpg', NULL),
 (31, 'Vacaciones', NULL, 'Un maduro Rusty Griswold sorprende a su esposa, Debbie, y a sus dos hijos con una travesia de vuelta al parque de diversiones preferida de la familia en Estados Unidos, Walley World.  ', '2012-12-23', 'vacaciones.jpg', '2693c24a-f9e4-48a0-a08b-02595bb2ef6e_1140x641.jpg', NULL),
 (32, 'Mision Imposible 5', NULL, 'Ethan y su equipo regresan para una mision aun mas imposible: erradicar al Syndicato, una organizacion internacional tan bien entrenada como ellos, y destina a destruir al IMF.  ', '2002-07-08', '11266619-10153122819937730-9045367438836263730-o_be95.jpg', '413717.jpg', NULL),
@@ -172,7 +171,6 @@ INSERT INTO `contenido` (`codigo`, `titulo`, `alias`, `descripcion`, `estreno`, 
 (104, 'Tron', NULL, 'Mientras investiga la desaparicion de su pader, Sam Flynn aterriza en un mundo computarizado de gladiadores esclavizados, donde su padre ha estado viviendo por 20 anos.  ', '2022-02-20', 'tron.jpg', 'a4960e7b-0001-0004-0000-000000172729_w920_r1.7794253938832252_fpx29.17_fpy49.96.jpg', NULL),
 (105, 'Up: Una aventura de altura', NULL, 'Carl es un anciano de 78 anos que lleva toda la vida sonando con viajar. A esta edad y junto a un joven boy scout se enfrenta a la aventura de su vida.  ', '2009-03-20', 'up.jpg', '3525728209_eff410b9b6.jpg', NULL),
 (106, 'Recuerda este domingo', NULL, 'Una mesera solitaria conoce a un hombre lindo y excentrico, pero al tiempo se da cuenta de que le esta ocultando algo.    ', '2021-08-11', '1a07bbc6cc9f2578e45a4299a05e7105.jpg', '1200x675.jpg', NULL),
-(107, 'La vida segura Grata', NULL, 'En esta historia de transicion a la edad adulta, una adolescente autodestructora va a pasar el verano de sus abuelos que estaban tan tranquilos.  ', '2002-07-21', NULL, NULL, NULL),
 (108, 'Amor de Verano', NULL, 'Este drama sobre la transicion a la vida adulta narra la historia de una adolecente poco femenina mientras lidia con su sensualidad emergente y su hermana mayor.  ', '2021-04-12', 'amor_de_verano.jpg', 'Un_amor_de_verano_La_belle_saison-874677580-large.jpg', NULL),
 (109, 'Si decido quedarme', NULL, 'Una prodigio musical de 17 anos cae en coma luego de un tragico accidente automovilistico y tiene una experiencia extracorporal que pondra en juego su propio destino.  ', '2009-04-17', 'si_decido_quedarme.jpg', 'si-decido-quedarme-2.jpg', NULL),
 (110, '3 metros sobre el cielo', NULL, 'Un drama romantico que narra la historia de dos jovenes que pertenecen a mundos opuestos. Ella es una chica de clase media educada en la bondad y el un chico rebelde.  ', '2017-01-02', '3msc.jpg', '2fee76e54edd.jpg', NULL),
@@ -207,7 +205,6 @@ INSERT INTO `contenido` (`codigo`, `titulo`, `alias`, `descripcion`, `estreno`, 
 (139, 'Amigos intocables', NULL, 'Una conmovedora historia basada en hechos reales en la que un cuadriplejico contrata a un joven delicuente como su cuidador. La relacion entre ambos cambiara sus vidas.  ', '2015-04-04', 'intocables.jpg', 'Paseando-a-Francois-Cluzet.jpg', NULL),
 (140, 'Las horas contigo', NULL, 'Una joven con un embarazo no deseado enfrenta sus miedos a la perdida y a la maternidad mientras pasa el tiempo con su abuela agonizada.    ', '1998-09-26', 'las-horas-contigo.jpg', 'horas-contigo.jpg', NULL),
 (141, 'Luna nueva', NULL, 'Bella sufre por la partida de su amor vampiro, edwars y encuentra consuelo en la amistad con Jacob un hombre lobo.    ', '2003-06-09', 'luna_nueva.jpg', '315372_1140x516.jpg', NULL),
-(142, 'Tributo a mi madre', NULL, 'Al morir su abuela, una antigua estrella infantil se muda a la granja familiar y se entera de secretos sorprendetentes de su madre.    ', '2017-05-22', NULL, NULL, NULL),
 (143, 'Recuerdame', NULL, 'Dolido aun por un desgarrador suceso familiar, Tyler se siente revivir cuando conoce a una belleza muy sociable con su pasado similiar al suyo.    ', '2016-12-02', 'recuerdame.jpg', 'dmdfIman0PmPpFPJJJYQvPjlVyP.jpg', NULL),
 (144, 'Diario de una pasion', NULL, 'En esta adaptacion del exito editorial del Nicholas Sparks, la guerra y las diferencias de clase dividen a dos jovenes amantes en la decada del cuarenta.  ', '2019-08-30', 'diario_de_noah.jpg', 'descarga.jpg', NULL),
 (145, 'La dama de oro', NULL, 'Seis decadas despues del Holocausto, Maria Altmann inicia una odisea para recuperar las obras de arte (incluso de Gustav Klimt) que los nazis le robaran a su familia.  ', '2018-03-17', 'la_dama_de_oro.jpg', 'la-dama-de-oro-pelicula-2015-01.jpg', NULL),
@@ -229,7 +226,6 @@ INSERT INTO `contenido` (`codigo`, `titulo`, `alias`, `descripcion`, `estreno`, 
 (161, 'El refugio', NULL, 'El personal tiene la dificil tarea de arreglar los problemas entre estas personas: las mujeres y los ninos primero, luego los hombres, solo hay 100 cupos.  ', '2001-12-27', 'el_refugio.jpg', 'RJR3QZJ5QVD3DKBWAPTCHNWR5E.jpg', NULL),
 (162, 'Al fin del mundo', NULL, 'Tolhuin, es un remoto pueblo adentrado en las entranas del extremo sur en Argentina nadie va alli, nadie se queda tampoco por el frio y la carencia de comodidades.  ', '2003-04-06', 'al_fin_del_mundo.jpg', 'Captura de pantalla 2023-06-04 005007.png', NULL),
 (163, 'Muros', NULL, 'Una pared separa, segrega, aisla es no-imagen. Muros es un documental que narra la realidad de algunos territorios disputados en todo el mundo.  ', '1999-01-14', 'Muros-157133034-mmed.jpg', '10296-n2.webp', NULL),
-(164, 'Lucha por el patrimonio', NULL, 'En el corazon de la ultima region salvaje de Australia, una comunidad aborigen, el Goolarabooloo, debe lidiar con el proyecto de desarrollo de la mayor fabrica de gas en el mundo, con el apoyo del gobierno.  ', '2008-03-08', NULL, NULL, NULL),
 (165, 'En los ojos de la memoria', NULL, '1985 fue el ano en el que la Villa turistica Epecuen, ubicada en la provincia de Buenos Aires, se vio perjudicada luego de que una viga de contencion cedio y provoco un accidente que termino en inundacion.  ', '2015-06-07', 'en_los_ojos_de_la_memoria-350579744-large.jpg', 'enLosOjosDeLaMemoria.jpg', NULL),
 (166, 'Francisco', NULL, 'Como logra ser el Papa Francisco un joven timido que hallo su vocacion religiosa un dia de la de floracion (Dario Gandinetti)?    ', '2015-09-15', 'francisco.jpg', '1595934213005.jpg', NULL),
 (167, 'Bill', NULL, 'Bill cuenta la historia de lo que realmente sucedio durante los anos perdidos de Shakespeare...Bill Shakespeare deja a su familia y su hogar para seguir su sueno.  ', '2010-06-11', 'bill.jpg', 'maxresdefault.jpg', NULL),
@@ -238,10 +234,11 @@ INSERT INTO `contenido` (`codigo`, `titulo`, `alias`, `descripcion`, `estreno`, 
 (170, 'Frida', NULL, 'Pelicula biografica de la que en vida fue la pintora mas revolucionaria tanto en ideas como en su sexualidad. Frida Kahlo, tuvo muchisimo amores, con mujeres como con hombres, en su afan de experimentar y marcar bien sus limites con conocimiento de causa.', '2016-09-23', 'Frida-887160812-large.jpg', 'frida.jpg', NULL),
 (171, 'Dragon: La vida de Bruce Lee', NULL, 'Cinta biografica, que retrata de una forma clara, la verdadera historia del rey del Kung Fu: Bruce Lee. Bruce Lee, habria muerto dias antes de estrenarse la cinta mas taquillera de todos los tiempos en Artes marciales, Operacion Dragon.', '1999-02-19', 'dragon_bruce_lee.jpg', 'jLHEJba6m2SJKzMJRzVaoFGCbg2.jpg', NULL),
 (172, 'Zapata: El sueno del heroe', NULL, 'Cinta dirigida por Alfonso Arau, la misma que esta protagonizada por la gran Lucero y Alejandro Fernandez. Desarrolla la historia de Emiliano Zapata, un hombre, valiente y aguerrido que dio su vida durante la revolucion mexicana.', '2017-01-02', 'zapata.jpg', '175938_945x532.jpg', NULL),
-(173, 'Cleopatra', NULL, 'Cinta historica, que desarrolla lo mejor de la vida de la mas aclamada mujer egipcia: Cleopatra. Por muchos siglos ha sido recordada, y hasta la actualidad es un referente de belleza, inteligencia y caracter.  ', '1999-01-09', 'Cleopatra_poster.jpg', 'cleopatra-2.jpg', NULL),
+(173, 'Cleopatra', NULL, 'Cinta historica, que desarrolla lo mejor de la vida de la mas aclamada mujer egipcia: Cleopatra. Por muchos siglos ha sido recordada, y hasta la actualidad es un referente de belleza, inteligencia y caracter.  ', '1999-01-09', 'Cleopatra_poster.jpg', 'cleopatra-2.jpg', NULL);
+INSERT INTO `contenido` (`codigo`, `titulo`, `alias`, `descripcion`, `estreno`, `poster`, `portada`, `serie`) VALUES
 (174, 'El solista', NULL, 'Pelicula dirigida por Joe Wright, y que esta basada en hechos reales, pues desarrolla la historia de Nathaniel Ayers, un talentoso musico que durante sus estudios cayo en la enfermedad de la esquizofrenia y por ello no pudo terminar sus estudios.', '2016-11-30', 'el_solista.jpg', 'el-solista-2.jpg', NULL),
 (175, 'Sin limites', NULL, 'Pelicula biografica, que desarrolla la historia de Salvador Dali, junto a otros dos estudiantes, que con el tiempo, formarian parte de los mayores exponentes de la literatura.  ', '2007-11-27', 'sin_limites.jpg', 'sin-limites-2.jpg', NULL),
-(176, 'Ali', NULL, 'Pelicula biografica del peleador profesional Muhammad Ali, desde sus inicios en un pequeno y humilde barrio hasta su exito en las peleas mas dificiles que le toco vivir.  ', '2001-07-18', 'Ali-671341366-large.jpg', '161831173472014_cine_ATV_Ali.jpg', NULL),
+(176, 'Ali', NULL, 'Pelicula biografica del peleador profesional Muhammad Ali, desde sus inicios en un pequeno y humilde barrio hasta su exito en las peleas mas dificiles que le toco vivir.  ', '2001-07-18', 'q.jpg', '161831173472014_cine_ATV_Ali.jpg', NULL),
 (177, 'Sugar', NULL, 'Excelente cinta biografica, que desarrolla la historia de Miguel Sugar, Santos, o como sus amigos le decian Sugar. Considerado uno de los mejores jugadores en la historia del Beisbol dominicano.  ', '2003-01-08', 'sugar.jpg', '15bf8d6560a91e6b43feee0a870c435f157f2b37601e898f4088c4d8130743c6._RI_TTW_.jpg', NULL),
 (178, 'Howl. La voz de una generacion', NULL, 'Pelicula Biografica de Allen Ginsberg, un icono de la cultura Beat y el movimiento Hippie. Howl (Aullido).    ', '2007-04-06', 'howl-383363751-large.jpg', '450_1000.jpg', NULL),
 (179, 'Notorious', NULL, 'Biopic de la vida del famoso rapero Notorious B.I.G., un voluminoso cantante de rap neoyorquino que irrumpio con fuerza en el mundo de la musica del hip hop.  ', '2015-08-03', 'notorious.jpg', 'notorious-2.jpg', NULL),
@@ -250,7 +247,7 @@ INSERT INTO `contenido` (`codigo`, `titulo`, `alias`, `descripcion`, `estreno`, 
 (182, 'Gandhi', NULL, 'En el ano 1982, esta pelicula es merecedora a 8 oscares, y obtuvo 11 nominaciones. Pelicula biografica sobre la vida de Mahatma Gandh, un gran hombre, con ferviente creencia en la paz y en la capacidad de ser escuchados sin necesidad de guerras y muertes.', '2015-08-30', 'Gandhi-movie-Poster.jpg', 'AAAABeRa8Hy-QjpdMbhywpbwp-50mygXxTuSPPhrZ2-TwDYe3XJ98nPJlmMeJDyqU3QZId5OqAixAnQvYtlMZaj_lOdINP6hxEYlqbwa.jpg', NULL),
 (183, '12 anos de esclavitud', NULL, 'Basada en la novela homonima de Solomon Northup, inspirada en hechos reales. Tras beber dos copas con desconocidos, el musico negro de New York, Solomon Northup es vendido como esclavo en el sur de Louisiana.  ', '2012-03-03', '12_anos_de_esclavitud.jpg', 'descarga.jpg', NULL),
 (184, 'Shine', NULL, 'Basada en hechos reales, narra la historia de David Helfgott, un brillante y virtuoso pianista australiano cuya insoportable presion paterna le traumatizo hasta el punto de alcanzar estados de demencia y sufrir internamiento en un asilo.', '2009-08-03', '20135577.webp', '772ee67722549180b150765fb851a3fd7c7372be413ea1b5dff54a56baf4fdfe._RI_TTW_.jpg', NULL),
-(185, 'Mandela: Del mito al hombre', NULL, 'Biopic que narra la historia de Nelson Mandela, desde sus inicios como abogado en el Congreso Nacional de Africa en 1940, cuando la ley Apartheid estaba expandida.  ', '2014-12-23', 'mandela.jpg', 'mandela-del-mito-al-hombre-4.jpg', NULL);
+(185, 'Mandela: Del mito al hombre', NULL, 'Biopic que narra la historia de Nelson Mandela, desde sus inicios como abogado en el Congreso Nacional de Africa en 1940, cuando la ley Apartheid estaba expandida.  ', '2014-12-23', 'mandela.jpg', 'mandela-del-mito-al-hombre-4.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -339,7 +336,6 @@ INSERT INTO `genero` (`codigo`, `cod_contenido`, `cod_genero`) VALUES
 (22, 22, 6),
 (23, 23, 5),
 (24, 24, 4),
-(26, 26, 4),
 (27, 27, 4),
 (28, 28, 4),
 (29, 29, 4),
@@ -419,7 +415,6 @@ INSERT INTO `genero` (`codigo`, `cod_contenido`, `cod_genero`) VALUES
 (104, 104, 3),
 (105, 105, 3),
 (106, 106, 7),
-(107, 107, 7),
 (108, 108, 7),
 (109, 109, 7),
 (110, 110, 7),
@@ -454,7 +449,6 @@ INSERT INTO `genero` (`codigo`, `cod_contenido`, `cod_genero`) VALUES
 (139, 139, 8),
 (140, 140, 8),
 (141, 141, 8),
-(142, 142, 8),
 (143, 143, 8),
 (144, 144, 8),
 (145, 145, 8),
@@ -476,7 +470,6 @@ INSERT INTO `genero` (`codigo`, `cod_contenido`, `cod_genero`) VALUES
 (161, 161, 9),
 (162, 162, 9),
 (163, 163, 9),
-(164, 164, 9),
 (165, 165, 9),
 (166, 166, 2),
 (167, 167, 2),
@@ -581,9 +574,9 @@ CREATE TABLE `siguiendo` (
 --
 
 INSERT INTO `siguiendo` (`codigo`, `usuario`, `siguiendo`) VALUES
-(2, 1, 3),
 (5, 1, 4),
-(6, 1, 2);
+(6, 1, 2),
+(9, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -633,7 +626,8 @@ INSERT INTO `valora` (`codigo`, `puntuacion`, `cod_contenido`, `cod_usuario`) VA
 (1, 5, 1, 1),
 (2, 5, 7, 1),
 (3, 5, 76, 1),
-(4, 5, 19, 1);
+(4, 5, 19, 1),
+(5, 5, 45, 1);
 
 -- --------------------------------------------------------
 
@@ -653,31 +647,13 @@ CREATE TABLE `visitas` (
 --
 
 INSERT INTO `visitas` (`codigo`, `cod_contenido`, `fecha`, `contador`) VALUES
-(16, 6, '2023-06-04', 4),
-(17, 100, '2023-06-04', 2),
-(18, 5, '2023-06-04', 2),
-(19, 24, '2023-06-04', 2),
-(20, 41, '2023-06-04', 1),
-(21, 8, '2023-06-04', 1),
-(22, 39, '2023-06-04', 1),
-(23, 18, '2023-06-04', 1),
-(24, 40, '2023-06-04', 14),
-(25, 7, '2023-06-04', 3),
-(26, 43, '2023-06-04', 2),
-(27, 56, '2023-06-04', 1),
-(28, 57, '2023-06-04', 4),
-(29, 15, '2023-06-04', 1),
-(30, 9, '2023-06-04', 1),
-(31, 23, '2023-06-04', 2),
-(32, 49, '2023-06-04', 1),
-(33, 13, '2023-06-04', 1),
-(34, 22, '2023-06-04', 2),
-(35, 76, '2023-06-04', 1),
-(36, 12, '2023-06-04', 1),
-(37, 20, '2023-06-04', 4),
-(38, 28, '2023-06-04', 2),
-(39, 48, '2023-06-04', 1),
-(40, 96, '2023-06-04', 1);
+(48, 45, '2023-06-04', 6),
+(49, 43, '2023-06-04', 1),
+(50, 1, '2023-06-04', 1),
+(51, 61, '2023-06-04', 1),
+(52, 29, '2023-06-04', 1),
+(53, 176, '2023-06-04', 1),
+(55, 175, '2023-06-04', 1);
 
 --
 -- Índices para tablas volcadas
@@ -856,7 +832,7 @@ ALTER TABLE `reparto`
 -- AUTO_INCREMENT de la tabla `siguiendo`
 --
 ALTER TABLE `siguiendo`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -868,13 +844,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `valora`
 --
 ALTER TABLE `valora`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `visitas`
 --
 ALTER TABLE `visitas`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- Restricciones para tablas volcadas
