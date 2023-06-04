@@ -42,9 +42,9 @@ class Contenido
      */
     private $portada;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
-    private $trailer;
+    private $serie;
 
     private $generos;
     private $ownlike;
@@ -101,14 +101,6 @@ class Contenido
     {
         $this->portada = $portada;
     }
-    public function getTrailer()
-    {
-        return $this->trailer;
-    }
-    public function setTrailer($trailer)
-    {
-        $this->trailer = $trailer;
-    }
 
     /**
      * Get the value of generos
@@ -145,6 +137,26 @@ class Contenido
     public function setOwnlike($ownlike)
     {
         $this->ownlike = $ownlike;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of serie
+     */
+    public function getSerie()
+    {
+        return $this->serie;
+    }
+
+    /**
+     * Set the value of serie
+     *
+     * @return  self
+     */
+    public function setSerie($serie)
+    {
+        $this->serie = $serie;
 
         return $this;
     }

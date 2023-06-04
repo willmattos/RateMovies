@@ -46,7 +46,7 @@ class WebController extends AbstractController
         for ($i = 0; $i < count($results); $i++) {
             $popular[] = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $results[$i]]);
         }
-        shuffle($popular);
+        if($popular)shuffle($popular);
         // shuffle($destacados);
 
         $novedades = $entityManager->getRepository(Contenido::class)->findBy([], ['estreno' => 'DESC'], 16);
@@ -81,6 +81,9 @@ class WebController extends AbstractController
                 $queryBuilder->andWhere($queryBuilder->expr()->like('LOWER(c.titulo)', ':titulo'))
                     ->orWhere($queryBuilder->expr()->like('LOWER(c.alias)', ':titulo'))
                     ->setParameter('titulo', '%' . $titulo . '%');
+            }
+            if (isset($_POST['tipo'])) {
+                $queryBuilder->andwhere($queryBuilder->expr()->in('c.serie', $_POST['tipo']));
             }
             if (isset($_POST['generos']) && $_POST['generos']) {
                 $filtros['generos'] = $_POST['generos'];

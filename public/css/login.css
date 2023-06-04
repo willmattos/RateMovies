@@ -5,7 +5,7 @@ section {
   justify-content: center;
   align-items: center;
 }
-form {
+section form {
   padding: 3rem 0;
   border-radius: 10px;
   background: rgb(243, 243, 243);
@@ -16,16 +16,16 @@ form {
   align-items: center;
   justify-content: center;
 }
-form > * {
+section form > * {
   margin-bottom: 0.625rem;
   max-width: 70%;
 }
 p,
-form a {
+section form a {
   text-align: center;
 }
-form input:focus,
-form input {
+section form input:focus,
+section form input {
   padding: 1rem;
   outline: none;
 }
@@ -34,7 +34,7 @@ form input {
   flex-direction: column;
   width: 20rem;
 }
-form img {
+section form img {
   width: 2rem;
   position: absolute;
   right: 0;
@@ -46,10 +46,10 @@ form img {
 .credenciales div{
   position: relative;
 }
- form label {
+section form label {
   margin-bottom: 0.625rem;
 }
-form input,
+section form input,
 .credenciales div {
   display: flex;
   background-color: #ffffff;
@@ -57,10 +57,15 @@ form input,
   border: 0;
   height: 2rem;
 }
- form button {
+section form button {
   padding: 0.2rem 0.5rem;
   transform: scale(1.05);
 }
-a,button, form img{
+a,button, section form img{
   cursor: pointer;
+}
+@media (max-width: 340px) {
+  section form{
+    width: 100%;
+  }
 }

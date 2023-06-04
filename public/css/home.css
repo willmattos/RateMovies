@@ -33,12 +33,16 @@
 .titulo,.card-heading {
   font-size: 2rem;
 }
+.titulo{
+  padding-left: 1rem;
+}
 .categoria_box {
   display: flex;
   font-size: 1rem;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   gap: 0.5rem;
+  padding: 0 1rem;
 }
 .card-heading{
   color: #fff;

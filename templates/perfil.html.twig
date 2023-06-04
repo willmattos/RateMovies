@@ -79,22 +79,9 @@ const usuario_visita = true;{% endif %}{% endif %}
 		</div>
 		<div class="seccion">
 			<div class="titulo">Following</div>
-			<div class="seguidores_box">
-				{# {% for following in followings %}
-					<div>
-						{% if following.getFollowing().getFoto() is not null %}
-							<img src="{{asset('Usuario/')}}u{{following.getFollowing().getCodigo()}}/{{following.getFollowing().getFoto()}}" alt="foto usuario" class="foto">
-						{% else %}
-							<img src="{{asset('iconos/default-user.jpg')}}" alt="foto usuario" class="foto">
-						{% endif %}
-						<div class="enlace nombre_usuario">{{following.getFollowing().getUsuario()}}</div>
-						{% if app.user is not null and usuario.getCodigo() == app.user.getCodigo() %}
-							<div class="follow {{following.getFollowing().getCodigo()}} ">Unfollow</div>
-						{% endif %}
-					</div>
-				{% endfor %} #}
+			<div class="seguidores_box categoria_followings">
 				{% for grupo in followings|batch(2) %}
-					<div class="batch">
+					<div class="batch" style="display: none;">
 						{% for following in grupo %}
 							<div class="batch_usuarios">
 								{% if following.getFollowing().getFoto() is not null %}
@@ -111,12 +98,15 @@ const usuario_visita = true;{% endif %}{% endif %}
 					</div>
 				{% endfor %}
 			</div>
+			{% if followings is not empty %}
+				<div class="mas mas_followings">Ver más</div>
+			{% endif %}
 		</div>
 		<div class="seccion">
 			<div class="titulo">Followers</div>
-			<div class="seguidores_box">
+			<div class="seguidores_box categoria_followers">
 				{% for grupo in followers|batch(2) %}
-					<div class="batch">
+					<div class="batch" style="display: none;">
 						{% for follower in grupo %}
 							<div>
 								{% if follower.getFollower().getFoto() is not null %}
@@ -130,16 +120,18 @@ const usuario_visita = true;{% endif %}{% endif %}
 					</div>
 				{% endfor %}
 			</div>
+			{% if followers is not empty %}
+				<div class="mas mas_followers ">Ver más</div>
+			{% endif %}
 		</div>
-
 		<div class="seccion">
 			<div class="titulo">Favoritos</div>
-			<div class="categoria_box" id="contenedor_card">
+			<div class="categoria_box categoria_favoritos" id="contenedor_card">
 				{% for grupo in favoritos|batch(2) %}
 					<div class="batch" style="display: none">
 						{% for favorito in grupo %}
 							<div class="card" data-codigo="{{favorito.getContenido().getCodigo()}}" data-nombre="{{favorito.getContenido().getTitulo()}}">
-								<img class="img" src="{{asset('Contenido/c')}}{{favorito.getContenido().getCodigo()}}/poster/{{favorito.getContenido().getPoster()}}" alt="pelicula imagen">
+								<img class="img" src="{{asset('Contenido/c')}}{{favorito.getContenido().getCodigo()}}/poster/{{favorito.getContenido().getPoster()}}" alt="pelicula imagen" loading='lazy'>
 								{% if app.user is not null and app.user.getCodigo() == usuario.getCodigo() %}
 									<img class='corazon corazon_fav' src="{{asset('iconos/corazon.png')}}" alt="">
 								{% endif %}
@@ -149,7 +141,9 @@ const usuario_visita = true;{% endif %}{% endif %}
 					</div>
 				{% endfor %}
 			</div>
-			<div class="mas">Ver más</div>
+			{% if favoritos is not empty %}
+				<div class="mas mas_favoritos">Ver más</div>
+			{% endif %}
 		</div>
 		<div class="seccion">
 			<div class="titulo">Criticas recientes</div>

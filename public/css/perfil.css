@@ -6,6 +6,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding: 0 1rem;
 }
 .cabecera {
   display: flex;
@@ -243,6 +244,11 @@ section {
   height: 2rem;
   background-color: #e4e4e4;
   opacity: 0.5;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
 }
 .foto_fondo {
   object-fit: cover;

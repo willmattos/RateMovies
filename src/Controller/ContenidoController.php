@@ -12,6 +12,7 @@ use App\Entity\Generos;
 use App\Entity\Like;
 use App\Entity\Reparto;
 use App\Entity\Visita;
+use App\Entity\Valora;
 use Symfony\Component\Finder\Finder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -186,7 +187,11 @@ class ContenidoController extends AbstractController
 
             $entityManager->persist($contenido);
             $entityManager->flush();
-
+            if ($_POST['tipo']) {
+                $contenido->setSerie(0);
+            } else {
+                $contenido->setSerie(1);
+            }
             if (isset($_FILES['poster']) && strlen($_FILES['poster']['name'])) {
                 $this->guardarArchivo($contenido->getCodigo(), $_FILES['poster'], 1);
                 $contenido->setPoster($_FILES['poster']['name']);

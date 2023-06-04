@@ -1,12 +1,39 @@
 var modificarfoto;
 var fotohtml;
-function verMas() {
-  var ocultos = $(".categoria_box").children().filter(":hidden");
+function verFavoritos() {
+  var ocultos = $(".categoria_favoritos").children().filter(":hidden");
   if (ocultos.length > 0) {
-    $(".categoria_box").children(":hidden").first().css("display", "flex");
+    $(".categoria_favoritos")
+      .children(":hidden")
+      .first()
+      .css("display", "flex");
   }
-  if(ocultos.length == 1){
-    $(".mas").css('display','none');
+  if (ocultos.length == 1) {
+    $(".mas_favoritos").css("display", "none");
+  }
+}
+function verFollowings() {
+  var ocultos = $(".categoria_followings").children().filter(":hidden");
+  if (ocultos.length > 0) {
+    $(".categoria_followings")
+      .children(":hidden")
+      .first()
+      .css("display", "flex");
+  }
+  if (ocultos.length == 1) {
+    $(".mas_followings").css("display", "none");
+  }
+}
+function verFollowers() {
+  var ocultos = $(".categoria_followers").children().filter(":hidden");
+  if (ocultos.length > 0) {
+    $(".categoria_followers")
+      .children(":hidden")
+      .first()
+      .css("display", "flex");
+  }
+  if (ocultos.length == 1) {
+    $(".mas_followers").css("display", "none");
   }
 }
 $(".follow").click(function () {
@@ -140,12 +167,18 @@ function cancelarModificar(e) {
   $(this).prev().remove();
   $(".editar_foto").remove();
   $(".cabecera").prepend(fotohtml);
+  $(".usuario_perfil").html(username)
 }
-verMas();
-verMas();
-$(".mas").click(function(){
-  verMas()
-});
+verFavoritos();
+verFavoritos();
+verFollowings();
+verFollowings();
+verFollowers();
+verFollowers();
+
+$(document).on("click", ".mas_followings", verFollowings);
+$(document).on("click", ".mas_followers", verFollowers);
+$(document).on("click", ".mas_favoritos", verFavoritos);
 $(document).on("click", ".editar_perfil", modificarPerfil);
 $(document).on("click", ".cancelar_modificar", cancelarModificar);
 $(document).on("click", ".aceptar_modificar", aceptarModificar);
