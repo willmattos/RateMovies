@@ -1,16 +1,8 @@
-let contador;
-$("#select").change(function () {
-  if ($(this).val() == 0) {
-    $(".pelicula").css("display", "inline-flex");
-    $(".serie").css("display", "none");
-  } else {
-    $(".pelicula").css("display", "none");
-    $(".serie").css("display", "inline-flex");
-  }
-});
 $("input[type='file']").on("change", function () {
-  console.log($(this).attr('name'));
-  $(this).parent().next().attr("src", URL.createObjectURL($(this)[0].files[0]));
+  $(this)
+    .parent()
+    .next()
+    .attr("src", URL.createObjectURL($(this)[0].files[0]));
   // if ($(this).attr("name") == "poster") {
   // } else {
   //   $(".portada").attr("src", URL.createObjectURL($(this)[0].files[0]));
@@ -24,29 +16,35 @@ $(".file_delete").click(function () {
   $(this).prev().val("");
   $(this).remove();
 });
-$('#genero').on('keyup', function(event) {
-  if (event.key === ',' || event.key === ' ') {
-    var genero = $(this).val().replace(",","");
+$("#genero").on("keyup", function (event) {
+  if (event.key === "," || event.key === " ") {
+    var genero = $(this).val().replace(",", "");
     genero = genero.trim();
     console.log(genero);
-    $(this).val("")
-    if(genero.length > 0){
+    $(this).val("");
+    if (genero.length > 0) {
       genero = genero[0].toUpperCase() + genero.substring(1);
-      $(".generos").append($(`<div class='generos_contenido'>${genero} | X</div>`))
-      $('.genres').append($(`<input type="checkbox" name="generos[]" value="${genero}" checked>`))
+      $(".generos").append(
+        $(`<div class='generos_contenido'>${genero} | X</div>`)
+      );
+      $(".genres").append(
+        $(`<input type="checkbox" name="generos[]" value="${genero}" checked>`)
+      );
     }
   }
 });
-$('#reparto').on('keyup', function(event) {
-  if (event.key === ',') {
-    var actor = $(this).val().replace(",","");
+$("#reparto").on("keyup", function (event) {
+  if (event.key === ",") {
+    var actor = $(this).val().replace(",", "");
     actor = actor.trim();
     console.log(actor);
-    $(this).val("")
-    if(actor.length > 0){
+    $(this).val("");
+    if (actor.length > 0) {
       actor = actor[0].toUpperCase() + actor.substring(1);
-      $(".reparto").append($(`<div class='actor_reparto'>${actor} | X</div>`))
-      $('.actress').append($(`<input type="checkbox" name="reparto[]" value="${actor}" checked>`))
+      $(".reparto").append($(`<div class='actor_reparto'>${actor} | X</div>`));
+      $(".actress").append(
+        $(`<input type="checkbox" name="reparto[]" value="${actor}" checked>`)
+      );
     }
   }
 });

@@ -11,9 +11,7 @@ use App\Entity\Genero;
 use App\Entity\Generos;
 use App\Entity\Like;
 use App\Entity\Reparto;
-use App\Entity\Serie;
-use App\Entity\Usuario;
-use App\Entity\Valora;
+use App\Entity\Visita;
 use Symfony\Component\Finder\Finder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -130,17 +128,21 @@ class ContenidoController extends AbstractController
     public function darFavorito(Request $request)
     {
         $js['respuesta'] = false;
-        $codigo = $request->request->get('codigo');
+        $contenido = $request->request->get('codigo');
         $entityManager = $this->getDoctrine()->getManager();
-        if ($favorito = $entityManager->getRepository(Favorito::class)->findOneBy(['cod_contenido' => $codigo, 'cod_usuario' => $this->getUser()->getCodigo()])) {
-            $entityManager->remove($favorito);
-            $js['respuesta'] = 0;
-        } else {
-            $favorito = new Favorito();
-            $favorito->setCod_usuario($this->getUser()->getCodigo());
-            $favorito->setCod_contenido($codigo);
-            $entityManager->persist($favorito);
-            $js['respuesta'] = 1;
+        $contenido = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $contenido]);
+        if ($contenido) {
+            $js['respuesta'] = true;
+            if ($favorito = $entityManager->getRepository(Favorito::class)->findOneBy(['contenido' => $contenido, 'cod_usuario' => $this->getUser()->getCodigo()])) {
+                $entityManager->remove($favorito);
+                $js['tipo'] = 0;
+            } else {
+                $favorito = new Favorito();
+                $favorito->setCod_usuario($this->getUser()->getCodigo());
+                $favorito->setContenido($contenido);
+                $entityManager->persist($favorito);
+                $js['tipo'] = 1;
+            }
         }
         $entityManager->flush();
         return new JSONResponse($js);
@@ -173,21 +175,15 @@ class ContenidoController extends AbstractController
     #[Route('/crearContenido', name: 'crearContenido')]
     public function crearContenido(SessionInterface $session)
     {
-        if (isset($_POST['tipo'], $_POST['titulo'], $_POST['alias'], $_POST['fecha'], $_POST['fecha_inicio'], $_POST['fecha_fin'], $_POST['temporadas'], $_POST['episodios'], $_POST['trailer'], $_POST['descripcion']) && strlen($_POST['titulo'])) {
+        if (isset($_POST['tipo'], $_POST['titulo'], $_POST['alias'], $_POST['fecha'], $_POST['trailer'], $_POST['descripcion']) && strlen($_POST['titulo'])) {
             $entityManager = $this->getDoctrine()->getManager();
             $contenido = new Contenido();
             $contenido->setTitulo(ucfirst(trim($_POST['titulo'])));
             $contenido->setAlias(ucfirst(trim($_POST['alias'])));
             $contenido->setDescripcion(strlen($_POST['descripcion']) ? $_POST['descripcion'] : null);
             $contenido->setTrailer(strlen($_POST['trailer']) ? $_POST['trailer'] : null);
-            if (!$_POST['tipo']) {
-                $contenido->setEstreno(strlen($_POST['fecha']) >= 10  ? new \DateTime($_POST['fecha']) : null);
-            } else {
-                $contenido->setTemporadas(is_numeric($_POST['temporadas']) ? $_POST['temporadas'] : null);
-                $contenido->setEpisodios(is_numeric($_POST['episodios']) ? $_POST['episodios'] : null);
-                $contenido->setFecha_inicio(is_numeric($_POST['fecha_inicio']) ? $_POST['fecha_inicio'] : null);
-                $contenido->setFecha_fin(is_numeric($_POST['fecha_fin']) ? $_POST['fecha_fin'] : null);
-            }
+            $contenido->setEstreno(strlen($_POST['fecha']) >= 10  ? new \DateTime($_POST['fecha']) : null);
+
             $entityManager->persist($contenido);
             $entityManager->flush();
 
@@ -274,9 +270,28 @@ class ContenidoController extends AbstractController
                 }
 
                 $entityManager->remove($contenido);
+                $entityManager->flush();
             }
         }
         return $this->redirectToRoute('contenido', ['codigo' => $codigo]);
+    }
+    #[Route('/agregarVisita', name: 'agregarVisita')]
+    public function agregarVisita(Request $request)
+    {
+        $js['respuesta'] = false;
+        $codigo = $request->request->get('codigo');
+        $entityManager = $this->getDoctrine()->getManager();
+        if ($contenido = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
+            $visita = $entityManager->getRepository(Visita::class)->findOneBy(['contenido' => $contenido, 'fecha' => new \DateTime()]);
+            $visita = $visita ? $visita : new Visita();
+            $visita->setContenido($contenido);
+            $visita->setContador($visita->getContador() + 1);
+            $visita->setFecha(new \DateTime());
+            $entityManager->persist($visita);
+            $entityManager->flush();
+            $js['respuesta'] = true;
+        }
+        return new JsonResponse($js);
     }
     private function guardarArchivo($codigo, $file, $tipo)
     {

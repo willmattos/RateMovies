@@ -4,45 +4,58 @@
 {% block css %}
 	<link rel="stylesheet" href="{{ asset("css/catalogo.css") }}"></link>{% endblock %}{% block javascripts %}
 <script>
-	let ruta_admin = "{{ path('admin') }}"
+	const ruta_admin = "{{ path('admin') }}";
+const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'titulo' }) }}";
+const filtros = JSON.parse('{{ filtros | raw }}');
 </script>
 <script src="{{asset('js/catalogo.js')}}" defer></script>{% endblock %}{% block body %}
 <section>
-{{ dump() }}
-	<h2>Catálogo</h2>
-	<form class="container_filtros">
+	<div class="titulo">Catálogo</div>
+	<form class="container_filtros" action="{{path('catalogo')}}" method="post">
 		{% if generos is not null%}
 			<div class="filtros">
 				<div>Genero</div>
-				<ul class="option">
+				<ul class="option lista_generos">
 					{% for item in generos %}
-						<li><input type="checkbox" name="" id="{{item.getCodigo()}}"/>{{item.getNombre()}}</li>
+						<li><input type="checkbox" name="generos[]" value="{{item.getCodigo()}}"/>{{item.getNombre()}}</li>
 					{% endfor %}
 				</ul>
 			</div>
 		{% endif %}
 		<div class="filtros">
-			<div>Tipo</div>
+			<div>Ordenar</div>
 			<ul class="option">
-				<li><input type="checkbox" name="" id=""/>Pelicula</li>
-				<li><input type="checkbox" name="" id=""/>Serie</li>
+				<li><input type="checkbox" name="ordenar" value="1"/>Ascendente</li>
+				<li><input type="checkbox" name="ordenar" value="0"/>Descendente</li>
 			</ul>
 		</div>
 		<div class="filtros">
 			<div>Año</div>
 			<ul class="option">
-			{% for item in fecha %}
-				<li><input type="checkbox" value="{{item}}"/>{{item}}</li>
-			{% endfor %}
+				{% for item in fecha %}
+					<li><input type="checkbox" name='fecha[]' value="{{item}}"/>{{item}}</li>
+				{% endfor %}
 			</ul>
 		</div>
-		<div class="filtros">
-			<div>Filtrar</div>
+		<button>Filtrar</button>
+		{% if is_granted('ROLE_ADMIN') %}
+			<button type='button' class="admin">Agregar contenido</button>
+		{% endif %}
+	{% if titulo_buscar is not null %}
+		<div>
+			Filtros para:
+			<b>{{titulo_buscar}}</b>
 		</div>
-		<div class="filtros admin">
-			<div>
-				Agregar contenido
-			</div>
-		</div>
+		<input type="text" value="{{titulo_buscar}}" name="titulo" style="display:none;">
+	{% endif %}
 	</form>
+
+	<div class="categoria_box" id="contenedor_card">
+		{% for contenido in contenidos %}
+			<div class="card" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
+				<img class="img" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="{{contenido.getTitulo()}}" loading='lazy'>
+				<h3>{{contenido.getTitulo()}}</h3>
+			</div>
+		{% endfor %}
+	</div>
 </section>{% endblock %}

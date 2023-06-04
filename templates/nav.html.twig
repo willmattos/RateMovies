@@ -4,24 +4,16 @@
 		<i class="bx bx-menu"></i>
 	</label>
 	<label class="logo">
-		<span>RATEMOVIES</span>
+		<a href="{{path('home')}}">RATEMOVIES</a>
 	</label>
 	<ul>
 		<li class="search">
-			<div class="conten-box-search">
+			<form class="conten-box-search" action="{{path('catalogo')}}" method="post">
 				<div class="box">
-					<input type="text" placeholder="Search..."/>
+					<input type="text" name="titulo" placeholder="Search..."/>
 					<img src="{{asset("iconos/search-solid.svg")}}" alt=""/>
 				</div>
-			</div>
-		</li>
-		<li class="search">
-			<div class="conten-box-search">
-				<div class="box">
-					<input type="text" placeholder="Search..."/>
-					<img src="{{asset("iconos/search-solid.svg")}}" alt=""/>
-				</div>
-			</div>
+			</form>
 		</li>
 		<li>
 			<a href="{{path("home")}}" {# class="active" #}>home</a>

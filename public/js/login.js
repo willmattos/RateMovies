@@ -1,3 +1,4 @@
+
 $(".credenciales").eq(1).hide();
 $(".credenciales div img").on("click", () => {
   if ($("#clave").attr("type") == "password") {

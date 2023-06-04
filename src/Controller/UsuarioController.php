@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Notificacion;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -198,9 +197,8 @@ class UsuarioController extends AbstractController
     {
         $js = ['respuesta' => false];
         $entityManager = $this->getDoctrine()->getManager();
-        $usuario = $request->request->get('username') || "";
-        $usuario = trim($usuario);
-        if (!$entityManager->getRepository(Usuario::class)->findOneBy(['usuario' => $usuario])) {
+        $usuario = trim($request->request->get('username'));
+        if ($usuario && ($usuario == $this->getUser()->getUsuario() || !$entityManager->getRepository(Usuario::class)->findOneBy(['usuario' => $usuario]))) {
             $this->getUser()->setUsuario($usuario);
             $entityManager->flush();
             $js = ['respuesta' => true];

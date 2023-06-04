@@ -45,24 +45,9 @@ class Contenido
      * @ORM\Column(type="string")
      */
     private $trailer;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $temporadas;
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $episodios;
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $fecha_inicio;
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $fecha_fin;
-    
+
     private $generos;
+    private $ownlike;
 
     public function getCodigo()
     {
@@ -144,83 +129,22 @@ class Contenido
 
         return $this;
     }
-
     /**
-     * Get the value of temporadas
+     * Get the value of ownlike
      */
-    public function getTemporadas()
+    public function getOwnlike()
     {
-        return $this->temporadas;
+        return $this->ownlike;
     }
 
     /**
-     * Set the value of temporadas
+     * Set the value of ownlike
      *
      * @return  self
      */
-    public function setTemporadas($temporadas)
+    public function setOwnlike($ownlike)
     {
-        $this->temporadas = $temporadas;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of episodios
-     */
-    public function getEpisodios()
-    {
-        return $this->episodios;
-    }
-
-    /**
-     * Set the value of episodios
-     *
-     * @return  self
-     */
-    public function setEpisodios($episodios)
-    {
-        $this->episodios = $episodios;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of fecha_fin
-     */ 
-    public function getFecha_fin()
-    {
-        return $this->fecha_fin;
-    }
-
-    /**
-     * Set the value of fecha_fin
-     *
-     * @return  self
-     */ 
-    public function setFecha_fin($fecha_fin)
-    {
-        $this->fecha_fin = $fecha_fin;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of fecha_inicio
-     */ 
-    public function getFecha_inicio()
-    {
-        return $this->fecha_inicio;
-    }
-
-    /**
-     * Set the value of fecha_inicio
-     *
-     * @return  self
-     */ 
-    public function setFecha_inicio($fecha_inicio)
-    {
-        $this->fecha_inicio = $fecha_inicio;
+        $this->ownlike = $ownlike;
 
         return $this;
     }

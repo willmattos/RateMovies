@@ -13,7 +13,7 @@ const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'tit
 {% else %}
 const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}
 </script>
-<script src="{{asset("js/critica.js")}}" defer></script>{% endblock %}{% block body %}
+<script src="{{asset("js/critica.js")}}" defer></script><script src="{{asset("js/comunidad.js")}}" defer></script>{% endblock %}{% block body %}
 <section>
 	<div class="seccion">
 		<div class="titulo">Criticas recientes</div>
