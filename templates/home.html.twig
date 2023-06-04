@@ -1,9 +1,14 @@
 {% extends 'base.html.twig' %}
+{% block title %}Home
+{% endblock %}
 {% block css %}
 	<link rel="stylesheet" href="{{asset("css/home.css")}}"/>
 	<link rel="stylesheet" href="{{asset("css/splide.min.css")}}"/>
 {% endblock %}
 {% block javascripts %}
+	<script>
+		const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'titulo' }) }}";
+	</script>
 	<script src="{{asset("js/splide.min.js")}}"></script>
 	<script src="{{asset("js/home.js")}}" defer></script>
 {% endblock %}
@@ -13,65 +18,88 @@
 			<div class="splide" role="group" aria-label="Splide Basic HTML Example">
 				<div class="splide__track">
 					<ul class="splide__list">
-						{% for item in destacados %}
-							<li class="splide__slide">
-								<span class="splide_description">
-									<div class="card-category">{{item.getTipo()}}</div>
-									<h3 class="card-heading">{{item.getNombre()}}</h3>
-								</span>
-								<img src="conten/{{item.getPortada()}}" alt=""/>
-								<a href="#">
-									<span class="link"></span>
-								</a>
-							</li>
+						{% for contenido in destacados %}
+							{% if contenido.getPortada() is not null %}
+								<li class="splide__slide" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
+									<div class="card-heading">{{contenido.getTitulo()}}
+										({{contenido.getEstreno()|date('Y')}})</div>
+									<img class="portada" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/portada/{{contenido.getPortada()}}" alt="{{contenido.getTitulo()}}">
+								</li>
+							{% endif %}
 						{% endfor %}
 					</ul>
 				</div>
 			</div>
 		{% endif %}
-		{% if recomendados is not null %}
-			<div class="categoria_inicio">
-				<div>Recomendado</div>
-				<div class="categorias">
-					<a href="#">Peliculas</a>
-					<a href="#">Series</a>
-					<a href="#">Tendencias</a>
+		{# {% if recomendados is not null %}
+																																					<div class="categoria_inicio">
+																																						<div>Recomendado</div>
+																																						<div class="categorias">
+																																							<a href="#">Peliculas</a>
+																																							<a href="#">Series</a>
+																																							<a href="#">Tendencias</a>
+																																						</div>
+																																					</div>
+																																					<div class="categoria_box">
+																																						{% for item in recomendados %}
+																																							<div class="card">
+																																								<img src="poster/{{item.getPoster()}}" alt=""/>
+																																								<h3 class="card-heading">{{item.getTitulo()}}</h3>
+																																								<a href="#">
+																																									<span class="link"></span>
+																																								</a>
+																																							</div>
+																																						{% endfor %}
+																																					</div>
+																																				{% endif %}#}
+		{# {% if novedades is not null %}
+																					<div class="categoria_inicio">
+																						<div>Novedades</div>
+																						<div class="categorias">
+																							<a href="#">Peliculas</a>
+																							<a href="#">Series</a>
+																							<a href="#">Tendencias</a>
+																						</div>
+																					</div>
+																					<div class="categoria_box">
+																						{% for contenido in novedades %}
+																							<div class="card" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
+																								<img class="img" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
+																								<h3>{{contenido.getTitulo()}}</h3>
+																							</div>
+																						{% endfor %}
+																					</div>
+																				{% endif %} #}
+		{% if popular is not null %}
+			<div class="seccion">
+				<div class="titulo">Popular</div>
+				<div class="categoria_box">
+					{% for contenido in popular %}
+						{% if contenido.getPoster() is not null %}
+							<div class="card" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
+								<img class="img" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
+								<h3>{{contenido.getTitulo()}}</h3>
+							</div>
+						{% endif %}
+					{% endfor %}
 				</div>
-			</div>
-			<div class="categoria_box">
-				{% for item in recomendados %}
-					<div class="card">
-						<img src="poster/{{item.getPoster()}}" alt=""/>
-						<div class="card-category">{{item.getTipo()}}</div>
-						<h3 class="card-heading">{{item.getNombre()}}</h3>
-						<a href="#">
-							<span class="link"></span>
-						</a>
-					</div>
-				{% endfor %}
 			</div>
 		{% endif %}
 		{% if novedades is not null %}
-			<div class="categoria_inicio">
-				<div>Novedades</div>
-				<div class="categorias">
-					<a href="#">Peliculas</a>
-					<a href="#">Series</a>
-					<a href="#">Tendencias</a>
+			<div class="seccion">
+				<div class="titulo">Novedades</div>
+				<div class="categoria_box">
+					{% for contenido in novedades %}
+						{% if contenido.getPoster() is not null %}
+							<div class="card" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
+								<img class="img" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
+								<h3>{{contenido.getTitulo()}}</h3>
+							</div>
+						{% endif %}
+					{% endfor %}
 				</div>
-			</div>
-			<div class="categoria_box">
-				{% for item in novedades %}
-					<div class="card">
-						<img src="poster/{{item.getPoster()}}" alt=""/>
-						<div class="card-category">{{item.getTipo()}}</div>
-						<h3 class="card-heading">{{item.getNombre()}}</h3>
-						<a href="#">
-							<span class="link"></span>
-						</a>
-					</div>
-				{% endfor %}
 			</div>
 		{% endif %}
 	</section>
+
 {% endblock %}

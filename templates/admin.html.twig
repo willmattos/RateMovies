@@ -8,38 +8,15 @@
 	<form action="{{path('crearContenido')}}" enctype='multipart/form-data' method='post'>
 		<div class="main column">
 			<div class="row">
-				<label for="">Tipo</label>
-				<select name="tipo" class="tipo" id="select">
-					<option value="0">Pelicula</option>
-					<option value="1">Serie</option>
-				</select>
-			</div>
-			<div class="row">
 				<label for="">Titulo</label><input type="text" name='titulo' required placeholder='Una buena receta'>
 			</div>
 			<div class="row">
 				<label for="">Alias (Opcional)</label><input type="text" name='alias' placeholder='Burnt'>
 			</div>
-			<div class="row pelicula">
+			<div class="row">
 				<label for="">Estreno</label><input type="date" name='fecha'>
 			</div>
-			<div class="row serie">
-				<label for="">Año estreno</label>
-				<input type="number" min="1900" max="2099" step="1" placeholder='2016' name='fecha_inicio'/>
-			</div>
-			<div class="row serie">
-				<label for="">Año fin</label>
-				<input type="number" min="1900" max="2099" step="1" placeholder='2019' name='fecha_fin'/>
-			</div>
-			<div class="row serie">
-				<label for="">Nº Temporadas</label>
-				<input type="number" min="1" step="1" name='temporadas'/>
-			</div>
-			<div class="row serie">
-				<label for="">Nº Episodios</label>
-				<input type="number" min="1" step="1" name='episodios'/>
-			</div>
-			<div class="pelicula row">
+			<div class="row">
 				<label for="">Trailer</label>
 				<input type="url" placeholder="https://example.com" pattern="https://.*" name='trailer'/>
 			</div>

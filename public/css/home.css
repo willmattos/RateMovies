@@ -1,48 +1,37 @@
-h2 {
-  font-weight: 400;
+.splide {
+  height: 40rem;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
 }
-section {
+.splide__track,
+.splide__list,
+.splide__slide {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+}
+.splide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.splide__slide div {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+}
+.seccion {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding-top: 1rem;
 }
-.container_filtros {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.filtros {
-  position: relative;
-  border-radius: 0.5rem;
-  background: rgb(243, 243, 243);
-  cursor: pointer;
-  border: 0;
-}
-.option {
-  display: none;
-  flex-wrap: wrap;
-  flex-direction: row;
-  position: absolute;
-  border: 1px solid;
-  background: rgb(243, 243, 243);
-  /* min-width: 5rem;
-  max-width: 15rem; */
-  list-style: none;
-  padding: 0.5rem;
-  z-index: 1;
-}
-.lista_generos {
-  width: 15rem;
-}
-.option > * {
-  flex-basis: 50%; /* Establece el ancho de los hijos al 50% */
-  flex-grow: 0; /* Evita que los hijos se expandan */
-  display: flex;
-}
-.filtros:hover > .option {
-  display: flex;
-  position: absolute;
+.titulo,.card-heading {
+  font-size: 2rem;
 }
 .categoria_box {
   display: flex;
@@ -50,6 +39,9 @@ section {
   flex-wrap: wrap;
   justify-content: space-evenly;
   gap: 0.5rem;
+}
+.card-heading{
+  color: #fff;
 }
 .card,
 .card .img {
@@ -65,6 +57,7 @@ section {
 .card {
   display: flex;
   flex-direction: column;
+  color: #fff;
   justify-content: end;
   align-items: center;
   position: relative;
@@ -75,7 +68,6 @@ section {
 }
 .card h3 {
   text-align: center;
-  color: #fff;
 }
 /* .card:hover {
   transform: scale(1.03);
@@ -85,10 +77,21 @@ section {
   position: absolute;
   z-index: -1;
 }
-.titulo {
-  font-size: 2rem;
+
+@media (max-width: 952px) {
+  .splide {
+    height: 30rem;
+  }
+}
+@media (max-width: 800px) {
+  .splide {
+    height: calc(100vh / 3);
+  }
 }
 @media (max-width: 340px) {
+  .splide {
+    height: calc(100vh / 3);
+  }
   .card{
     width: calc(50% - 0.5rem);
     height: 10.5rem;

@@ -1,5 +1,14 @@
 var modificarfoto;
 var fotohtml;
+function verMas() {
+  var ocultos = $(".categoria_box").children().filter(":hidden");
+  if (ocultos.length > 0) {
+    $(".categoria_box").children(":hidden").first().css("display", "flex");
+  }
+  if(ocultos.length == 1){
+    $(".mas").css('display','none');
+  }
+}
 $(".follow").click(function () {
   var div = $(this);
   $.ajax({
@@ -44,7 +53,6 @@ function modificarPerfil() {
       `<img class='aceptar_modificar' src='${aceptarfoto}' alt='aceptar cambios'>`
     )
   );
-  fotohtml = $(".cabecera .foto").prop("outerHTML");
   $(".cabecera").prepend(
     $(
       `<div class='editar_foto'><img src='${$(".cabecera .foto").attr(
@@ -57,11 +65,12 @@ function modificarPerfil() {
       .prev()
       .attr("src", URL.createObjectURL($(this)[0].files[0]));
   });
+  fotohtml = $(".cabecera .foto").prop("outerHTML");
   $(".cabecera .foto").remove();
 }
 function aceptarModificar(e) {
   e.preventDefault();
-  console.log(ruta_actualizar_perfil);
+  var posicion = $(this);
   var inputFile = $(".nuevafoto")[0].files[0]
     ? $(".nuevafoto")[0].files[0]
     : null;
@@ -73,8 +82,7 @@ function aceptarModificar(e) {
   } else {
     formData = null;
   }
-  $(".editar_foto").remove();
-  $(".cabecera").prepend(fotohtml);
+
   if (cambiofoto) {
     $.ajax({
       type: "POST",
@@ -83,18 +91,45 @@ function aceptarModificar(e) {
       processData: false,
       contentType: false,
       dataType: "json",
-      success: function (response) {
-        console.log(response);
-      },
+      async: true,
+      success: function (response) {},
     });
     $(".cabecera .foto").attr("src", URL.createObjectURL(inputFile));
   }
-  
-  $(this).next().attr("alt", "modificar perfil");
-  $(this).next().attr("src", modificarfoto);
-  $(this).next().addClass("editar_perfil");
-  $(this).next().removeClass("cancelar_modificar");
-  $(this).remove();
+  var nombre = $(this).prev().children(0).val();
+  $.ajax({
+    type: "post",
+    url: ruta_actualizar_perfil,
+    data: {
+      username: nombre,
+    },
+    dataType: "json",
+    async: false,
+    success: function (response) {
+      if (!response.respuesta) {
+        $(posicion)
+          .prev()
+          .children(0)
+          .css("border-color", "red")
+          .delay(1500)
+          .queue(function (next) {
+            $(this).css("border-color", "initial");
+            next();
+          });
+      } else {
+        $(".usuario_perfil").html(nombre);
+        $(posicion).next().attr("alt", "modificar perfil");
+        $(posicion).next().attr("src", modificarfoto);
+        $(posicion).next().addClass("editar_perfil");
+        $(posicion).next().removeClass("cancelar_modificar");
+        $(posicion).remove();
+        $(".editar_foto img").eq(0).removeClass("foto_fondo");
+        $(".editar_foto img").eq(0).addClass("foto");
+        $(".cabecera").prepend($(".editar_foto img").eq(0));
+        $(".editar_foto").remove();
+      }
+    },
+  });
 }
 function cancelarModificar(e) {
   e.preventDefault();
@@ -106,6 +141,11 @@ function cancelarModificar(e) {
   $(".editar_foto").remove();
   $(".cabecera").prepend(fotohtml);
 }
+verMas();
+verMas();
+$(".mas").click(function(){
+  verMas()
+});
 $(document).on("click", ".editar_perfil", modificarPerfil);
 $(document).on("click", ".cancelar_modificar", cancelarModificar);
 $(document).on("click", ".aceptar_modificar", aceptarModificar);

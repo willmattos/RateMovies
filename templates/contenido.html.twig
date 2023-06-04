@@ -5,8 +5,10 @@
 {% block css %}
 	<link rel="stylesheet" href="{{ asset("css/critica.css") }}"></link><link rel="stylesheet" href="{{ asset("css/contenido.css") }}"></link>{% endblock %}{% block javascripts %}<script>
 const ruta_puntuar_contenido = "{{ path('puntuarContenido') }}";
+const ruta_agregar_visita = "{{ path('agregarVisita') }}";
 const ruta_crear_comentario = "{{ path('crearComentario') }}";
 const ruta_crear_critica = "{{ path('crearCritica') }}";
+const ruta_crear_favorito = "{{ path('darFavorito') }}";
 const ruta_eliminar_comentario = "{{ path('eliminarComentario') }}";
 const ruta_crear_like = "{{ path('darLike') }}";
 const ruta_usuario_perfil = "{{ path('usuario', {'username' : 'numero' }) }}";
@@ -14,7 +16,7 @@ const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'tit
 const contenido_titulo = "{{ contenido.getTitulo() }}"
 const contenido_codigo = "{{ contenido.getCodigo() }}";{% if app.user is not null %}const username = "{{ app.user.getUsuario() }}";{% if app.user.getFoto() is not null %}const userfoto = "{{ asset('Usuario/') }}u{{ app.user.getCodigo() }}/{{ app.user.getFoto() }}";
 {% else %}
-const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}</script><script src="{{asset("js/contenido.js")}}" defer></script><script src="{{asset("js/critica.js")}}" defer></script>{% endblock %}{% block body %}<section>
+const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}</script><script src="{{asset("js/contenido.js")}}" defer></script><script src="{{asset("js/contenido2.js")}}" defer></script><script src="{{asset("js/critica.js")}}" defer></script>{% endblock %}{% block body %}<section>
 <div class="section">
 	<div class="seccion datos_contenido">
 		{% if contenido.getPortada() is not null %}
@@ -24,28 +26,30 @@ const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}
 			{% if contenido.getPoster() is not null %}
 				<img class="poster" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
 			{% endif %}
-			<div class="contenido_datos" data-codigo="{{contenido.getCodigo()}}">{{contenido.getTitulo()}}
+			<div class="contenido_datos" data-codigo="{{contenido.getCodigo()}}">
+				<div class="name_contenido">{{contenido.getTitulo()}}</div>
+				{% if contenido.getEstreno() is not null %}
+					<div class="fecha">{{contenido.getEstreno()|date('Y/m/d')}}</div>
+				{% endif %}
+				{% if app.user is not null %}
+					{% if contenido.getOwnlike is not null %}
+						<img class='fav_conten corazon_fav' src="{{asset('iconos/corazon.png')}}" alt="">
+					{% else %}
+						<img class='fav_conten corazon_dislike' src="{{asset('iconos/corazon.png')}}" alt="">
+					{% endif %}
+				{% endif %}
 			</div>
 		</div>
 		<div class="descripcion">
 			{{contenido.getDescripcion()|nl2br|escape}}
 		</div>
-		<div class='genero_fecha'>
-			<div class='genr'>
-				<ul>
-					<li>
-						<b>Género</b>
-					</li>
-					{% for item in contenido.getGeneros() %}
-						<li>{{item.getGenero().getNombre()}}</li>
-					{% endfor %}
-				</ul>
-			</div>
-			{% if contenido.getEstreno() is not null %}
-				<div>{{contenido.getEstreno()|date('Y/m/d')}}</div>
-			{% elseif contenido.getFecha_inicio() %}
-				<div>{{contenido.getFecha_inicio()}}-{{contenido.getFecha_fin()}}</div>
-			{% endif %}
+		<div class='contenido_generos'>
+			<div>Géneros</div>
+			<ul>
+				{% for item in contenido.getGeneros() %}
+					<li>{{item.getGenero().getNombre()}}</li>
+				{% endfor %}
+			</ul>
 		</div>
 		<div class="calificacion">
 			<div class="sect">
@@ -217,7 +221,7 @@ const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}
 							{% endif %}
 							<div class="enlace nombre_usuario">{{ critica.getUsuario().getUsuario()|escape }}</div>
 							<div>{{ critica.getFecha()|date('Y/m/d H:i:s') }}</div>
-							<div>{{ critica.getContenido().getTitulo()|escape }}</div>
+							{# <div>{{ critica.getContenido().getTitulo()|escape }}</div> #}
 						</div>
 						<div class="texto">{{ critica.getComentario()|escape|nl2br }}</div>
 						<div class="like">
@@ -301,7 +305,7 @@ const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}
 	<div class="categoria_box">
 		{% for recomendado in recomendados %}
 			<div class="card" data-codigo="{{recomendado.getCodigo()}}" data-nombre="{{recomendado.getTitulo()}}">
-				<img src="{{asset('Contenido/c')}}{{recomendado.getCodigo()}}/poster/{{recomendado.getPoster()}}" alt="pelicula imagen">
+				<img src="{{asset('Contenido/c')}}{{recomendado.getCodigo()}}/poster/{{recomendado.getPoster()}}" alt="{{recomendado.getTitulo()}}">
 				<h3>{{recomendado.getTitulo()}}</h3>
 			</div>
 		{% endfor %}

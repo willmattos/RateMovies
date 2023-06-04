@@ -1,6 +1,6 @@
 section {
   position: absolute;
-  height: 100%;
+  height: calc(100% - 5rem);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,10 +36,15 @@ form input {
 }
 form img {
   width: 2rem;
+  position: absolute;
+  right: 0;
 }
 .credenciales div input {
-  width: calc(100% - 2rem);
-  padding-right: 0;
+  width: 100%;
+  padding-right: 2rem;
+}
+.credenciales div{
+  position: relative;
 }
  form label {
   margin-bottom: 0.625rem;

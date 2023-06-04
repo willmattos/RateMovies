@@ -58,7 +58,7 @@ function crearCritica(e) {
             .css("border-color", "red")
             .delay(1500)
             .queue(function (next) {
-              $(this).css("border-color", "initial");
+              $(this).css("border-color", "black");
               next();
             });
         }
@@ -120,7 +120,8 @@ function crearComentario(e) {
             .parent()
             .prev()
             .find(".cantidad_reply");
-          cantidadActual = parseInt(cantidadReply.text());
+          cantidadActual = parseInt(cantidadReply.text()) | 0;
+          console.log(cantidadActual);
           cantidadActual = cantidadActual + 1;
           cantidadReply.html(cantidadActual);
         } else {
@@ -229,13 +230,6 @@ function eliminar(e) {
     });
   }
 }
-$(".card,.nombre_contenido").click(function (e) {
-  e.preventDefault();
-  var url = ruta_contenido;
-  url = url.replace("numero", $(this).data("codigo"));
-  url = url.replace("titulo", $(this).data("nombre"));
-  window.location.href = url;
-});
 $(document).on("click", ".crearCritica", crearCritica);
 $(document).on("click", ".crearComentario", crearComentario);
 $(document).on("click", ".enlace", enlaceUsuario);
