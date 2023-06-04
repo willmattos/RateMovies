@@ -71,6 +71,7 @@ class WebController extends AbstractController
         $filtros['titulo'] = null;
         $filtros['generos'] = [];
         $filtros['fecha'] = [];
+        $filtros['tipo'] = [];
         $filtros['ordenar'] = null;
         if ($_POST) {
             $queryBuilder = $entityManager->getRepository(Genero::class)->createQueryBuilder('g')->join('g.contenido', 'c');
@@ -83,6 +84,7 @@ class WebController extends AbstractController
                     ->setParameter('titulo', '%' . $titulo . '%');
             }
             if (isset($_POST['tipo'])) {
+                $filtros['tipo'] = $_POST['tipo'];
                 $queryBuilder->andwhere($queryBuilder->expr()->in('c.serie', $_POST['tipo']));
             }
             if (isset($_POST['generos']) && $_POST['generos']) {
