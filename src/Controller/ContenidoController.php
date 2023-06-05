@@ -176,13 +176,12 @@ class ContenidoController extends AbstractController
     #[Route('/crearContenido', name: 'crearContenido')]
     public function crearContenido(SessionInterface $session)
     {
-        if (isset($_POST['tipo'], $_POST['titulo'], $_POST['alias'], $_POST['fecha'], $_POST['trailer'], $_POST['descripcion']) && strlen($_POST['titulo'])) {
+        if (isset($_POST['tipo'], $_POST['titulo'], $_POST['alias'], $_POST['fecha'], $_POST['descripcion']) && strlen($_POST['titulo'])) {
             $entityManager = $this->getDoctrine()->getManager();
             $contenido = new Contenido();
             $contenido->setTitulo(ucfirst(trim($_POST['titulo'])));
             $contenido->setAlias(ucfirst(trim($_POST['alias'])));
             $contenido->setDescripcion(strlen($_POST['descripcion']) ? $_POST['descripcion'] : null);
-            $contenido->setTrailer(strlen($_POST['trailer']) ? $_POST['trailer'] : null);
             $contenido->setEstreno(strlen($_POST['fecha']) >= 10  ? new \DateTime($_POST['fecha']) : null);
 
             $entityManager->persist($contenido);

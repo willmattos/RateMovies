@@ -11,6 +11,18 @@ if($('.splide').length){
   });
   splide.mount();
 }
+$('.selec_todo').click(function(){
+  $('.seccion_novedades .categoria_box').css('display','none');
+  $(".todo_select").css('display','flex');
+})
+$('.selec_pelicula').click(function(){
+  $('.seccion_novedades .categoria_box').css('display','none');
+  $(".pelicula_select").css('display','flex');
+})
+$('.selec_serie').click(function(){
+  $('.seccion_novedades .categoria_box').css('display','none');
+  $(".serie_select").css('display','flex');
+})
 
 $(".categoria_box").on("click", ".card", function (e) {
   e.preventDefault();

@@ -40,17 +40,20 @@ class WebController extends AbstractController
         $queryBuilder->select("c.codigo");
         $queryBuilder->distinct(true);
         $queryBuilder->orderBy('v.fecha', 'DESC')->addOrderBy('v.contador', 'DESC');
-        $queryBuilder->setMaxResults(16);
+        $queryBuilder->setMaxResults(12);
         $results = $queryBuilder->getQuery()->getResult();
         $popular = null;
         for ($i = 0; $i < count($results); $i++) {
             $popular[] = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $results[$i]]);
         }
-        if($popular)shuffle($popular);
-        // shuffle($destacados);
-
-        $novedades = $entityManager->getRepository(Contenido::class)->findBy([], ['estreno' => 'DESC'], 16);
-        return $this->render('home.html.twig', ['destacados' => $destacados, 'popular' => $popular, 'novedades' => $novedades]);
+        $popular ? shuffle($popular) : $popular = null;
+        $novedades = $entityManager->getRepository(Contenido::class)->findBy([], ['estreno' => 'DESC'], 12);
+        $novedades ? shuffle($novedades) : $novedades = null;
+        $novedades_peliculas = $entityManager->getRepository(Contenido::class)->findBy(['serie' => 0], ['estreno' => 'DESC'], 12);
+        $novedades_series = $entityManager->getRepository(Contenido::class)->findBy(['serie' => 1], ['estreno' => 'DESC'], 12);
+        $novedades_peliculas ? shuffle($novedades_peliculas) : $$novedades_peliculas = null;
+        $novedades_series ? shuffle($novedades_peliculas) : $novedades_series = null;
+        return $this->render('home.html.twig', ['destacados' => $destacados, 'popular' => $popular, 'novedades' => $novedades, 'novedades_peliculas' => $novedades_peliculas, 'novedades_series' => $novedades_series]);
     }
     #[Route('/catalogo', name: 'catalogo')]
     public function catalogo()
@@ -182,8 +185,7 @@ class WebController extends AbstractController
             }
             $puntuacion = $puntuacion ? ($puntuacion * 100) / (5 * count($results)) : 0;
             $puntuacion = $puntuacion . "%";
-            $valora = $entityManager->getRepository(Valora::class)->findOneBy(['cod_contenido' => $codigo, 'cod_usuario' => $this->getUser()->getCodigo()]);
-            $valora = $valora ? $valora->getPuntuacion() : 0;
+
             $criticas = $entityManager->getRepository(Critica::class)->findBy(['cod_contenido' => $contenido->getCodigo()], ['fecha' => 'DESC']);
             foreach ($criticas as $critica) {
                 if ($this->getUser()) $critica->setOwnlike($entityManager->getRepository(Like::class)->findOneBy(['cod_critica' => $critica->getCodigo(), 'usuario_objeto' => $this->getUser()]));
@@ -197,7 +199,12 @@ class WebController extends AbstractController
                 $likes = $entityManager->getRepository(Like::class)->findBy(['cod_critica' => $critica->getCodigo()]);
                 $critica->setLikes($likes);
             }
-            $contenido->setOwnlike($entityManager->getRepository(Favorito::class)->findOneBy(['contenido' => $contenido, 'cod_usuario' => $this->getUser()->getCodigo()]));
+            $valora = 0;
+            if ($this->getUser()) {
+                $valora = $entityManager->getRepository(Valora::class)->findOneBy(['cod_contenido' => $codigo, 'cod_usuario' => $this->getUser()->getCodigo()]);
+                $valora = $valora ? $valora->getPuntuacion() : 0;
+                $contenido->setOwnlike($entityManager->getRepository(Favorito::class)->findOneBy(['contenido' => $contenido, 'cod_usuario' => $this->getUser()->getCodigo()]));
+            }
             return $this->render('contenido.html.twig', ['contenido' => $contenido, 'recomendados' => $recomendados, 'criticas' => $criticas, 'valora' => $valora, 'puntuacion' => $puntuacion]);
         }
         return $this->redirectToRoute('home');

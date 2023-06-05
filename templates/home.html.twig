@@ -31,45 +31,6 @@
 				</div>
 			</div>
 		{% endif %}
-		{# {% if recomendados is not null %}
-																																					<div class="categoria_inicio">
-																																						<div>Recomendado</div>
-																																						<div class="categorias">
-																																							<a href="#">Peliculas</a>
-																																							<a href="#">Series</a>
-																																							<a href="#">Tendencias</a>
-																																						</div>
-																																					</div>
-																																					<div class="categoria_box">
-																																						{% for item in recomendados %}
-																																							<div class="card">
-																																								<img src="poster/{{item.getPoster()}}" alt=""/>
-																																								<h3 class="card-heading">{{item.getTitulo()}}</h3>
-																																								<a href="#">
-																																									<span class="link"></span>
-																																								</a>
-																																							</div>
-																																						{% endfor %}
-																																					</div>
-																																				{% endif %}#}
-		{# {% if novedades is not null %}
-																					<div class="categoria_inicio">
-																						<div>Novedades</div>
-																						<div class="categorias">
-																							<a href="#">Peliculas</a>
-																							<a href="#">Series</a>
-																							<a href="#">Tendencias</a>
-																						</div>
-																					</div>
-																					<div class="categoria_box">
-																						{% for contenido in novedades %}
-																							<div class="card" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
-																								<img class="img" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
-																								<h3>{{contenido.getTitulo()}}</h3>
-																							</div>
-																						{% endfor %}
-																					</div>
-																				{% endif %} #}
 		{% if popular is not null %}
 			<div class="seccion">
 				<div class="titulo">Popular</div>
@@ -86,10 +47,37 @@
 			</div>
 		{% endif %}
 		{% if novedades is not null %}
-			<div class="seccion">
-				<div class="titulo">Novedades</div>
-				<div class="categoria_box">
+			<div class="seccion seccion_novedades">
+				<div class="titulo">
+					<div>Novedades</div>
+					<div>
+						<a class="selec_todo">Todo</a>
+						<a class="selec_pelicula">Peliculas</a>
+						<a class="selec_serie">Series</a>
+					</div>
+				</div>
+				<div class="categoria_box todo_select">
 					{% for contenido in novedades %}
+						{% if contenido.getPoster() is not null %}
+							<div class="card" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
+								<img class="img" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
+								<h3>{{contenido.getTitulo()}}</h3>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+				<div class="categoria_box pelicula_select" style="display: none;">
+					{% for contenido in novedades_peliculas %}
+						{% if contenido.getPoster() is not null %}
+							<div class="card" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
+								<img class="img" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
+								<h3>{{contenido.getTitulo()}}</h3>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+				<div class="categoria_box serie_select" style="display: none;">
+					{% for contenido in novedades_series %}
 						{% if contenido.getPoster() is not null %}
 							<div class="card" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
 								<img class="img" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
