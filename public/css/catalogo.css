@@ -25,16 +25,23 @@ section {
   flex-wrap: wrap;
   flex-direction: row;
   position: absolute;
-  border: 1px solid;
   background: rgb(243, 243, 243);
-  /* min-width: 5rem;
-  max-width: 15rem; */
-  list-style: none;
+  /*min-width: 5rem;
+  max-width: 15rem;
+  */list-style: none;
   padding: 0.5rem;
   z-index: 1;
+  border-radius: 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
 }
 .lista_generos {
   width: 15rem;
+}
+.lista_fechas{
+  width: 8rem;
 }
 .option > * {
   flex-basis: 50%; /* Establece el ancho de los hijos al 50% */
@@ -49,7 +56,7 @@ section {
   display: flex;
   font-size: 1rem;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   gap: 0.5rem;
   padding: 0 1rem;
 }

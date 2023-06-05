@@ -1,5 +1,8 @@
 var modificarfoto;
 var fotohtml;
+$(".administrador").click(function(){
+  window.location.href = ruta_administracion;
+})
 function verFavoritos() {
   var ocultos = $(".categoria_favoritos").children().filter(":hidden");
   if (ocultos.length > 0) {

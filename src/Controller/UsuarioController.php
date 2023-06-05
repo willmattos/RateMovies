@@ -30,6 +30,8 @@ class UsuarioController extends AbstractController
 
         if (!$usuario || !$passwordEncoder->isPasswordValid($usuario, $_POST['_password'])) {
             $session->getFlashBag()->add('error', "Usuario y/o contraseña incorrectas");
+        } else if (!$usuario->getActivado()) {
+            $session->getFlashBag()->add('error', "Cuenta no activada");
         } else {
             $this->get('security.token_storage')->setToken(new UsernamePasswordToken($usuario, null, 'main', $usuario->getRoles()));
         }
@@ -180,14 +182,16 @@ class UsuarioController extends AbstractController
         $js = [];
         if ($request->isXmlHttpRequest() && $this->isGranted('ROLE_ADMIN')) {
             $entityManager = $this->getDoctrine()->getManager();
+            $usuarios = [];
             if ($nombre = $request->request->get('nombre')) {
-                $qb = $entityManager->getRepository(Usuario::class)->createQueryBuilder('u')->where("u.usuario LIKE '%" . $nombre . "%'");
+                $nombre = strtolower($nombre);
+                $qb = $entityManager->getRepository(Usuario::class)->createQueryBuilder('u')->where("LOWER(u.usuario) LIKE '%" . $nombre . "%'");
+                $usuarios = $qb->getQuery()->getResult();
             } else {
                 $usuarios = $entityManager->getRepository(Usuario::class)->findAll();
             }
-            $usuarios = $qb->getQuery()->getResult();
             foreach ($usuarios as $usuario) {
-                if ($usuario->getCodigo() != $this->getUser()->getCodigo()) $js[] = ['codigo' => $usuario->getCodigo(), 'usuario' => $usuario->getUsuario(), 'rol' => $usuario->getRol()];
+                if ($usuario->getCodigo() != $this->getUser()->getCodigo()) $js[] = ['codigo' => $usuario->getCodigo(), 'usuario' => $usuario->getUsuario(), 'rol' => $usuario->getRol() ? $usuario->getRol() : 0 , 'foto' => $usuario->getFoto() ? $usuario->getFoto() : ""];
             }
         }
         return new JsonResponse($js);

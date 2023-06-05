@@ -12,16 +12,24 @@ if($('.splide').length){
   splide.mount();
 }
 $('.selec_todo').click(function(){
-  $('.seccion_novedades .categoria_box').css('display','none');
-  $(".todo_select").css('display','flex');
+  var posicion = $(this).parent().parent().parent();
+  $(posicion).find('.categoria_box').css('display', 'none');
+  $(posicion).find('.todo_select').css('display','flex');
+  /* $('.seccion_novedades .categoria_box').css('display','none');
+  $(".todo_select").css('display','flex'); */
 })
 $('.selec_pelicula').click(function(){
-  $('.seccion_novedades .categoria_box').css('display','none');
-  $(".pelicula_select").css('display','flex');
+  var posicion = $(this).parent().parent().parent();
+  $(posicion).find('.categoria_box').css('display', 'none');
+  $(posicion).find('.pelicula_select').css('display','flex');
+  /* $(".pelicula_select").css('display','flex'); */
 })
 $('.selec_serie').click(function(){
-  $('.seccion_novedades .categoria_box').css('display','none');
-  $(".serie_select").css('display','flex');
+  var posicion = $(this).parent().parent().parent();
+  $(posicion).find('.categoria_box').css('display', 'none');
+  $(posicion).find('.serie_select').css('display','flex');
+  /* $('.seccion_novedades .categoria_box').css('display','none');
+  $(".serie_select").css('display','flex'); */
 })
 
 $(".categoria_box").on("click", ".card", function (e) {

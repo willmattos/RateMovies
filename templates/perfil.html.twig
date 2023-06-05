@@ -13,7 +13,9 @@ const ruta_crear_like = "{{ path('darLike') }}";
 const ruta_crear_favorito = "{{ path('darFavorito') }}";
 const ruta_crear_seguir = "{{ path('darSeguir') }}";
 const ruta_usuario_perfil = "{{ path('usuario', {'username' : 'numero' }) }}";
-const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'titulo' }) }}";{% if app.user is not null %}const username = "{{ app.user.getUsuario() }}";{% if app.user.getFoto() is not null %}const userfoto = "{{ asset('Usuario/') }}u{{ app.user.getCodigo() }}/{{ app.user.getFoto() }}";
+const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'titulo' }) }}";{% if app.user is not null %}{% if is_granted('ROLE_ADMIN') %}
+const ruta_administracion = "{{ path('administracion') }}";{% endif %}
+const username = "{{ app.user.getUsuario() }}";{% if app.user.getFoto() is not null %}const userfoto = "{{ asset('Usuario/') }}u{{ app.user.getCodigo() }}/{{ app.user.getFoto() }}";
 {% else %}
 const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% if app.user is not null and usuario.getCodigo() == app.user.getCodigo() %}const usuario_visita = false;
 const aceptarfoto = "{{ asset('iconos/marca-de-verificacion.png') }}";
@@ -75,6 +77,9 @@ const usuario_visita = true;{% endif %}{% endif %}
 						<div class="cantidad_criticas">{{ criticas|length }}</div>
 					</div>
 				</div>
+				{% if is_granted('ROLE_ADMIN') %}
+					<button type="button" class="administrador">Administración</button>
+				{% endif %}
 			</div>
 		</div>
 		<div class="seccion">

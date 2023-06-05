@@ -42,11 +42,21 @@ class WebController extends AbstractController
         $queryBuilder->orderBy('v.fecha', 'DESC')->addOrderBy('v.contador', 'DESC');
         $queryBuilder->setMaxResults(12);
         $results = $queryBuilder->getQuery()->getResult();
-        $popular = null;
+        $popular['todo'] = null;
+        $popular['pelicula'] = null;
+        $popular['serie'] = null;
         for ($i = 0; $i < count($results); $i++) {
-            $popular[] = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $results[$i]]);
+            $conten = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $results[$i]]);
+            $popular['todo'][] = $conten;
+            if ($conten->getSerie()) {
+                $popular['serie'][] = $conten;
+            } else {
+                $popular['pelicula'][] = $conten;
+            }
         }
-        $popular ? shuffle($popular) : $popular = null;
+        $popular['todo'] ? shuffle($popular['todo']) : $popular['todo'] = null;
+        $popular['pelicula'] ? shuffle($popular['pelicula']) : $popular['pelicula'] = null;
+        $popular['serie'] ? shuffle($popular['serie']) : $popular['serie'] = null;
         $novedades = $entityManager->getRepository(Contenido::class)->findBy([], ['estreno' => 'DESC'], 12);
         $novedades ? shuffle($novedades) : $novedades = null;
         $novedades_peliculas = $entityManager->getRepository(Contenido::class)->findBy(['serie' => 0], ['estreno' => 'DESC'], 12);
@@ -75,7 +85,7 @@ class WebController extends AbstractController
         $filtros['generos'] = [];
         $filtros['fecha'] = [];
         $filtros['tipo'] = [];
-        $filtros['ordenar'] = null;
+        $filtros['ordenar'] = [];
         if ($_POST) {
             $queryBuilder = $entityManager->getRepository(Genero::class)->createQueryBuilder('g')->join('g.contenido', 'c');
             $queryBuilder->select('DISTINCT c.codigo');
@@ -99,7 +109,7 @@ class WebController extends AbstractController
                 $queryBuilder->andwhere($queryBuilder->expr()->in('SUBSTRING(c.estreno, 1, 4)', $_POST['fecha']));
             }
             if (isset($_POST['ordenar'])) {
-                $filtros['ordenar'] = $_POST['ordenar'];
+                $filtros['ordenar'][] = $_POST['ordenar'];
                 $order = $_POST['ordenar'] ? 'ASC' : 'DESC';
                 $queryBuilder->orderBy('c.estreno', $order);
             } else {
@@ -209,18 +219,6 @@ class WebController extends AbstractController
         }
         return $this->redirectToRoute('home');
     }
-    #[Route('/admin', name: 'admin')]
-    public function admin()
-    {
-        if ($this->isGranted('ROLE_ADMIN')) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $generos = $entityManager->getRepository(Generos::class)->findBy([], ['nombre' => 'ASC']);
-            $actores = $entityManager->getRepository(Actor::class)->findBy([], ['nombre' => 'ASC']);
-            return $this->render('admin.html.twig', ['titulos' => null, "generos" => $generos, "error" => false, 'actores' => $actores]);
-        } else {
-            return $this->redirectToRoute('home');
-        }
-    }
     #[Route('/perfil', name: 'perfil')]
     public function perfil(SessionInterface $session)
     {
@@ -276,6 +274,27 @@ class WebController extends AbstractController
             return $this->render('perfil.html.twig', ['usuario' => $usuario, 'followings' => $following, 'followers' => $followers, 'favoritos' => $favoritos, 'criticas' => $criticas, 'es_seguido' => $es_seguido]);
         }
         return $this->redirectToRoute('perfil');
+    }
+    #[Route('/nuevo_contenido', name: 'nuevo_contenido')]
+    public function admin()
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $generos = $entityManager->getRepository(Generos::class)->findBy([], ['nombre' => 'ASC']);
+            $actores = $entityManager->getRepository(Actor::class)->findBy([], ['nombre' => 'ASC']);
+            return $this->render('nuevo_contenido.html.twig', ['titulos' => null, "generos" => $generos, "error" => false, 'actores' => $actores]);
+        } else {
+            return $this->redirectToRoute('home');
+        }
+    }
+    #[Route('/administracion', name: 'administracion')]
+    public function administracion()
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('administrador.html.twig');
+        } else {
+            return $this->redirectToRoute('home');
+        }
     }
     #[Route('/prueba', name: 'prueba')]
     public function prueba()
