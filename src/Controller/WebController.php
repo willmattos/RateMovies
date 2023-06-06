@@ -57,7 +57,7 @@ class WebController extends AbstractController
     }
     #[Route('/catalogo', name: 'catalogo')]
     public function catalogo()
-    {
+    {   
         $entityManager = $this->getDoctrine()->getManager();
         $generos = $entityManager->getRepository(Generos::class)->findBy([], ['nombre' => "DESC"]);
         $queryBuilder = $entityManager->getRepository(Contenido::class)->createQueryBuilder('c');
