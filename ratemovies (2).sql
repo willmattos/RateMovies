@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 04-06-2023 a las 22:06:38
+-- Tiempo de generación: 06-06-2023 a las 19:06:49
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -592,18 +592,19 @@ CREATE TABLE `usuario` (
   `rol` int(1) DEFAULT NULL,
   `recuperar` int(9) DEFAULT NULL,
   `activado` int(1) DEFAULT NULL,
-  `foto` varchar(255) DEFAULT NULL
+  `foto` varchar(255) DEFAULT NULL,
+  `bloquear` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`codigo`, `correo`, `usuario`, `clave`, `rol`, `recuperar`, `activado`, `foto`) VALUES
-(1, 'prueba@mail.com', 'willmattos', '$2y$13$gG/3rNEMNNp4fC0.CU4ZEuv92kSycI.DQvCHuSuJu8gRsRoaoJtmu', 1, NULL, 1, 'simbolo-de-herramienta-llena-de-filtro.png'),
-(2, 'usuario@mail.com', 'user', '$2y$13$Jua3ih.qqxHcnHMfGLnaEub5LwGsThidos.ipys9lCnNV1uTNPCWC', NULL, 1402432990, NULL, NULL),
-(3, 'usuario2@mail.com', 'usuario2', '$2y$13$Jua3ih.qqxHcnHMfGLnaEub5LwGsThidos.ipys9lCnNV1uTNPCWC', NULL, 1402432990, NULL, NULL),
-(4, 'nuevacuenta@mail.com', 'nuevacuenta', '$2y$13$DXO.c8DAGPJLmybQagJlVus9NIQp8aJPGz5CauUjWhepYJx6e08oG', NULL, 1293649260, NULL, NULL);
+INSERT INTO `usuario` (`codigo`, `correo`, `usuario`, `clave`, `rol`, `recuperar`, `activado`, `foto`, `bloquear`) VALUES
+(1, 'prueba@mail.com', 'willmattos', '$2y$13$gG/3rNEMNNp4fC0.CU4ZEuv92kSycI.DQvCHuSuJu8gRsRoaoJtmu', 2, NULL, 1, 'simbolo-de-herramienta-llena-de-filtro.png', NULL),
+(2, 'usuario@mail.com', 'user', '$2y$13$Jua3ih.qqxHcnHMfGLnaEub5LwGsThidos.ipys9lCnNV1uTNPCWC', NULL, 1402432990, NULL, NULL, NULL),
+(3, 'usuario2@mail.com', 'usuario2', '$2y$13$Jua3ih.qqxHcnHMfGLnaEub5LwGsThidos.ipys9lCnNV1uTNPCWC', NULL, 1402432990, NULL, NULL, NULL),
+(4, 'nuevacuenta@mail.com', 'nuevacuenta', '$2y$13$DXO.c8DAGPJLmybQagJlVus9NIQp8aJPGz5CauUjWhepYJx6e08oG', NULL, 1293649260, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -654,7 +655,8 @@ INSERT INTO `visitas` (`codigo`, `cod_contenido`, `fecha`, `contador`) VALUES
 (52, 29, '2023-06-04', 1),
 (53, 176, '2023-06-04', 1),
 (55, 175, '2023-06-04', 1),
-(56, 106, '2023-06-04', 1);
+(56, 106, '2023-06-04', 1),
+(57, 148, '2023-06-04', 4);
 
 --
 -- Índices para tablas volcadas
@@ -851,7 +853,7 @@ ALTER TABLE `valora`
 -- AUTO_INCREMENT de la tabla `visitas`
 --
 ALTER TABLE `visitas`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- Restricciones para tablas volcadas
