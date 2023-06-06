@@ -7,6 +7,9 @@ filtros["fecha"].forEach((element) => {
 filtros["tipo"].forEach((element) => {
   $(`[name='tipo[]'][value='${element}']`).attr("checked", true);
 });
+filtros["ordenar"].forEach((element) => {
+  $(`[name='ordenar'][value='${element}']`).attr("checked", true);
+});
 $(".admin").on("click", function () {
   window.location.href = ruta_admin;
 });

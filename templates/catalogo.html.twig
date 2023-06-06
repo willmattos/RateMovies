@@ -4,7 +4,7 @@
 {% block css %}
 	<link rel="stylesheet" href="{{ asset("css/catalogo.css") }}"></link>{% endblock %}{% block javascripts %}
 <script>
-	const ruta_admin = "{{ path('admin') }}";
+	const ruta_admin = "{{ path('nuevo_contenido') }}";
 const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'titulo' }) }}";
 const filtros = JSON.parse('{{ filtros | raw }}');
 </script>
@@ -31,14 +31,14 @@ const filtros = JSON.parse('{{ filtros | raw }}');
 		{% endif %}
 		<div class="filtros">
 			<div>Año</div>
-			<ul class="option">
+			<ul class="option lista_fechas">
 				{% for item in fecha %}
 					<li><input type="checkbox" name='fecha[]' value="{{item}}"/>{{item}}</li>
 				{% endfor %}
 			</ul>
 		</div>
 		<div class="filtros">
-			<div>Ordenar</div>
+			<div>Fecha</div>
 			<ul class="option">
 				<li><input type="checkbox" name="ordenar" value="1"/>Ascendente</li>
 				<li><input type="checkbox" name="ordenar" value="0"/>Descendente</li>
@@ -56,7 +56,6 @@ const filtros = JSON.parse('{{ filtros | raw }}');
 			<input type="text" value="{{titulo_buscar}}" name="titulo" style="display:none;">
 		{% endif %}
 	</form>
-
 	<div class="categoria_box" id="contenedor_card">
 		{% for contenido in contenidos %}
 			<div class="card" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">

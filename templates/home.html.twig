@@ -31,11 +31,18 @@
 				</div>
 			</div>
 		{% endif %}
-		{% if popular is not null %}
+		{% if popular.todo is not  null %}
 			<div class="seccion">
-				<div class="titulo">Popular</div>
-				<div class="categoria_box">
-					{% for contenido in popular %}
+				<div class="titulo">
+					<div>Popular</div>
+					<div>
+						<a class="selec_todo">Todo</a>
+						<a class="selec_pelicula">Peliculas</a>
+						<a class="selec_serie">Series</a>
+					</div>
+				</div>
+				<div class="categoria_box todo_select">
+					{% for contenido in popular.todo %}
 						{% if contenido.getPoster() is not null %}
 							<div class="card" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
 								<img class="img" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
@@ -44,8 +51,33 @@
 						{% endif %}
 					{% endfor %}
 				</div>
+				<div class="categoria_box pelicula_select" style="display: none;">
+					{% if popular.pelicula is not null %}
+						{% for contenido in popular.pelicula %}
+							{% if contenido.getPoster() is not null %}
+								<div class="card" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
+									<img class="img" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
+									<h3>{{contenido.getTitulo()}}</h3>
+								</div>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				</div>
+				<div class="categoria_box serie_select" style="display: none;">
+					{% if popular.serie is not null %}
+						{% for contenido in popular.serie %}
+							{% if contenido.getPoster() is not null %}
+								<div class="card" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
+									<img class="img" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/poster/{{contenido.getPoster()}}" alt="imagen de contenido">
+									<h3>{{contenido.getTitulo()}}</h3>
+								</div>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				</div>
 			</div>
 		{% endif %}
+		{{ dump() }}
 		{% if novedades is not null %}
 			<div class="seccion seccion_novedades">
 				<div class="titulo">

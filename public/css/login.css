@@ -21,7 +21,7 @@ section form > * {
   max-width: 70%;
 }
 p,
-section form a {
+section form a, b {
   text-align: center;
 }
 section form input:focus,

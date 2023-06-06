@@ -1,0 +1,48 @@
+section {
+  display: flex;
+  justify-content: center;
+}
+.titulo {
+  font-size: 2rem;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.foto {
+  width: 2rem;
+  height: 2rem;
+  font-weight: 350;
+}
+.nombre_usuario {
+    transition: font-weight 0.3s ease;
+    -webkit-transition: font-weight 0.3s ease;
+    -moz-transition: font-weight 0.3s ease;
+    -ms-transition: font-weight 0.3s ease;
+    -o-transition: font-weight 0.3s ease;
+}
+.btn {
+    cursor: pointer;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    padding: 0.25rem;
+    transition: background-color 0.5s ease, font-weight 0.3s ease;
+    -webkit-border-radius: 0.5rem;
+    -moz-border-radius: 0.5rem;
+    -ms-border-radius: 0.5rem;
+    -o-border-radius: 0.5rem;
+    -webkit-transition: background-color 0.5s ease, font-weight 0.3s ease;
+    -moz-transition: background-color 0.5s ease, font-weight 0.3s ease;
+    -ms-transition: background-color 0.5s ease, font-weight 0.3s ease;
+    -o-transition: background-color 0.5s ease, font-weight 0.3s ease;
+}
+.btn:hover {
+    font-weight: 650;
+}
