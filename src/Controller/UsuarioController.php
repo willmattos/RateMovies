@@ -32,6 +32,8 @@ class UsuarioController extends AbstractController
             $session->getFlashBag()->add('error', "Usuario y/o contraseña incorrectas");
         } else if (!$usuario->getActivado()) {
             $session->getFlashBag()->add('error', "Cuenta no activada");
+        } else if ($usuario->getBloquear()) {
+            $session->getFlashBag()->add('error', "Cuenta bloqueada");
         } else {
             $this->get('security.token_storage')->setToken(new UsernamePasswordToken($usuario, null, 'main', $usuario->getRoles()));
         }
@@ -78,7 +80,7 @@ class UsuarioController extends AbstractController
         if (!$usuario) {
             $usuario = new Usuario;
             $usuario->setCorreo(preg_replace('/\s+/', '', $correo));
-            $usuario->setUsuario(preg_replace('/\s+/', '', $user));
+            $usuario->setUsuario(substr(preg_replace('/\s+/', '', $user), 0, 10));
             $hashedPassword = $passwordHasher->hashPassword($usuario, $clave);
             $usuario->setClave($hashedPassword);
 
@@ -191,7 +193,7 @@ class UsuarioController extends AbstractController
                 $usuarios = $entityManager->getRepository(Usuario::class)->findAll();
             }
             foreach ($usuarios as $usuario) {
-                if ($usuario->getCodigo() != $this->getUser()->getCodigo()) $js[] = ['codigo' => $usuario->getCodigo(), 'usuario' => $usuario->getUsuario(), 'rol' => $usuario->getRol() ? $usuario->getRol() : 0 , 'foto' => $usuario->getFoto() ? $usuario->getFoto() : ""];
+                if ($usuario->getCodigo() != $this->getUser()->getCodigo()) $js[] = ['codigo' => $usuario->getCodigo(), 'usuario' => $usuario->getUsuario(), 'bloquear' => $usuario->getBloquear() ? $usuario->getBloquear() : 0, 'rol' => $usuario->getRol() ? $usuario->getRol() : 0, 'foto' => $usuario->getFoto() ? $usuario->getFoto() : ""];
             }
         }
         return new JsonResponse($js);
@@ -201,11 +203,64 @@ class UsuarioController extends AbstractController
     {
         $js = ['respuesta' => false];
         $entityManager = $this->getDoctrine()->getManager();
-        $usuario = trim($request->request->get('username'));
+        $usuario = preg_replace('/\s+/', '', substr(trim($request->request->get('username')), 0, 10));
         if ($usuario && ($usuario == $this->getUser()->getUsuario() || !$entityManager->getRepository(Usuario::class)->findOneBy(['usuario' => $usuario]))) {
             $this->getUser()->setUsuario($usuario);
             $entityManager->flush();
             $js = ['respuesta' => true];
+        }
+        return new JsonResponse($js);
+    }
+    #[Route('/bloquearUsuario', name: 'bloquearUsuario')]
+    public function bloquearUsuario(Request $request)
+    {
+        $js = [];
+        $js['respuesta'] = false;
+        $usuario = $request->request->get('codigo');
+        $entityManager = $this->getDoctrine()->getManager();
+        $usuario = $entityManager->getRepository(Usuario::class)->findOneBy(['codigo' => $usuario]);
+        if ($usuario) {
+            if ($usuario->getBloquear()) $usuario->setBloquear(null);
+            else $usuario->setBloquear(1);
+            $entityManager->flush();
+            $js['respuesta'] = true;
+            $js['tipo'] = $usuario->getBloquear() ? $usuario->getBloquear() : 0;
+        }
+        return new JsonResponse($js);
+    }
+    #[Route('/hacerAdmin', name: 'hacerAdmin')]
+    public function hacerAdmin(Request $request)
+    {
+        $js = [];
+        $js['respuesta'] = false;
+        $usuario = $request->request->get('codigo');
+        $tipo = $request->request->get('tipo');
+        $entityManager = $this->getDoctrine()->getManager();
+        $usuario = $entityManager->getRepository(Usuario::class)->findOneBy(['codigo' => $usuario]);
+        if ($usuario) {
+            if ($tipo) {
+                $usuario->setRol(2);
+            } else {
+                $usuario->setRol(1);
+            }
+            $entityManager->flush();
+            $js['respuesta'] = true;
+            $js['tipo'] = $usuario->getRol();
+        }
+        return new JsonResponse($js);
+    }
+    #[Route('/quitarAdmin', name: 'quitarAdmin')]
+    public function quitarAdmin(Request $request)
+    {
+        $js = [];
+        $js['respuesta'] = false;
+        $usuario = $request->request->get('codigo');
+        $entityManager = $this->getDoctrine()->getManager();
+        $usuario = $entityManager->getRepository(Usuario::class)->findOneBy(['codigo' => $usuario]);
+        if ($usuario) {
+            $usuario->setRol(null);
+            $entityManager->flush();
+            $js['respuesta'] = true;
         }
         return new JsonResponse($js);
     }

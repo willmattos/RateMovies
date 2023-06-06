@@ -19,10 +19,13 @@
   height: 100%;
   object-fit: cover;
 }
-.splide__slide div {
+.splide__slide>div {
   position: absolute;
   bottom: 1rem;
   left: 1rem;
+}
+.destacado_tipo{
+  font-size: 1rem;
 }
 .seccion {
   display: flex;

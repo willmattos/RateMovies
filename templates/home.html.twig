@@ -21,8 +21,14 @@
 						{% for contenido in destacados %}
 							{% if contenido.getPortada() is not null %}
 								<li class="splide__slide" data-codigo="{{contenido.getCodigo()}}" data-nombre="{{contenido.getTitulo()}}">
-									<div class="card-heading">{{contenido.getTitulo()}}
-										({{contenido.getEstreno()|date('Y')}})</div>
+									<div class="card-heading">
+										<div class="destacado_tipo">
+											{% if contenido.getSerie() == 1 %}Serie{% else %}Pelicula
+											{% endif %}
+										</div>
+										<div>{{contenido.getTitulo()}}
+											({{contenido.getEstreno()|date('Y')}})</div>
+									</div>
 									<img class="portada" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/portada/{{contenido.getPortada()}}" alt="{{contenido.getTitulo()}}">
 								</li>
 							{% endif %}
@@ -77,7 +83,6 @@
 				</div>
 			</div>
 		{% endif %}
-		{{ dump() }}
 		{% if novedades is not null %}
 			<div class="seccion seccion_novedades">
 				<div class="titulo">

@@ -106,7 +106,6 @@
   padding: 1rem;
 }
 .critica img {
-  cursor: pointer;
   object-fit: cover;
   height: 15.625rem;
   width: 10.4rem;

@@ -126,6 +126,7 @@
     box-shadow: 0 0.625rem 250x rgba(0, 0, 0, 0.3);
   }
   .box input {
+    padding-right: 0.25rem;
     width: 10rem;
     outline: none;
     border: none;

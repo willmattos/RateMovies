@@ -13,6 +13,7 @@ use App\Entity\Generos;
 use App\Entity\Usuario;
 use App\Entity\Siguiendo;
 use App\Entity\Like;
+use App\Entity\Reparto;
 use App\Entity\Visita;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -164,6 +165,13 @@ class WebController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         if ($contenido = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
+            $reparto = $entityManager->getRepository(Reparto::class)->findBy(['cod_contenido' => $contenido->getCodigo()]);
+            $actores = null;
+            foreach ($reparto as $actor) {
+                $actores[] = $entityManager->getRepository(Actor::class)->findOneBy(['codigo' => $actor->getCod_actor()]);
+            }
+            $contenido->setReparto($actores);
+
             $result = $entityManager->getRepository(Genero::class)->findBy(['contenido' => $contenido]);
             $contenido->setGeneros($result);
             $generos = [];
@@ -290,7 +298,7 @@ class WebController extends AbstractController
     #[Route('/administracion', name: 'administracion')]
     public function administracion()
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_SUPERADMIN')) {
             return $this->render('administrador.html.twig');
         } else {
             return $this->redirectToRoute('home');

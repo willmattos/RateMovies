@@ -4,6 +4,9 @@
 {% endblock %}
 {% block css %}
 	<link rel="stylesheet" href="{{ asset("css/critica.css") }}"></link><link rel="stylesheet" href="{{ asset("css/contenido.css") }}"></link>{% endblock %}{% block javascripts %}<script>
+{% if is_granted("ROLE_SUPERADMIN") %}
+const ruta_eliminar_contenido = "{{ path('eliminarContenido') }}";{% endif %}
+
 const ruta_puntuar_contenido = "{{ path('puntuarContenido') }}";
 const ruta_agregar_visita = "{{ path('agregarVisita') }}";
 const ruta_crear_comentario = "{{ path('crearComentario') }}";
@@ -16,8 +19,14 @@ const ruta_contenido = "{{ path('contenido', {'codigo' : 'numero','nombre': 'tit
 const contenido_titulo = "{{ contenido.getTitulo() }}"
 const contenido_codigo = "{{ contenido.getCodigo() }}";{% if app.user is not null %}const username = "{{ app.user.getUsuario() }}";{% if app.user.getFoto() is not null %}const userfoto = "{{ asset('Usuario/') }}u{{ app.user.getCodigo() }}/{{ app.user.getFoto() }}";
 {% else %}
-const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}</script><script src="{{asset("js/contenido.js")}}" defer></script><script src="{{asset("js/contenido2.js")}}" defer></script><script src="{{asset("js/critica.js")}}" defer></script>{% endblock %}{% block body %}<section>
+const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}</script><script src="{{asset("js/contenido.js")}}" defer></script><script src="{{asset("js/contenido2.js")}}" defer></script><script src="{{asset("js/critica.js")}}" defer></script><script src="{{asset("js/contenido_admin.js")}}" defer></script>{% endblock %}{% block body %}<section>
 <div class="section">
+	{% if is_granted("ROLE_SUPERADMIN") %}
+		<form action="{{path('eliminarContenido')}}" method="post" class="admin">
+			<input style="display: none;" type="number" name="codigo" value="{{contenido.getCodigo()}}">
+			<button type="button" class="btn_admin eliminar_contenido">Eliminar</button>
+		</form>
+	{% endif %}
 	<div class="seccion datos_contenido">
 		{% if contenido.getPortada() is not null %}
 			<img class="portada" src="{{asset('Contenido/c')}}{{contenido.getCodigo()}}/portada/{{contenido.getPortada()}}" alt="imagen de contenido">
@@ -51,6 +60,17 @@ const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}
 				{% endfor %}
 			</ul>
 		</div>
+		{% if contenido.getReparto() is not null %}
+			<div class='contenido_generos'>
+				<div>Reparto</div>
+				<ul>
+					{% for item in contenido.getReparto() %}
+						<li>{{item.getNombre()}}</li>
+					{% endfor %}
+				</ul>
+			</div>
+
+		{% endif %}
 		<div class="calificacion">
 			<div class="sect">
 				<div>General</div>

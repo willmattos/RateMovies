@@ -48,6 +48,7 @@ class Contenido
 
     private $generos;
     private $ownlike;
+    private $reparto;
 
     public function getCodigo()
     {
@@ -157,6 +158,26 @@ class Contenido
     public function setSerie($serie)
     {
         $this->serie = $serie;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of reparto
+     */ 
+    public function getReparto()
+    {
+        return $this->reparto;
+    }
+
+    /**
+     * Set the value of reparto
+     *
+     * @return  self
+     */ 
+    public function setReparto($reparto)
+    {
+        $this->reparto = $reparto;
 
         return $this;
     }

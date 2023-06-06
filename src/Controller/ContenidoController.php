@@ -176,7 +176,7 @@ class ContenidoController extends AbstractController
     #[Route('/crearContenido', name: 'crearContenido')]
     public function crearContenido(SessionInterface $session)
     {
-        if (isset($_POST['tipo'], $_POST['titulo'], $_POST['alias'], $_POST['fecha'], $_POST['descripcion']) && strlen($_POST['titulo'])) {
+        if (isset($_POST['tipo'], $_POST['titulo'], $_POST['alias'], $_POST['fecha'], $_POST['descripcion']) && strlen(trim($_POST['titulo'])) && strlen(trim($_POST['descripcion']))) {
             $entityManager = $this->getDoctrine()->getManager();
             $contenido = new Contenido();
             $contenido->setTitulo(ucfirst(trim($_POST['titulo'])));
@@ -235,33 +235,26 @@ class ContenidoController extends AbstractController
             return $this->redirectToRoute('contenido', ['codigo' => $contenido->getCodigo(), 'nombre' => $contenido->getTitulo()]);
         }
         $session->getFlashBag()->add('error', "Para");
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('nuevo_contenido');
     }
     #[Route('/eliminarContenido', name: 'eliminarContenido')]
     public function eliminarContenido()
     {
-        $codigo = isset($_POST['codigo']) ? $_POST['codigo'] : 0;
-        if ($this->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_ADMIN') && isset($_POST['codigo'])) {
             $entityManager = $this->getDoctrine()->getManager();
-            if ($contenido = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $codigo])) {
-
+            if ($contenido = $entityManager->getRepository(Contenido::class)->findOneBy(['codigo' => $_POST['codigo']])) {
                 $parentFolderToDelete = 'public/Contenido/c' . $contenido->getCodigo(); // Reemplaza 'Padre' con el nombre de la carpeta padre que deseas eliminar
-
                 $parentFolderPath = $this->getParameter('kernel.project_dir') . '/' . $parentFolderToDelete;
-
                 if (file_exists($parentFolderPath) && is_dir($parentFolderPath)) {
                     $finder = new Finder();
                     $finder->files()->in($parentFolderPath)->ignoreDotFiles(false);
-
                     foreach ($finder as $file) {
                         unlink($file->getRealPath());
                     }
-
                     $iterator = new \RecursiveIteratorIterator(
                         new \RecursiveDirectoryIterator($parentFolderPath, \RecursiveDirectoryIterator::SKIP_DOTS),
                         \RecursiveIteratorIterator::CHILD_FIRST
                     );
-
                     foreach ($iterator as $path) {
                         if ($path->isDir()) {
                             rmdir($path->getPathname());
@@ -269,15 +262,13 @@ class ContenidoController extends AbstractController
                             unlink($path->getPathname());
                         }
                     }
-
                     rmdir($parentFolderPath);
                 }
-
                 $entityManager->remove($contenido);
                 $entityManager->flush();
             }
         }
-        return $this->redirectToRoute('contenido', ['codigo' => $codigo]);
+        return $this->redirectToRoute('home');
     }
     #[Route('/agregarVisita', name: 'agregarVisita')]
     public function agregarVisita(Request $request)

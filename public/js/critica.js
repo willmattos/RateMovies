@@ -1,6 +1,5 @@
 $(".reply").hide();
 function crearCritica(e) {
-  console.log("critica crear");
   var posicion = $(this);
   var texto = $(posicion).prev().val();
   if (texto) {
@@ -13,7 +12,6 @@ function crearCritica(e) {
       },
       dataType: "json",
       success: function (response) {
-        console.log(response);
         if (response.respuesta) {
           $(posicion).prev().val("");
 
@@ -88,9 +86,7 @@ function crearComentario(e) {
       },
       dataType: "json",
       success: function (response) {
-        console.log(response);
         if (response.respuesta) {
-          console.log("entro");
 
           $(posicion).prev().val("");
           $(posicion).parent().after(`
@@ -102,7 +98,7 @@ function crearComentario(e) {
 							</div>
 							<div class="texto">${texto.replace(/\n/g, "<br>")}</div>
 							<div class="like">
-								<div>
+								<div data-tipo='0' data-codigo="${response.codigo}">
 										<label for="" class="darLike">Like</label>
 									<div>
 									</div>
@@ -121,7 +117,6 @@ function crearComentario(e) {
             .prev()
             .find(".cantidad_reply");
           cantidadActual = parseInt(cantidadReply.text()) | 0;
-          console.log(cantidadActual);
           cantidadActual = cantidadActual + 1;
           cantidadReply.html(cantidadActual);
         } else {
@@ -169,6 +164,7 @@ function darLike(e) {
       if (response.respuesta) {
         var clase;
         var cantidad = parseInt($(like).next().text()) || 0;
+        console.log(cantidad);
         if (response.tipo == 1) {
           clase = "darLike miLike";
           cantidad = cantidad + 1;

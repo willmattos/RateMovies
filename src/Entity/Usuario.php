@@ -44,6 +44,10 @@ class Usuario implements UserInterface, \Serializable
      * @ORM\Column(type="string", name = "foto")
      */
     private $foto;
+    /**
+     * @ORM\Column(type="integer", name = "bloquear")
+     */
+    private $bloquear;
 
     /**
      * Get the value of codigo
@@ -207,10 +211,17 @@ class Usuario implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        if ($this->getRol()) {
-            return ["ROLE_ADMIN"];
+        switch ($this->getRol()) {
+            case 1:
+                return ["ROLE_ADMIN"];
+                break;
+            case 2:
+                return ["ROLE_ADMIN", "ROLE_SUPERADMIN"];
+                break;
+            default:
+                return ["ROLE_USER"];
+                break;
         }
-        return ["ROLE_USER"];
     }
     public function getUserIdentifier()
     {
@@ -248,6 +259,7 @@ class Usuario implements UserInterface, \Serializable
             $this->recuperar,
             $this->activado,
             $this->foto,
+            $this->bloquear,
         ));
     }
 
@@ -262,6 +274,27 @@ class Usuario implements UserInterface, \Serializable
             $this->recuperar,
             $this->activado,
             $this->foto,
+            $this->bloquear,
         ) = unserialize($serialized);
+    }
+
+    /**
+     * Get the value of bloquear
+     */ 
+    public function getBloquear()
+    {
+        return $this->bloquear;
+    }
+
+    /**
+     * Set the value of bloquear
+     *
+     * @return  self
+     */ 
+    public function setBloquear($bloquear)
+    {
+        $this->bloquear = $bloquear;
+
+        return $this;
     }
 }
