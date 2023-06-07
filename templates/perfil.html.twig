@@ -75,7 +75,7 @@ const usuario_visita = true;{% endif %}{% endif %}
 						<div class="cantidad_criticas">{{ criticas|length }}</div>
 					</div>
 				</div>
-				{% if is_granted("ROLE_SUPERADMIN") %}
+				{% if app.user is not null and app.user.getCodigo() == usuario.getCodigo() and is_granted("ROLE_SUPERADMIN") %}
 					<button type="button" class="administrador">Administración</button>
 				{% endif %}
 			</div>
