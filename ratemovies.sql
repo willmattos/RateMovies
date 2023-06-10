@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost
--- Tiempo de generación: 06-06-2023 a las 19:06:49
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 10-06-2023 a las 12:56:26
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -45,6 +45,17 @@ CREATE TABLE `comentarios` (
   `usuario` int(9) NOT NULL,
   `critica` int(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `comentarios`
+--
+
+INSERT INTO `comentarios` (`codigo`, `comentario`, `fecha`, `usuario`, `critica`) VALUES
+(1, 'comentario prueba', '2023-06-10 12:47:54', 3, 2),
+(2, 'ejemplo', '2023-06-10 12:48:40', 1, 2),
+(3, 'auto comentario', '2023-06-10 12:53:59', 3, 3),
+(4, 'respuesta\n', '2023-06-10 12:55:26', 1, 3),
+(5, 'auto respuesta', '2023-06-10 12:55:47', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -268,7 +279,9 @@ CREATE TABLE `critica` (
 --
 
 INSERT INTO `critica` (`codigo`, `comentario`, `fecha`, `cod_contenido`, `cod_usuario`) VALUES
-(1, 'nuevo', '2023-06-04 20:48:33', 96, 1);
+(1, 'nuevo', '2023-06-04 20:48:33', 96, 1),
+(2, 'critica de prueba', '2023-06-10 12:46:42', 45, 2),
+(3, 'critica', '2023-06-10 12:53:37', 176, 3);
 
 -- --------------------------------------------------------
 
@@ -293,7 +306,11 @@ INSERT INTO `favoritos` (`codigo`, `cod_contenido`, `cod_usuario`) VALUES
 (68, 57, 1),
 (69, 1, 1),
 (70, 13, 1),
-(71, 22, 1);
+(71, 22, 1),
+(72, 45, 2),
+(73, 43, 2),
+(74, 74, 2),
+(75, 176, 3);
 
 -- --------------------------------------------------------
 
@@ -531,6 +548,17 @@ CREATE TABLE `likes` (
   `cod_usuario` int(9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `likes`
+--
+
+INSERT INTO `likes` (`codigo`, `cod_critica`, `cod_comentario`, `cod_usuario`) VALUES
+(4, 2, NULL, 3),
+(5, NULL, 1, 1),
+(6, 2, NULL, 1),
+(7, 3, NULL, 3),
+(8, NULL, 3, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -576,7 +604,8 @@ CREATE TABLE `siguiendo` (
 INSERT INTO `siguiendo` (`codigo`, `usuario`, `siguiendo`) VALUES
 (5, 1, 4),
 (6, 1, 2),
-(9, 1, 3);
+(9, 1, 3),
+(10, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -602,8 +631,8 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`codigo`, `correo`, `usuario`, `clave`, `rol`, `recuperar`, `activado`, `foto`, `bloquear`) VALUES
 (1, 'prueba@mail.com', 'willmattos', '$2y$13$gG/3rNEMNNp4fC0.CU4ZEuv92kSycI.DQvCHuSuJu8gRsRoaoJtmu', 2, NULL, 1, 'simbolo-de-herramienta-llena-de-filtro.png', NULL),
-(2, 'usuario@mail.com', 'user', '$2y$13$Jua3ih.qqxHcnHMfGLnaEub5LwGsThidos.ipys9lCnNV1uTNPCWC', NULL, 1402432990, NULL, NULL, NULL),
-(3, 'usuario2@mail.com', 'usuario2', '$2y$13$Jua3ih.qqxHcnHMfGLnaEub5LwGsThidos.ipys9lCnNV1uTNPCWC', NULL, 1402432990, NULL, NULL, NULL),
+(2, 'usuario@mail.com', 'user', '$2y$13$Jua3ih.qqxHcnHMfGLnaEub5LwGsThidos.ipys9lCnNV1uTNPCWC', 0, 1402432990, 1, NULL, NULL),
+(3, 'usuario2@mail.com', 'usuario2', '$2y$13$Jua3ih.qqxHcnHMfGLnaEub5LwGsThidos.ipys9lCnNV1uTNPCWC', 1, 1402432990, 1, NULL, NULL),
 (4, 'nuevacuenta@mail.com', 'nuevacuenta', '$2y$13$DXO.c8DAGPJLmybQagJlVus9NIQp8aJPGz5CauUjWhepYJx6e08oG', NULL, 1293649260, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -628,7 +657,9 @@ INSERT INTO `valora` (`codigo`, `puntuacion`, `cod_contenido`, `cod_usuario`) VA
 (2, 5, 7, 1),
 (3, 5, 76, 1),
 (4, 5, 19, 1),
-(5, 5, 45, 1);
+(5, 5, 45, 1),
+(6, 3, 45, 2),
+(7, 2, 176, 3);
 
 -- --------------------------------------------------------
 
@@ -656,7 +687,11 @@ INSERT INTO `visitas` (`codigo`, `cod_contenido`, `fecha`, `contador`) VALUES
 (53, 176, '2023-06-04', 1),
 (55, 175, '2023-06-04', 1),
 (56, 106, '2023-06-04', 1),
-(57, 148, '2023-06-04', 4);
+(57, 148, '2023-06-04', 4),
+(58, 45, '2023-06-10', 7),
+(59, 43, '2023-06-10', 3),
+(60, 74, '2023-06-10', 1),
+(61, 176, '2023-06-10', 1);
 
 --
 -- Índices para tablas volcadas
@@ -781,7 +816,7 @@ ALTER TABLE `actor`
 -- AUTO_INCREMENT de la tabla `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT;
+  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `contenido`
@@ -793,13 +828,13 @@ ALTER TABLE `contenido`
 -- AUTO_INCREMENT de la tabla `critica`
 --
 ALTER TABLE `critica`
-  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `favoritos`
 --
 ALTER TABLE `favoritos`
-  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT de la tabla `genero`
@@ -817,7 +852,7 @@ ALTER TABLE `generos`
 -- AUTO_INCREMENT de la tabla `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `notificacion`
@@ -835,7 +870,7 @@ ALTER TABLE `reparto`
 -- AUTO_INCREMENT de la tabla `siguiendo`
 --
 ALTER TABLE `siguiendo`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
@@ -847,13 +882,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `valora`
 --
 ALTER TABLE `valora`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `visitas`
 --
 ALTER TABLE `visitas`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- Restricciones para tablas volcadas
