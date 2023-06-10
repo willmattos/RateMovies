@@ -51,7 +51,7 @@ class UsuarioController extends AbstractController
         } while ($entityManager->getRepository(Usuario::class)->findOneBy(array('recuperar' => $recuperacion)));
         if ($usuario) {
             $ruta = $this->url_origin($_SERVER);
-            $ruta = $ruta . "/recuperarClave/$recuperacion";
+            $ruta = $ruta . "/ratemovies/public/recuperarClave/$recuperacion";
             $email = (new Email())
                 ->from('info@fichar.quality.media')
                 ->to($correo)
@@ -93,7 +93,7 @@ class UsuarioController extends AbstractController
             $usuario->setRecuperar($recuperacion);
             $entityManager->flush();
             $ruta = $this->url_origin($_SERVER);
-            $ruta = $ruta . "/activarCuenta/$recuperacion";
+            $ruta = $ruta . "/ratemovies/public/activarCuenta/$recuperacion";
             $email = (new Email())
                 ->from('info@fichar.quality.media')
                 ->to($usuario->getCorreo())
