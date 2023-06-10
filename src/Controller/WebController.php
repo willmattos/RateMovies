@@ -307,7 +307,7 @@ class WebController extends AbstractController
     #[Route('/prueba', name: 'prueba')]
     public function prueba()
     {
-        var_dump($_POST);
+        var_dump($this->getParameter('kernel.project_dir'));
         die;
     }
     #[Route('/logout', name: 'logout')]

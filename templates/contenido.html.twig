@@ -4,7 +4,7 @@
 {% endblock %}
 {% block css %}
 	<link rel="stylesheet" href="{{ asset("css/critica.css") }}"></link><link rel="stylesheet" href="{{ asset("css/contenido.css") }}"></link>{% endblock %}{% block javascripts %}<script>
-{% if is_granted("ROLE_SUPERADMIN") %}
+{% if is_granted("ROLE_ADMIN") %}
 const ruta_eliminar_contenido = "{{ path('eliminarContenido') }}";{% endif %}
 
 const ruta_puntuar_contenido = "{{ path('puntuarContenido') }}";
@@ -21,7 +21,7 @@ const contenido_codigo = "{{ contenido.getCodigo() }}";{% if app.user is not nul
 {% else %}
 const userfoto = "{{ asset('iconos/default-user.jpg') }}";{% endif %}{% endif %}</script><script src="{{asset("js/contenido.js")}}" defer></script><script src="{{asset("js/contenido2.js")}}" defer></script><script src="{{asset("js/critica.js")}}" defer></script><script src="{{asset("js/contenido_admin.js")}}" defer></script>{% endblock %}{% block body %}<section>
 <div class="section">
-	{% if is_granted("ROLE_SUPERADMIN") %}
+	{% if is_granted("ROLE_ADMIN") %}
 		<form action="{{path('eliminarContenido')}}" method="post" class="admin">
 			<input style="display: none;" type="number" name="codigo" value="{{contenido.getCodigo()}}">
 			<button type="button" class="btn_admin eliminar_contenido">Eliminar</button>
