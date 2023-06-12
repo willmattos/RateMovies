@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Notificacion;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -162,20 +161,6 @@ class UsuarioController extends AbstractController
             }
             $entityManager->flush();
         }
-        return new JSONResponse($js);
-    }
-    #[Route('/notificaciones', name: 'notificaciones')]
-    public function verNotificaciones(Request $request)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $notificaciones = $entityManager->getRepository(Notificacion::class)->createQueryBuilder('n')
-            ->join('n.siguiendo', 's')
-            ->where('s.usuario = :usuario')
-            ->setParameter('usuario', $this->getUser()->getCodigo())
-            ->getQuery()
-            ->getResult();;
-        $js['respuesta'] = $notificaciones;
-
         return new JSONResponse($js);
     }
     #[Route('/filtrarUsuario', name: 'filtrarUsuario')]

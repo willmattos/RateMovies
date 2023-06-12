@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 12-06-2023 a las 16:34:34
+-- Tiempo de generación: 12-06-2023 a las 16:38:52
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `ratemovies`
 --
+CREATE DATABASE IF NOT EXISTS `ratemovies` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `ratemovies`;
 
 -- --------------------------------------------------------
 
@@ -562,20 +564,6 @@ INSERT INTO `likes` (`codigo`, `cod_critica`, `cod_comentario`, `cod_usuario`) V
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `notificacion`
---
-
-CREATE TABLE `notificacion` (
-  `codigo` int(11) NOT NULL,
-  `cod_siguiendo` int(11) NOT NULL,
-  `cod_critica` int(11) NOT NULL,
-  `cod_comentario` int(11) NOT NULL,
-  `leido` int(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `reparto`
 --
 
@@ -758,12 +746,6 @@ ALTER TABLE `likes`
   ADD KEY `cod_usuario` (`cod_usuario`);
 
 --
--- Indices de la tabla `notificacion`
---
-ALTER TABLE `notificacion`
-  ADD PRIMARY KEY (`codigo`);
-
---
 -- Indices de la tabla `reparto`
 --
 ALTER TABLE `reparto`
@@ -853,12 +835,6 @@ ALTER TABLE `generos`
 --
 ALTER TABLE `likes`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT de la tabla `notificacion`
---
-ALTER TABLE `notificacion`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `reparto`
