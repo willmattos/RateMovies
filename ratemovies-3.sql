@@ -2,8 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 10-06-2023 a las 12:56:26
+-- Servidor: localhost
+-- Tiempo de generación: 12-06-2023 a las 16:34:34
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -920,7 +920,7 @@ ALTER TABLE `favoritos`
 --
 ALTER TABLE `genero`
   ADD CONSTRAINT `genero_ibfk_1` FOREIGN KEY (`cod_contenido`) REFERENCES `contenido` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `genero_ibfk_2` FOREIGN KEY (`cod_genero`) REFERENCES `genero` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `genero_ibfk_2` FOREIGN KEY (`cod_genero`) REFERENCES `generos` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `likes`
