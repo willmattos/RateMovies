@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 14-06-2023 a las 00:38:50
--- Versión del servidor: 10.4.25-MariaDB
--- Versión de PHP: 8.1.10
+-- Servidor: localhost
+-- Tiempo de generación: 12-06-2023 a las 16:38:52
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -16,12 +16,48 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-CREATE DATABASE IF NOT EXISTS `ratemovies` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `ratemovies`;
 
 --
 -- Base de datos: `ratemovies`
 --
+CREATE DATABASE IF NOT EXISTS `ratemovies` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `ratemovies`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `actor`
+--
+
+CREATE TABLE `actor` (
+  `codigo` int(9) NOT NULL,
+  `nombre` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comentarios`
+--
+
+CREATE TABLE `comentarios` (
+  `codigo` int(9) NOT NULL,
+  `comentario` varchar(255) NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `usuario` int(9) NOT NULL,
+  `critica` int(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `comentarios`
+--
+
+INSERT INTO `comentarios` (`codigo`, `comentario`, `fecha`, `usuario`, `critica`) VALUES
+(1, 'comentario prueba', '2023-06-10 12:47:54', 3, 2),
+(2, 'ejemplo', '2023-06-10 12:48:40', 1, 2),
+(3, 'auto comentario', '2023-06-10 12:53:59', 3, 3),
+(4, 'respuesta\n', '2023-06-10 12:55:26', 1, 3),
+(5, 'auto respuesta', '2023-06-10 12:55:47', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -38,7 +74,7 @@ CREATE TABLE `contenido` (
   `poster` varchar(255) DEFAULT NULL,
   `portada` varchar(255) DEFAULT NULL,
   `serie` int(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `contenido`
@@ -233,9 +269,442 @@ INSERT INTO `contenido` (`codigo`, `titulo`, `alias`, `descripcion`, `estreno`, 
 (191, 'The Witcher', 'The Witcher', 'Se basa en la Saga de Geralt de Rivia del escritor polaco Andrzej Sapkowski. Ubicada en un mundo medieval en una masa de tierra conocida como \"el Continente\", The Witcher explora la leyenda de Geralt de Rivia y la princesa Ciri, que están unidos el uno al otro por el destino.', '2020-12-20', 'The Witcher1jpg.jpg', 'The Witcher.jpg', 1),
 (192, 'Ozark', 'Ozark', 'Un asesor financiero arrastra a su familia desde Chicago hasta los lagos de Ozark para lavar 500 millones de dólares en cinco años y tranquilizar a un jefe narco. Ve todo lo que quieras. Emmy a mejor director de una serie de drama (Jason Bateman) y, en 2019 y 2020, a mejor actriz de reparto (Julia Garner).', '2017-07-21', 'ozark1jpg.jpg', 'ozarkjpg.jpg', 1);
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `critica`
+--
+
+CREATE TABLE `critica` (
+  `codigo` int(9) NOT NULL,
+  `comentario` varchar(255) NOT NULL,
+  `fecha` datetime NOT NULL DEFAULT current_timestamp(),
+  `cod_contenido` int(9) DEFAULT NULL,
+  `cod_usuario` int(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `critica`
+--
+
+INSERT INTO `critica` (`codigo`, `comentario`, `fecha`, `cod_contenido`, `cod_usuario`) VALUES
+(1, 'nuevo', '2023-06-04 20:48:33', 96, 1),
+(2, 'critica de prueba', '2023-06-10 12:46:42', 45, 2),
+(3, 'critica', '2023-06-10 12:53:37', 176, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `favoritos`
+--
+
+CREATE TABLE `favoritos` (
+  `codigo` int(9) NOT NULL,
+  `cod_contenido` int(11) NOT NULL,
+  `cod_usuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `favoritos`
+--
+
+INSERT INTO `favoritos` (`codigo`, `cod_contenido`, `cod_usuario`) VALUES
+(63, 76, 1),
+(64, 12, 1),
+(66, 20, 1),
+(68, 57, 1),
+(69, 1, 1),
+(70, 13, 1),
+(71, 22, 1),
+(72, 45, 2),
+(73, 43, 2),
+(74, 74, 2),
+(75, 176, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `genero`
+--
+
+CREATE TABLE `genero` (
+  `codigo` int(11) NOT NULL,
+  `cod_contenido` int(9) NOT NULL,
+  `cod_genero` int(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `genero`
+--
+
+INSERT INTO `genero` (`codigo`, `cod_contenido`, `cod_genero`) VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3),
+(4, 4, 3),
+(5, 5, 4),
+(6, 6, 1),
+(7, 7, 1),
+(8, 8, 4),
+(9, 9, 5),
+(10, 10, 6),
+(11, 11, 3),
+(12, 12, 6),
+(13, 13, 6),
+(14, 14, 3),
+(15, 15, 5),
+(16, 16, 6),
+(17, 17, 4),
+(18, 18, 4),
+(19, 19, 5),
+(20, 20, 6),
+(21, 21, 1),
+(22, 22, 6),
+(23, 23, 5),
+(24, 24, 4),
+(27, 27, 4),
+(28, 28, 4),
+(29, 29, 4),
+(30, 30, 4),
+(31, 31, 4),
+(32, 32, 4),
+(33, 33, 4),
+(34, 34, 4),
+(35, 35, 4),
+(36, 36, 4),
+(37, 37, 4),
+(38, 38, 4),
+(39, 39, 4),
+(40, 40, 4),
+(41, 41, 4),
+(42, 42, 4),
+(43, 43, 1),
+(44, 44, 1),
+(45, 45, 1),
+(46, 46, 1),
+(47, 47, 1),
+(48, 48, 1),
+(49, 49, 1),
+(50, 50, 1),
+(51, 51, 1),
+(52, 52, 1),
+(53, 53, 1),
+(54, 54, 1),
+(55, 55, 1),
+(56, 56, 1),
+(57, 57, 1),
+(58, 58, 1),
+(59, 59, 1),
+(60, 60, 1),
+(61, 61, 1),
+(62, 62, 1),
+(63, 63, 1),
+(64, 64, 6),
+(65, 65, 6),
+(66, 66, 6),
+(67, 67, 6),
+(68, 68, 6),
+(69, 69, 6),
+(70, 70, 6),
+(71, 71, 6),
+(72, 72, 6),
+(73, 73, 6),
+(74, 74, 6),
+(75, 75, 6),
+(76, 76, 6),
+(77, 77, 6),
+(78, 78, 6),
+(79, 79, 6),
+(80, 80, 6),
+(81, 81, 6),
+(82, 82, 6),
+(83, 83, 6),
+(84, 84, 3),
+(85, 85, 3),
+(86, 86, 3),
+(87, 87, 3),
+(88, 88, 3),
+(90, 90, 3),
+(91, 91, 3),
+(92, 92, 3),
+(93, 93, 3),
+(94, 94, 3),
+(95, 95, 3),
+(96, 96, 3),
+(97, 97, 3),
+(98, 98, 3),
+(99, 99, 3),
+(100, 100, 3),
+(101, 101, 3),
+(102, 102, 3),
+(103, 103, 3),
+(104, 104, 3),
+(105, 105, 3),
+(106, 106, 7),
+(108, 108, 7),
+(109, 109, 7),
+(110, 110, 7),
+(111, 111, 7),
+(112, 112, 7),
+(113, 113, 7),
+(114, 114, 7),
+(115, 115, 7),
+(116, 116, 7),
+(117, 117, 7),
+(118, 118, 7),
+(119, 119, 7),
+(120, 120, 7),
+(121, 121, 7),
+(122, 122, 7),
+(123, 123, 7),
+(124, 124, 7),
+(125, 125, 7),
+(126, 126, 8),
+(127, 127, 8),
+(128, 128, 8),
+(129, 129, 8),
+(130, 130, 8),
+(131, 131, 8),
+(132, 132, 8),
+(133, 133, 8),
+(134, 134, 8),
+(135, 135, 8),
+(136, 136, 8),
+(137, 137, 8),
+(138, 138, 8),
+(139, 139, 8),
+(140, 140, 8),
+(141, 141, 8),
+(143, 143, 8),
+(144, 144, 8),
+(145, 145, 8),
+(146, 146, 9),
+(147, 147, 9),
+(148, 148, 9),
+(149, 149, 9),
+(150, 150, 9),
+(151, 151, 9),
+(152, 152, 9),
+(153, 153, 9),
+(154, 154, 9),
+(155, 155, 9),
+(156, 156, 9),
+(157, 157, 9),
+(158, 158, 9),
+(159, 159, 9),
+(160, 160, 9),
+(161, 161, 9),
+(162, 162, 9),
+(163, 163, 9),
+(165, 165, 9),
+(166, 166, 2),
+(167, 167, 2),
+(168, 168, 2),
+(169, 169, 2),
+(170, 170, 2),
+(171, 171, 2),
+(172, 172, 2),
+(173, 173, 2),
+(174, 174, 2),
+(175, 175, 2),
+(176, 176, 2),
+(177, 177, 2),
+(178, 178, 2),
+(179, 179, 2),
+(180, 180, 2),
+(181, 181, 2),
+(182, 182, 2),
+(183, 183, 2),
+(184, 184, 2),
+(185, 185, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `generos`
+--
+
+CREATE TABLE `generos` (
+  `codigo` int(11) NOT NULL,
+  `nombre` varchar(125) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `generos`
+--
+
+INSERT INTO `generos` (`codigo`, `nombre`) VALUES
+(4, 'Accion'),
+(5, 'Aventura'),
+(2, 'Biografia'),
+(6, 'Comedia'),
+(9, 'Documental'),
+(7, 'Drama'),
+(1, 'Horror'),
+(8, 'Romance'),
+(3, 'Sci-Fi');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `likes`
+--
+
+CREATE TABLE `likes` (
+  `codigo` int(11) NOT NULL,
+  `cod_critica` int(9) DEFAULT NULL,
+  `cod_comentario` int(9) DEFAULT NULL,
+  `cod_usuario` int(9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `likes`
+--
+
+INSERT INTO `likes` (`codigo`, `cod_critica`, `cod_comentario`, `cod_usuario`) VALUES
+(4, 2, NULL, 3),
+(5, NULL, 1, 1),
+(6, 2, NULL, 1),
+(7, 3, NULL, 3),
+(8, NULL, 3, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `reparto`
+--
+
+CREATE TABLE `reparto` (
+  `codigo` int(11) NOT NULL,
+  `cod_contenido` int(9) NOT NULL,
+  `cod_actor` int(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `siguiendo`
+--
+
+CREATE TABLE `siguiendo` (
+  `codigo` int(11) NOT NULL,
+  `usuario` int(11) NOT NULL,
+  `siguiendo` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `siguiendo`
+--
+
+INSERT INTO `siguiendo` (`codigo`, `usuario`, `siguiendo`) VALUES
+(5, 1, 4),
+(6, 1, 2),
+(9, 1, 3),
+(10, 3, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `codigo` int(11) NOT NULL,
+  `correo` varchar(125) NOT NULL,
+  `usuario` varchar(125) NOT NULL,
+  `clave` varchar(255) NOT NULL,
+  `rol` int(1) DEFAULT NULL,
+  `recuperar` int(9) DEFAULT NULL,
+  `activado` int(1) DEFAULT NULL,
+  `foto` varchar(255) DEFAULT NULL,
+  `bloquear` int(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`codigo`, `correo`, `usuario`, `clave`, `rol`, `recuperar`, `activado`, `foto`, `bloquear`) VALUES
+(1, 'prueba@mail.com', 'willmattos', '$2y$13$gG/3rNEMNNp4fC0.CU4ZEuv92kSycI.DQvCHuSuJu8gRsRoaoJtmu', 2, NULL, 1, 'simbolo-de-herramienta-llena-de-filtro.png', NULL),
+(2, 'usuario@mail.com', 'user', '$2y$13$Jua3ih.qqxHcnHMfGLnaEub5LwGsThidos.ipys9lCnNV1uTNPCWC', 0, 1402432990, 1, NULL, NULL),
+(3, 'usuario2@mail.com', 'usuario2', '$2y$13$Jua3ih.qqxHcnHMfGLnaEub5LwGsThidos.ipys9lCnNV1uTNPCWC', 1, 1402432990, 1, NULL, NULL),
+(4, 'nuevacuenta@mail.com', 'nuevacuenta', '$2y$13$DXO.c8DAGPJLmybQagJlVus9NIQp8aJPGz5CauUjWhepYJx6e08oG', NULL, 1293649260, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `valora`
+--
+
+CREATE TABLE `valora` (
+  `codigo` int(11) NOT NULL,
+  `puntuacion` int(1) NOT NULL,
+  `cod_contenido` int(9) NOT NULL,
+  `cod_usuario` int(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `valora`
+--
+
+INSERT INTO `valora` (`codigo`, `puntuacion`, `cod_contenido`, `cod_usuario`) VALUES
+(1, 5, 1, 1),
+(2, 5, 7, 1),
+(3, 5, 76, 1),
+(4, 5, 19, 1),
+(5, 5, 45, 1),
+(6, 3, 45, 2),
+(7, 2, 176, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `visitas`
+--
+
+CREATE TABLE `visitas` (
+  `codigo` int(11) NOT NULL,
+  `cod_contenido` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `contador` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `visitas`
+--
+
+INSERT INTO `visitas` (`codigo`, `cod_contenido`, `fecha`, `contador`) VALUES
+(48, 45, '2023-06-04', 7),
+(49, 43, '2023-06-04', 1),
+(50, 1, '2023-06-04', 1),
+(51, 61, '2023-06-04', 1),
+(52, 29, '2023-06-04', 1),
+(53, 176, '2023-06-04', 1),
+(55, 175, '2023-06-04', 1),
+(56, 106, '2023-06-04', 1),
+(57, 148, '2023-06-04', 4),
+(58, 45, '2023-06-10', 7),
+(59, 43, '2023-06-10', 3),
+(60, 74, '2023-06-10', 1),
+(61, 176, '2023-06-10', 1);
+
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `actor`
+--
+ALTER TABLE `actor`
+  ADD PRIMARY KEY (`codigo`);
+
+--
+-- Indices de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `usuario` (`usuario`),
+  ADD KEY `critica` (`critica`);
 
 --
 -- Indices de la tabla `contenido`
@@ -244,14 +713,232 @@ ALTER TABLE `contenido`
   ADD PRIMARY KEY (`codigo`);
 
 --
+-- Indices de la tabla `critica`
+--
+ALTER TABLE `critica`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `cod_contenido` (`cod_contenido`),
+  ADD KEY `cod_usuario` (`cod_usuario`);
+
+--
+-- Indices de la tabla `favoritos`
+--
+ALTER TABLE `favoritos`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `cod_contenido` (`cod_contenido`),
+  ADD KEY `cod_usuario` (`cod_usuario`);
+
+--
+-- Indices de la tabla `genero`
+--
+ALTER TABLE `genero`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `cod_contenido` (`cod_contenido`),
+  ADD KEY `cod_genero` (`cod_genero`);
+
+--
+-- Indices de la tabla `generos`
+--
+ALTER TABLE `generos`
+  ADD PRIMARY KEY (`codigo`),
+  ADD UNIQUE KEY `nombre` (`nombre`);
+
+--
+-- Indices de la tabla `likes`
+--
+ALTER TABLE `likes`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `cod_comentario` (`cod_comentario`),
+  ADD KEY `cod_critica` (`cod_critica`),
+  ADD KEY `cod_usuario` (`cod_usuario`);
+
+--
+-- Indices de la tabla `reparto`
+--
+ALTER TABLE `reparto`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `cod_actor` (`cod_actor`),
+  ADD KEY `cod_contenido` (`cod_contenido`);
+
+--
+-- Indices de la tabla `siguiendo`
+--
+ALTER TABLE `siguiendo`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `siguiendo` (`siguiendo`),
+  ADD KEY `usuario` (`usuario`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`codigo`),
+  ADD UNIQUE KEY `usuario` (`usuario`),
+  ADD UNIQUE KEY `correo` (`correo`);
+
+--
+-- Indices de la tabla `valora`
+--
+ALTER TABLE `valora`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `cod_contenido` (`cod_contenido`),
+  ADD KEY `cod_usuario` (`cod_usuario`);
+
+--
+-- Indices de la tabla `visitas`
+--
+ALTER TABLE `visitas`
+  ADD PRIMARY KEY (`codigo`),
+  ADD KEY `cod_contenido` (`cod_contenido`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `actor`
+--
+ALTER TABLE `actor`
+  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `contenido`
 --
 ALTER TABLE `contenido`
-  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
+  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
+
+--
+-- AUTO_INCREMENT de la tabla `critica`
+--
+ALTER TABLE `critica`
+  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `favoritos`
+--
+ALTER TABLE `favoritos`
+  MODIFY `codigo` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
+--
+-- AUTO_INCREMENT de la tabla `genero`
+--
+ALTER TABLE `genero`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
+
+--
+-- AUTO_INCREMENT de la tabla `generos`
+--
+ALTER TABLE `generos`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de la tabla `likes`
+--
+ALTER TABLE `likes`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `reparto`
+--
+ALTER TABLE `reparto`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `siguiendo`
+--
+ALTER TABLE `siguiendo`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `valora`
+--
+ALTER TABLE `valora`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `visitas`
+--
+ALTER TABLE `visitas`
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD CONSTRAINT `comentarios_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `comentarios_ibfk_2` FOREIGN KEY (`critica`) REFERENCES `critica` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `critica`
+--
+ALTER TABLE `critica`
+  ADD CONSTRAINT `critica_ibfk_1` FOREIGN KEY (`cod_contenido`) REFERENCES `contenido` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `critica_ibfk_2` FOREIGN KEY (`cod_usuario`) REFERENCES `usuario` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `favoritos`
+--
+ALTER TABLE `favoritos`
+  ADD CONSTRAINT `favoritos_ibfk_1` FOREIGN KEY (`cod_contenido`) REFERENCES `contenido` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `favoritos_ibfk_2` FOREIGN KEY (`cod_usuario`) REFERENCES `usuario` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `genero`
+--
+ALTER TABLE `genero`
+  ADD CONSTRAINT `genero_ibfk_1` FOREIGN KEY (`cod_contenido`) REFERENCES `contenido` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `genero_ibfk_2` FOREIGN KEY (`cod_genero`) REFERENCES `generos` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `likes`
+--
+ALTER TABLE `likes`
+  ADD CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`cod_comentario`) REFERENCES `comentarios` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`cod_critica`) REFERENCES `critica` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `likes_ibfk_3` FOREIGN KEY (`cod_usuario`) REFERENCES `usuario` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `reparto`
+--
+ALTER TABLE `reparto`
+  ADD CONSTRAINT `reparto_ibfk_1` FOREIGN KEY (`cod_actor`) REFERENCES `actor` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reparto_ibfk_2` FOREIGN KEY (`cod_contenido`) REFERENCES `contenido` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `siguiendo`
+--
+ALTER TABLE `siguiendo`
+  ADD CONSTRAINT `siguiendo_ibfk_1` FOREIGN KEY (`siguiendo`) REFERENCES `usuario` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `siguiendo_ibfk_2` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `valora`
+--
+ALTER TABLE `valora`
+  ADD CONSTRAINT `valora_ibfk_1` FOREIGN KEY (`cod_contenido`) REFERENCES `contenido` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `valora_ibfk_2` FOREIGN KEY (`cod_usuario`) REFERENCES `usuario` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `visitas`
+--
+ALTER TABLE `visitas`
+  ADD CONSTRAINT `visitas_ibfk_1` FOREIGN KEY (`cod_contenido`) REFERENCES `contenido` (`codigo`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
